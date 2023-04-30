@@ -25,10 +25,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Spliterators;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -94,31 +91,39 @@ public abstract class AspectMapper {
                 });
     }
 
+    public static String getRandomIRI() {
+        return "urn:uuid:"+UUID.randomUUID().toString();
+    }
+
     protected AssetAdministrationShellEnvironment instantiateAas() {
         AssetAdministrationShellEnvironment clone = AasUtils.cloneAasEnv(aasTemplate);
         Submodel smClone = AasUtils.cloneReferable(aasTemplate.getSubmodels().get(0), Submodel.class);
         smClone.setKind(ModelingKind.INSTANCE);
+        String smId=getRandomIRI();
         smClone.setIdentification(new DefaultIdentifier.Builder()
-                .idType(IdentifierType.CUSTOM)
-                .identifier(UUID.randomUUID().toString())
+                .idType(IdentifierType.IRI)
+                .identifier(smId)
                 .build());
 
         clone.setAssets(new ArrayList<>());
         clone.setSubmodels(new ArrayList<>(List.of(
                 smClone
         )));
+        String aasId=getRandomIRI();
+        String aasIdShort= Base64.getEncoder().encodeToString(aasId.getBytes());
         clone.setAssetAdministrationShells(new ArrayList<>(List.of(
                 new DefaultAssetAdministrationShell.Builder()
                         .identification(new DefaultIdentifier.Builder()
-                                .idType(IdentifierType.CUSTOM)
-                                .identifier(UUID.randomUUID().toString())
+                                .idType(IdentifierType.IRI)
+                                .identifier(aasId)
                                 .build())
+                        .idShort(aasIdShort)
                         .submodels(clone.getSubmodels().stream().map(sm->
                             new DefaultReference.Builder()
                                     .key(new DefaultKey.Builder()
                                             .type(KeyElements.SUBMODEL)
-                                            .idType(KeyType.CUSTOM)
-                                            .value(sm.getIdentification().getIdentifier())
+                                            .idType(KeyType.IRI)
+                                            .value(smId)
                                             .build())
                                     .build()
                         ).collect(Collectors.toList()))
@@ -163,7 +168,6 @@ public abstract class AspectMapper {
                                 .build())
                         .build())
                 .build());
-
     }
 
 

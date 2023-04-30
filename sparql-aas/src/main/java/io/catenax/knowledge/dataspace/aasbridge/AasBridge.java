@@ -70,7 +70,7 @@ public class AasBridge {
                 .persistence(PersistenceInMemoryConfig.builder()
                         .environment(AasUtils.mergeAasEnvs(
                                 aasBridge.getMappers().stream().map(AspectMapper::getAasInstances).collect(Collectors.toList()))).build())
-                .endpoint(HttpEndpointConfig.builder().build())
+                .endpoint(HttpEndpointConfig.builder().cors(true).build())
                 .messageBus(MessageBusInternalConfig.builder().build())
                 .build());
 
