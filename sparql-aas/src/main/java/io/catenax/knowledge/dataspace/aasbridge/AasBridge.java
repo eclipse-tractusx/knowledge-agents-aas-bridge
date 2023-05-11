@@ -36,8 +36,10 @@ import java.util.stream.Collectors;
  */
 public class AasBridge {
 
-    private List<AspectMapper> mappers;
-    private HttpClient client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
+    private final List<AspectMapper> mappers;
+    private final HttpClient client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
+
+
 
 
 
