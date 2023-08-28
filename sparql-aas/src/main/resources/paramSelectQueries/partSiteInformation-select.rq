@@ -2,19 +2,14 @@ PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-JSON {
-    "catenaXId": ?catenaXId,
-    "site": ?site,
-    "function": "production",
-    "legal": ?legal,
-    "roleValidFrom": ?roleValidFrom,
-    "roleValidTo": ?roleValidTo
-} WHERE {
+SELECT ?catenaXId ?site ?function ?roleValidFrom ?roleValidTo WHERE {
 
-  SERVICE <@OemProviderAgent> {
+    BIND(%s AS ?catenaXId)
     ?catenaXId cx:isProducedBy ?site.
     ?site cx:isMemberOf ?legal;
         cx:roleValidFrom ?roleValidFrom;
         cx:roleValidTo ?roleValidTo .
-  }
+
+    BIND("production" AS ?function)
 }
+ORDER BY DESC(?catenaXId)
