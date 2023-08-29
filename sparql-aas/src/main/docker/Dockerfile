@@ -12,7 +12,7 @@ HEALTHCHECK NONE
 
 RUN wget ${OTEL_AGENT_LOCATION} -O /tmp/opentelemetry-javaagent.jar
 
-FROM alpine:3.18.2
+FROM eclipse-temurin:17-jre-alpine
 
 ARG JAR
 ARG LIB
@@ -27,10 +27,6 @@ ARG PROVIDER_CREDENTIAL_BASIC_ARG
 ENV PROVIDER_SPARQL_ENDPOINT ${PROVIDER_SPARQL_ENDPOINT_ARG}
 ENV PROVIDER_CREDENTIAL_BASIC ${PROVIDER_CREDENTIAL_BASIC_ARG}
 ENV TIMEOUT_SECONDS 10
-
-RUN apk update && \
-     apk add openjdk17-jre-headless=17.0.7_p7-r1 --no-cache && \
-     rm -rf /var/cache/apk/*
 
 RUN addgroup --gid "$APP_GID" --system "$APP_USER"
 
