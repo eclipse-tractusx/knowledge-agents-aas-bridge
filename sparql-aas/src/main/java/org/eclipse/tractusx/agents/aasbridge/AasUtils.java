@@ -46,7 +46,7 @@ public class AasUtils {
 
         ConfigurationBuilder builder=new ConfigurationBuilder();
         try {
-            builder=builder.addUrls(new File("resources").toURL());
+            builder=builder.addUrls(new File("resources/selectQueries").toURL());
         } catch(MalformedURLException e) {
         }
         Configuration config= builder.setScanners(Scanners.Resources);
@@ -54,8 +54,8 @@ public class AasUtils {
         Set<String> files = reflections.getResources(Pattern.compile(".*-select\\.rq"));
         return files.stream()
                 .map(Path::of)
-                    .map(getOnePath -> {
-                        String nameInclSelect = getOnePath.getFileName().toString();
+                    .map(getAllPath -> {
+                        String nameInclSelect = getAllPath.getFileName().toString();
                         String mappingFileFolder = "resources/mappingSpecifications/";
                         String mappingFileName = nameInclSelect.split("-")[0] + "-mapping.json";
                         MappingSpecification spec =
@@ -65,11 +65,11 @@ public class AasUtils {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        String getAllPath = "resources/selectQueries/"+nameInclSelect;
+                        String getOnePath = "resources/paramSelectQueries/"+nameInclSelect;
                         return new MappingConfiguration(
                                 spec,
-                                new File("resources/"+getOnePath.toString()),
-                                new File(getAllPath),
+                                new File(getOnePath),
+                                new File("resources/selectQueries/"+getAllPath),
                                 spec.getHeader().getNamespaces().get("semanticId")
                         );
                     })

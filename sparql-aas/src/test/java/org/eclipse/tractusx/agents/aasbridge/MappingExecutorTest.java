@@ -146,7 +146,7 @@ class MappingExecutorTest {
 
         MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
         List<AssetAdministrationShell> shells = ex.queryAllShells(
-                "defaultAdminShell", // TODO match with mapping specification. handler filters for this now.
+                "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97", // TODO match with mapping specification. handler filters for this now.
                 Arrays.asList(new SpecificAssetIdentification.Builder()
                         .key("ignoredAnyway")
                         .value("urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97")

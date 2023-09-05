@@ -44,7 +44,11 @@
             ]
           }
         },
-        "idShort": "defaultAdminShell",
+        "@bind": {
+          "idShort": {
+            "@xpath": "."
+          }
+        },
         "identification": {
           "@bind": {
             "id": {

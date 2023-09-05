@@ -21,7 +21,7 @@ PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?catenaXId ?site ?function ?roleValidFrom ?roleValidTo WHERE {
+SELECT ?catenaXId ?site ?function (MIN(?roleValidFrom) AS ?roleValidFrom) (MAX(?roleValidTo) AS ?rolValidTo) WHERE {
 
     BIND(%s AS ?catenaXId)
     ?catenaXId cx:isProducedBy ?site.
@@ -31,4 +31,5 @@ SELECT ?catenaXId ?site ?function ?roleValidFrom ?roleValidTo WHERE {
 
     BIND("production" AS ?function)
 }
+GROUP BY ?catenaXId ?site ?function
 ORDER BY DESC(?catenaXId)

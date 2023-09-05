@@ -140,7 +140,7 @@ public class MappingExecutor {
                     .get(0); //should only be one
             // maybe separate by cd, sm, aas later
         } else if (type.isAssignableFrom(AssetAdministrationShell.class)) {
-            return queryAllShells("defaultAdminShell",List.of(new SpecificAssetIdentification.Builder()
+            return queryAllShells(identifier.getIdentifier(), List.of(new SpecificAssetIdentification.Builder()
                     .key("ignoredAnyway")
                     .value(identifier.getIdentifier())
                     .build())).get(0);
@@ -183,7 +183,9 @@ public class MappingExecutor {
                         if (queryResultEmpty(result)) {
                             return null;
                         }
-                        return transformer.execute(new ByteArrayInputStream(result.getBytes()), m.getMappingSpecification());
+                        AssetAdministrationShellEnvironment transformedEnv=transformer.execute(new ByteArrayInputStream(result.getBytes()),
+                                m.getMappingSpecification());
+                        return transformedEnv;
                     } catch (URISyntaxException | IOException | ExecutionException | InterruptedException |
                              TransformationException e) {
                         throw new RuntimeException(e);
@@ -195,54 +197,14 @@ public class MappingExecutor {
 
         return envsWithRespectiveAssetId.stream()
                 .flatMap(env->env.getAssetAdministrationShells().stream())
-                .collect(Collectors.toList());
+                .collect(Collectors.groupingBy(shell->shell.getIdShort(),Collectors.reducing(
+                        (shell1,shell2) -> {
+                            var shell1SubModels=shell1.getSubmodels();
+                            shell1SubModels.addAll(shell2.getSubmodels());
+                            return shell1;
+                        }
+                ))).values().stream().flatMap(option->option.stream()).collect(Collectors.toList());
 
-
-
-
-        /*
-        SPARQLResultsXMLParser parser = new SPARQLResultsXMLParser();
-        QueryResultCollector handler = new QueryResultCollector();
-        parser.setTupleQueryResultHandler(handler);
-        List<BindingSet> results = candidateIds.parallelStream()
-                .flatMap(id ->
-                        mappings.stream()
-                                .map(MappingConfiguration::getGetOneQueryTemplate)
-                                .map(t -> parametrizeQuery(t, id))
-                                .map(p -> {
-                                    try {
-                                        return executeQuery(p);
-                                    } catch (URISyntaxException e) {
-                                        throw new RuntimeException(e);
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                })
-                )
-                .flatMap(f -> {
-                    try {
-                        parser.parseQueryResult(f.get());
-                        return handler.getBindingSets().stream();
-                    } catch (IOException | InterruptedException | ExecutionException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .filter(bs -> !bs.isEmpty())
-                // transform only where results found
-                // merge envs by globalassetid
-                .collect(Collectors.toList());
-        if (results.isEmpty()) {
-            throw new ResourceNotFoundException("no resource found matching any of the supplied ids AND idShort " + idShort);
-        }
-        else {
-            SPARQLResultsXMLWriter writer = new SPARQLResultsXMLWriter();
-            results.stream()
-                    .map(r->)
-            return transformer.execute()
-        }
-        // filter matching for idshort if present
-        // get AAS
-         */
     }
 
     private boolean queryResultEmpty(String result) {
