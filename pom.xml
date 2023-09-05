@@ -64,7 +64,7 @@
         <snappy.version>1.1.10.2</snappy.version>
         <postgres.version>42.6.0</postgres.version>
         <!-- REPO -->
-        <repo>ghcr.io/catenax-ng/knowledge-agents-aas-bridge/</repo>
+        <repo>ghcr.io/catenax-ng/tx-knowledge-agents-aas-bridge/</repo>
         <platform>linux/amd64</platform>
     </properties>    
     <modules>
@@ -135,6 +135,8 @@
                                     <argument>JAR=target/${project.artifactId}.jar</argument>
                                     <argument>--build-arg</argument>
                                     <argument>LIB=target/lib</argument>
+                                    <argument>--build-arg</argument>
+                                    <argument>RESOURCES=resources</argument>
                                     <argument>-t</argument>
                                     <argument>${repo}${project.artifactId}:${project.version}</argument>
                                     <argument>.</argument>
@@ -241,7 +243,7 @@
         <repository>
             <id>github</id>
             <name>Tractus-X Maven Repository on Github</name>
-            <url>https://maven.pkg.github.com/catenax-ng/knowledge-agents-aas-bridge</url>
+            <url>https://maven.pkg.github.com/catenax-ng/tx-knowledge-agents-aas-bridge</url>
         </repository>
     </distributionManagement>
 </project>

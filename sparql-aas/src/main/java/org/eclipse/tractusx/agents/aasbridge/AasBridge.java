@@ -31,25 +31,63 @@ import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironmen
 
 import java.net.URI;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AasBridge {
+
+    /**
+     * Main entry into the aas bridge
+     * @param args command line arguments
+     * @throws ConfigurationException if faaast cannot be configured
+     * @throws AssetConnectionException if faaast cannot connect to an asset
+     * @throws MessageBusException if faaast message bus cannot be initialitzed
+     * @throws EndpointException if faaast endpoint cannot be published
+     * @throws NumberFormatException if faaast cannot parse a number
+     */
     public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException, NumberFormatException {
 
-        Service faaast = new Service(ServiceConfig.builder()
-                .core(CoreConfig.builder()
-                        .requestHandlerThreadPoolSize(5)
-                        .build())
-                .persistence(PersistenceInKnowledgeConfig.builder()
-                        .initialModel(new DefaultAssetAdministrationShellEnvironment.Builder().build())
-                        .mappings(AasUtils.loadConfigsFromResources())
-                        .threadPoolSize(5)
-                        .timeoutSeconds(5)
-                        .providerSparqlEndpoint(URI.create(System.getProperty("PROVIDER_SPARQL_ENDPOINT", System.getenv("PROVIDER_SPARQL_ENDPOINT"))))
-                        .credentials(System.getProperty("PROVIDER_CREDENTIAL_BASIC", System.getenv("PROVIDER_CREDENTIAL_BASIC")))
-                        .build())
-                .endpoint(HttpEndpointConfig.builder().cors(true).build())
-                .messageBus(MessageBusInternalConfig.builder().build())
-                .build());
+        Logger mainLogger=LoggerFactory.getLogger(AasBridge.class);
 
+        mainLogger.info("Building AAS Bridge");
+
+        CoreConfig coreConfig=CoreConfig.builder()
+                .requestHandlerThreadPoolSize(5)
+                .build();
+
+        mainLogger.debug("Built coreConfig {}",coreConfig);
+
+        PersistenceInKnowledgeConfig persistenceConfig = PersistenceInKnowledgeConfig.builder()
+                .initialModel(new DefaultAssetAdministrationShellEnvironment.Builder().build())
+                .mappings(AasUtils.loadConfigsFromResources())
+                .threadPoolSize(5)
+                .timeoutSeconds(5)
+                .providerSparqlEndpoint(URI.create(System.getProperty("PROVIDER_SPARQL_ENDPOINT", System.getenv("PROVIDER_SPARQL_ENDPOINT"))))
+                .credentials(System.getProperty("PROVIDER_CREDENTIAL_BASIC", System.getenv("PROVIDER_CREDENTIAL_BASIC")))
+                .build();
+
+        mainLogger.debug("Built persistenceConfig {}",persistenceConfig);
+
+        HttpEndpointConfig httpConfig = HttpEndpointConfig.builder().cors(true).build();
+
+        mainLogger.debug("Built httpConfig {}",httpConfig);
+
+        MessageBusInternalConfig busConfig = MessageBusInternalConfig.builder().build();
+
+        mainLogger.debug("Built busConfig {}",busConfig);
+
+        ServiceConfig serviceConfig = ServiceConfig.builder()
+                .core(coreConfig)
+                .persistence(persistenceConfig)
+                .endpoint(httpConfig)
+                .messageBus(busConfig)
+                .build();
+
+        mainLogger.debug("Built serviceConfig {}",serviceConfig);
+
+        Service faaast = new Service(serviceConfig);
+
+        mainLogger.info("Starting AAS Bridge {}",faaast);
 
         faaast.start();
     }

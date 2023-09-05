@@ -29,6 +29,7 @@ FROM eclipse-temurin:17-jre-alpine
 
 ARG JAR
 ARG LIB
+ARG RESOURCES resources
 
 ARG APP_USER=faaast
 ARG APP_UID=10100
@@ -66,6 +67,7 @@ WORKDIR /app
 COPY --from=otel /tmp/opentelemetry-javaagent.jar .
 COPY ${JAR} aas-bridge.jar
 COPY ${LIB} ./lib/
+COPY ${RESOURCES} ./resources/
 
 EXPOSE 8080
 

@@ -28,12 +28,14 @@ import org.eclipse.digitaltwin.aas4j.exceptions.TransformationException;
 import org.eclipse.digitaltwin.aas4j.mapping.MappingSpecificationParser;
 import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 import org.eclipse.digitaltwin.aas4j.transform.GenericDocumentTransformer;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -134,7 +136,7 @@ class MappingExecutorTest {
                 AasUtils.loadConfigsFromResources());
 
         InputStream inputStream = executor.executeQuery(
-                new String(MappingExecutor.class.getClassLoader().getResourceAsStream("selectQueries/" + aspectName + "-select.rq").readAllBytes())).get();
+                new String(new File("resources/selectQueries/" + aspectName + "-select.rq").toURL().openStream().readAllBytes())).get();
         String result = new String(inputStream.readAllBytes());
         assertEquals(result, getMockResponseBody(aspectName));
     }
@@ -144,7 +146,7 @@ class MappingExecutorTest {
 
         MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
         List<AssetAdministrationShell> shells = ex.queryAllShells(
-                "probablyNotIgnoredAnymore", // TODO match with mapping specification. handler filters for this now.
+                "defaultAdminShell", // TODO match with mapping specification. handler filters for this now.
                 Arrays.asList(new SpecificAssetIdentification.Builder()
                         .key("ignoredAnyway")
                         .value("urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97")
@@ -153,8 +155,20 @@ class MappingExecutorTest {
 
     }
 
+    /**
+     * currently, we cannot get a list of all shells
+     * @throws InterruptedException
+     */
+    void queryTotallyAllShells() throws InterruptedException {
+        MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
+        List<AssetAdministrationShell> shells = ex.queryAllShells(
+                null,
+                null);
+        shells.forEach(s -> assertTrue(s.getSubmodels().size() > 0));
+    }
+
     private static AssetAdministrationShellEnvironment getTransformedAasEnv(String submodelIdShort) throws IOException, TransformationException {
-        MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("src/main/resources/mappingSpecifications/" + submodelIdShort + "-mapping.json");
+        MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("resources/mappingSpecifications/" + submodelIdShort + "-mapping.json");
         GenericDocumentTransformer transformer = new GenericDocumentTransformer();
         InputStream instream = MappingExecutorTest.class.getResourceAsStream("/sparqlResponseXml/" + submodelIdShort + "-sparql-results.xml");
         String s = new String(instream.readAllBytes());

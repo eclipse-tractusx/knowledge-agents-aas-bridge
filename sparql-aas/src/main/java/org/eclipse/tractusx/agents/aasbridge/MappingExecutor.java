@@ -128,7 +128,7 @@ public class MappingExecutor {
     }
 
 
-    public Identifiable queryIdentifiableById(Identifier identifier, Class<? extends Identifiable> type) {
+    public Identifiable queryIdentifiableById(Identifier identifier, Class<? extends Identifiable> type)  {
         if (type.isAssignableFrom(Submodel.class)) {
             String submodelSemanticId = identifier.getIdentifier().split("/")[0];
             MappingConfiguration mapping = mappings.stream()
@@ -140,7 +140,10 @@ public class MappingExecutor {
                     .get(0); //should only be one
             // maybe separate by cd, sm, aas later
         } else if (type.isAssignableFrom(AssetAdministrationShell.class)) {
-
+            return queryAllShells("defaultAdminShell",List.of(new SpecificAssetIdentification.Builder()
+                    .key("ignoredAnyway")
+                    .value(identifier.getIdentifier())
+                    .build())).get(0);
             // check for existence of submodels
             // create new AAS maybe (maybe even here)
         } else if (type.isAssignableFrom(ConceptDescription.class)) {
@@ -155,7 +158,8 @@ public class MappingExecutor {
 
 
     // may return an aas with assetId global even when queried as specific
-    public List<AssetAdministrationShell> queryAllShells(String idShort, List<AssetIdentification> assetIds) throws InterruptedException {
+    public List<AssetAdministrationShell> queryAllShells(String idShort, List<AssetIdentification> assetIds) {
+        if(assetIds==null) assetIds=List.of();
         String candidates = assetIds.stream().map(id -> {
                     if (id.getClass().isAssignableFrom(GlobalAssetIdentification.class)) {
                         GlobalAssetIdentification gaid = (GlobalAssetIdentification) id;

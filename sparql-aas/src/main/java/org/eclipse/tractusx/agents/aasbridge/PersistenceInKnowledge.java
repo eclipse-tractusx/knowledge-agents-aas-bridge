@@ -95,11 +95,7 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
     @Override
     public List<AssetAdministrationShell> get(String idShort, List<AssetIdentification> assetIds, QueryModifier modifier) {
         Ensure.requireNonNull(modifier, MSG_MODIFIER_NOT_NULL);
-        try {
-            return QueryModifierHelper.applyQueryModifier(executor.queryAllShells(idShort, assetIds), modifier);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        return QueryModifierHelper.applyQueryModifier(executor.queryAllShells(idShort, assetIds), modifier);
     }
 
     @Override

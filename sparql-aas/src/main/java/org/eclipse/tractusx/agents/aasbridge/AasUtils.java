@@ -23,11 +23,16 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import org.eclipse.digitaltwin.aas4j.mapping.MappingSpecificationParser;
 import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
+import org.reflections.Configuration;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.Scanners;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -39,14 +44,19 @@ public class AasUtils {
 
     public static List<MappingConfiguration> loadConfigsFromResources() {
 
-        Reflections reflections = new Reflections(new ResourcesScanner());
-        Set<String> files = reflections.getResources(Pattern.compile(".*paramSelectQueries\\.rq"));
+        ConfigurationBuilder builder=new ConfigurationBuilder();
+        try {
+            builder=builder.addUrls(new File("resources").toURL());
+        } catch(MalformedURLException e) {
+        }
+        Configuration config= builder.setScanners(Scanners.Resources);
+        Reflections reflections = new Reflections(config);
+        Set<String> files = reflections.getResources(Pattern.compile(".*-select\\.rq"));
         return files.stream()
-                    .filter(obj -> !obj.endsWith("paramSelectQueries"))
                 .map(Path::of)
                     .map(getOnePath -> {
                         String nameInclSelect = getOnePath.getFileName().toString();
-                        String mappingFileFolder = getOnePath.getParent().getParent().toString() + "/mappingSpecifications/";
+                        String mappingFileFolder = "resources/mappingSpecifications/";
                         String mappingFileName = nameInclSelect.split("-")[0] + "-mapping.json";
                         MappingSpecification spec =
                                 null;
@@ -55,10 +65,10 @@ public class AasUtils {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        String getAllPath = getOnePath.getParent().getParent().toString() + "/selectQueries/"+nameInclSelect;
+                        String getAllPath = "resources/selectQueries/"+nameInclSelect;
                         return new MappingConfiguration(
                                 spec,
-                                new File(getOnePath.toString()),
+                                new File("resources/"+getOnePath.toString()),
                                 new File(getAllPath),
                                 spec.getHeader().getNamespaces().get("semanticId")
                         );
