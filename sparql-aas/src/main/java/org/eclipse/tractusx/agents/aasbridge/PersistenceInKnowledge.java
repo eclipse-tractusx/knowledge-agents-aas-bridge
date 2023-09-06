@@ -67,6 +67,15 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
         this.model = new DefaultAssetAdministrationShellEnvironment.Builder().build();
     }
 
+    /**
+     * gets a particular entity (assetadministrationshell, asset, submodel, conceptdescription)
+     * @param id identifier for the entity
+     * @param modifier the modifier for the response
+     * @param type the class that should be returned
+     * @return instance of the entity (rendered along modifier)
+     * @param <T> return type
+     * @throws ResourceNotFoundException in case the resource cannot be found
+     */
     @Override
     public <T extends Identifiable> T get(Identifier id, QueryModifier modifier, Class<T> type) throws ResourceNotFoundException {
         Ensure.requireNonNull(id, "id must be non-null");

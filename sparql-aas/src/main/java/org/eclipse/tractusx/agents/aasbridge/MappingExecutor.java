@@ -127,7 +127,12 @@ public class MappingExecutor {
         }).thenApply(body -> new ByteArrayInputStream(body.getBytes()));
     }
 
-
+    /**
+     * Implements access to assets, submodels, conceptdescriptions (and assets)
+     * @param identifier identifies the asset, the submodel or the conceptdescription
+     * @param type class of the instance that should be returned
+     * @return the found entity, should be null if not found
+     */
     public Identifiable queryIdentifiableById(Identifier identifier, Class<? extends Identifiable> type)  {
         if (type.isAssignableFrom(Submodel.class)) {
             String submodelSemanticId = identifier.getIdentifier().split("/")[0];
@@ -149,6 +154,8 @@ public class MappingExecutor {
         } else if (type.isAssignableFrom(ConceptDescription.class)) {
             // execute all conceptDescriptionMappings on startup
             // keep in memory, never update, just query
+        } else if (type.isAssignableFrom(Asset.class)) {
+            // so what?
         } else {
             throw new RuntimeException(String.format("Identifiable %s is neither AAS, Submodel or CD", identifier.getIdentifier()));
         }

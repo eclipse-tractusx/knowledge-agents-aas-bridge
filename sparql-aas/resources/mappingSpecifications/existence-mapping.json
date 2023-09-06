@@ -39,12 +39,17 @@
                     "@xpath": "./sparql:binding[@name='id']/sparql:uri"
                   }
                 },
-                "idType": "Custom"
+                "idType": "Iri",
+                "type": "AssetAdministrationShell"
               }
             ]
           }
         },
-        "idShort": "defaultAdminShell",
+        "@bind": {
+          "idShort": {
+            "@xpath": "./sparql:binding[@name='id']/sparql:uri"
+          }
+        },
         "identification": {
           "@bind": {
             "id": {
@@ -71,6 +76,6 @@
           }
         ]
       }
-    ],
+    ]
   }
 }

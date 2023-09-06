@@ -41,7 +41,8 @@
                     "@xpath": "."
                   }
                 },
-                "idType": "Custom"
+                "idType": "Iri",
+                "type": "AssetAdministrationShell"
               }
             ]
           }

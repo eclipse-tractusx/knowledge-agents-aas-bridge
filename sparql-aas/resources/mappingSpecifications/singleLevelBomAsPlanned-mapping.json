@@ -39,7 +39,8 @@
                     "@xpath": "."
                   }
                 },
-                "idType": "Custom"
+                "idType": "Iri",
+                "type": "AssetAdministrationShell"
               }
             ]
           }
@@ -85,7 +86,7 @@
         "semanticId": {
           "keys": [
             {
-              "idType": "Custom",
+              "idType": "Iri",
               "type": "ConceptDescription",
               "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
             }
@@ -109,7 +110,7 @@
             "semanticId": {
               "keys": [
                 {
-                  "idType": "Custom",
+                  "idType": "Iri",
                   "type": "ConceptDescription",
                   "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#catenaXId"
                 }
@@ -203,7 +204,7 @@
                     "semanticId": {
                       "keys": [
                         {
-                          "idType": "Custom",
+                          "idType": "Iri",
                           "type": "ConceptDescription",
                           "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#createdOn"
                         }
@@ -255,7 +256,7 @@
                         "semanticId": {
                           "keys": [
                             {
-                              "idType": "Custom",
+                              "idType": "Iri",
                               "type": "ConceptDescription",
                               "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#quantityNumber"
                             }
@@ -289,7 +290,7 @@
                         "semanticId": {
                           "keys": [
                             {
-                              "idType": "Custom",
+                              "idType": "Iri",
                               "type": "ConceptDescription",
                               "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#measurementUnit"
                             }
@@ -325,7 +326,7 @@
                     "semanticId": {
                       "keys": [
                         {
-                          "idType": "Custom",
+                          "idType": "Iri",
                           "type": "ConceptDescription",
                           "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#lastModifiedOn"
                         }
@@ -359,7 +360,7 @@
                     "semanticId": {
                       "keys": [
                         {
-                          "idType": "Custom",
+                          "idType": "Iri",
                           "type": "ConceptDescription",
                           "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#childCatenaXId"
                         }
@@ -434,7 +435,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
         },
         "category": "APPLICATION_CLASS",
@@ -488,7 +489,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#catenaXId"
         },
         "idShort": "CatenaXIdTraitCharacteristic",
@@ -535,7 +536,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#createdOn"
         },
         "idShort": "Timestamp",
@@ -582,7 +583,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#quantityNumber"
         },
         "idShort": "NumberofObjects",
@@ -629,7 +630,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#measurementUnit"
         },
         "idShort": "UnitReference",
@@ -676,7 +677,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#quantity"
         },
         "idShort": "QuantityCharacteristic",
@@ -723,7 +724,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#lastModifiedOn"
         },
         "idShort": "Timestamp",
@@ -770,7 +771,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#childCatenaXId"
         },
         "idShort": "CatenaXIdTraitCharacteristic",
@@ -817,7 +818,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#validFrom"
         },
         "idShort": "Timestamp",
@@ -864,7 +865,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#validTo"
         },
         "idShort": "Timestamp",
@@ -911,7 +912,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#validityPeriod"
         },
         "idShort": "ValidityPeriodCharacteristic",
@@ -958,7 +959,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#childParts"
         },
         "idShort": "SetOfChildPartsCharacteristic",

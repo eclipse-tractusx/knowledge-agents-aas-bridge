@@ -41,7 +41,8 @@
                     "@xpath": "."
                   }
                 },
-                "idType": "Custom"
+                "idType": "Iri",
+                "type": "AssetAdministrationShell"
               }
             ]
           }
@@ -87,7 +88,7 @@
         "semanticId": {
           "keys": [
             {
-              "idType": "Custom",
+              "idType": "Iri",
               "type": "ConceptDescription",
               "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
             }
@@ -111,7 +112,7 @@
             "semanticId": {
               "keys": [
                 {
-                  "idType": "Custom",
+                  "idType": "Iri",
                   "type": "ConceptDescription",
                   "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXId"
                 }
@@ -205,7 +206,7 @@
                     "semanticId": {
                       "keys": [
                         {
-                          "idType": "Custom",
+                          "idType": "Iri",
                           "type": "ConceptDescription",
                           "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXsiteId"
                         }
@@ -239,7 +240,7 @@
                     "semanticId": {
                       "keys": [
                         {
-                          "idType": "Custom",
+                          "idType": "Iri",
                           "type": "ConceptDescription",
                           "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#function"
                         }
@@ -273,7 +274,7 @@
                     "semanticId": {
                       "keys": [
                         {
-                          "idType": "Custom",
+                          "idType": "Iri",
                           "type": "ConceptDescription",
                           "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidFrom"
                         }
@@ -308,7 +309,7 @@
                     "semanticId": {
                       "keys": [
                         {
-                          "idType": "Custom",
+                          "idType": "Iri",
                           "type": "ConceptDescription",
                           "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidUntil"
                         }
@@ -383,7 +384,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
         },
         "category": "APPLICATION_CLASS",
@@ -437,7 +438,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXId"
         },
         "idShort": "CatenaXIdTrait",
@@ -484,7 +485,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXsiteId"
         },
         "idShort": "BpnCharacteristic",
@@ -516,7 +517,7 @@
                     "valueId": {
                       "keys": [
                         {
-                          "idType": "Custom",
+                          "idType": "Iri",
                           "type": "DataElement",
                           "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#FunctionCharacteristic:DefaultScalarValue[value=production, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
                         }
@@ -541,7 +542,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#function"
         },
         "idShort": "FunctionCharacteristic",
@@ -588,7 +589,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidFrom"
         },
         "idShort": "Timestamp",
@@ -635,7 +636,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidUntil"
         },
         "idShort": "Timestamp",
@@ -682,7 +683,7 @@
           }
         ],
         "identification": {
-          "idType": "Custom",
+          "idType": "Iri",
           "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#sites"
         },
         "idShort": "SitesCharacteristic"
