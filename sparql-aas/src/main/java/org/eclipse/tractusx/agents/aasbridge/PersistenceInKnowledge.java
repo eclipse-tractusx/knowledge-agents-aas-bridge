@@ -38,6 +38,11 @@ import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironmen
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Implements the FAAAST Persistence API by means of a set of
+ * mapping executors which generate AAS objects from the given
+ * parameters on the fly.
+ */
 public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledgeConfig> {
 
     private static final String MSG_MODIFIER_NOT_NULL = "The message modifier cannot be null";
@@ -101,6 +106,13 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * query all shells (optionally with a short identified or a set of identifiers)
+     * @param idShort optional id
+     * @param assetIds optional id
+     * @param modifier the representation that is expected
+     * @return list of shells
+     */
     @Override
     public List<AssetAdministrationShell> get(String idShort, List<AssetIdentification> assetIds, QueryModifier modifier) {
         Ensure.requireNonNull(modifier, MSG_MODIFIER_NOT_NULL);

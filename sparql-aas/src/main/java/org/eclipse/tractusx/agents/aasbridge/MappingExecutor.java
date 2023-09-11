@@ -40,7 +40,6 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -49,6 +48,9 @@ import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
+/**
+ * Executes mappings which are combinations of statements and their transformation into aas objects.
+ */
 public class MappingExecutor {
     //Client config
 
@@ -59,7 +61,7 @@ public class MappingExecutor {
     private final int timeoutSeconds;
     private final HttpClient client;
 
-    private List<MappingConfiguration> mappings;
+    final private List<MappingConfiguration> mappings;
 
     public MappingExecutor(URI sparqlEndpoint, String credentials, int timeoutSeconds, int fixedThreadPoolSize, List<MappingConfiguration> mappings) {
         this.mappings = mappings;
@@ -68,6 +70,37 @@ public class MappingExecutor {
         this.credentials = credentials;
         this.timeoutSeconds = timeoutSeconds;
         this.client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(fixedThreadPoolSize)).build();
+    }
+
+    public static String parametrizeQuery(File queryTemplate, Object... parameters) {
+        Object[] render=new Object[parameters.length];
+        for(int count=0;count<parameters.length;count++) {
+            if(parameters[count] instanceof Iterable) {
+                render[count]="";
+                for(var parameter : ((Iterable<Object>) parameters[count])) {
+                    render[count]+="<"+String.valueOf(parameter)+"> ";
+                }
+            } else {
+                render[count] = "<" + String.valueOf(parameters[count]) + ">";
+            }
+        }
+        try {
+            return String.format(Files.readString(queryTemplate.toPath()), render);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean queryResultEmpty(String result) {
+        SPARQLResultsXMLParser parser = new SPARQLResultsXMLParser();
+        QueryResultCollector handler = new QueryResultCollector();
+        parser.setTupleQueryResultHandler(handler);
+        try{
+            parser.parseQueryResult(new ByteArrayInputStream(result.getBytes()));
+            return handler.getBindingSets().isEmpty();
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't parse the query result provided",e);
+        }
     }
 
     /**
@@ -99,8 +132,8 @@ public class MappingExecutor {
     /**
      * @param query the string containing the (if necessary parametrized) query, probably loaded from resources
      * @return xml structure of the query response
-     * @throws URISyntaxException
-     * @throws IOException
+     * @throws URISyntaxException if target url is not correctly specified
+     * @throws IOException if query target cannot be correctly interfaced
      */
     protected CompletableFuture<InputStream> executeQuery(String query) throws URISyntaxException, IOException {
 
@@ -166,8 +199,31 @@ public class MappingExecutor {
 
     // may return an aas with assetId global even when queried as specific
     public List<AssetAdministrationShell> queryAllShells(String idShort, List<AssetIdentification> assetIds) {
-        if(assetIds==null) assetIds=List.of();
-        String candidates = assetIds.stream().map(id -> {
+        var aasMappings=mappings.stream().filter(mapping-> mapping.getSemanticId().equals("https://w3id.org/catenax/ontology/aas#")).findFirst();
+        if(aasMappings.isEmpty()) {
+            return List.of();
+        } else {
+            MappingConfiguration config = aasMappings.get();
+            if (assetIds == null && idShort == null) {
+                File template = config.getGetAllQuery();
+                String query = parametrizeQuery(template);
+                try {
+                    InputStream in = executeQuery(query).get();
+                    String result = new String(in.readAllBytes());
+                    if (queryResultEmpty(result)) {
+                        return null;
+                    }
+                    AssetAdministrationShellEnvironment transformedEnv = transformer.execute(new ByteArrayInputStream(result.getBytes()),
+                            config.getMappingSpecification());
+                    return transformedEnv.getAssetAdministrationShells();
+                } catch (URISyntaxException | IOException | ExecutionException | InterruptedException |
+                         TransformationException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                if(assetIds==null)
+                    assetIds=List.of(new SpecificAssetIdentification.Builder().value(idShort).build());
+                var candidates = assetIds.stream().map(id -> {
                     if (id.getClass().isAssignableFrom(GlobalAssetIdentification.class)) {
                         GlobalAssetIdentification gaid = (GlobalAssetIdentification) id;
                         return gaid.getReference().getKeys().get(0).getValue();
@@ -175,54 +231,26 @@ public class MappingExecutor {
                         SpecificAssetIdentification said = (SpecificAssetIdentification) id;
                         return said.getValue();
                     } else {
-                        throw new IllegalArgumentException("can't fetch AAS since id is neither global nor specific");
+                        return String.valueOf(id);
                     }
-                })
-                .reduce("", (first, second) -> first + "<" + second + "> ");
+                }).collect(Collectors.toList());
 
-        Set<AssetAdministrationShellEnvironment> envsWithRespectiveAssetId = mappings.parallelStream()
-                .map(m -> {
-                    File template = m.getGetOneQueryTemplate();
-                    String query = parametrizeQuery(template, candidates);
-                    try {
-                        InputStream in = executeQuery(query).get();
-                        String result = new String(in.readAllBytes());
-                        if (queryResultEmpty(result)) {
-                            return null;
-                        }
-                        AssetAdministrationShellEnvironment transformedEnv=transformer.execute(new ByteArrayInputStream(result.getBytes()),
-                                m.getMappingSpecification());
-                        return transformedEnv;
-                    } catch (URISyntaxException | IOException | ExecutionException | InterruptedException |
-                             TransformationException e) {
-                        throw new RuntimeException(e);
+                File template = config.getGetOneQueryTemplate();
+                String query = parametrizeQuery(template, candidates);
+                try {
+                    InputStream in = executeQuery(query).get();
+                    String result = new String(in.readAllBytes());
+                    if (queryResultEmpty(result)) {
+                        return null;
                     }
-                })
-                .filter(Objects::nonNull)
-                .filter(env->env.getAssetAdministrationShells().get(0).getIdShort().equals(idShort)) // assuming only 1 AAS per env
-                .collect(Collectors.toSet());
-
-        return envsWithRespectiveAssetId.stream()
-                .flatMap(env->env.getAssetAdministrationShells().stream())
-                .collect(Collectors.groupingBy(shell->shell.getIdShort(),Collectors.reducing(
-                        (shell1,shell2) -> {
-                            var shell1SubModels=shell1.getSubmodels();
-                            shell1SubModels.addAll(shell2.getSubmodels());
-                            return shell1;
-                        }
-                ))).values().stream().flatMap(option->option.stream()).collect(Collectors.toList());
-
-    }
-
-    private boolean queryResultEmpty(String result) {
-        SPARQLResultsXMLParser parser = new SPARQLResultsXMLParser();
-        QueryResultCollector handler = new QueryResultCollector();
-        parser.setTupleQueryResultHandler(handler);
-        try{
-            parser.parseQueryResult(new ByteArrayInputStream(result.getBytes()));
-            return handler.getBindingSets().isEmpty();
-        } catch (IOException e) {
-            throw new RuntimeException("Couldn't parse the query result provided",e);
+                    AssetAdministrationShellEnvironment transformedEnv = transformer.execute(new ByteArrayInputStream(result.getBytes()),
+                            config.getMappingSpecification());
+                    return transformedEnv.getAssetAdministrationShells();
+                } catch (URISyntaxException | IOException | ExecutionException | InterruptedException |
+                         TransformationException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
@@ -248,11 +276,4 @@ public class MappingExecutor {
         }
     }
 
-    private String parametrizeQuery(File queryTemplate, String parameter) {
-        try {
-            return String.format(Files.readString(queryTemplate.toPath()), parameter);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

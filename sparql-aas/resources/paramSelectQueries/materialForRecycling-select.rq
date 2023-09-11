@@ -24,7 +24,10 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?eMat ?engineeringMaterialName ?engineeringMaterialClass ?rMat ?componentState ?componentMaterialClass ?componentRecycledContent ?componentMaterialAbbreviation
 WHERE {
 
-    BIND(%s AS ?eMat)
+    VALUES(?eMat) {
+        (%s)
+    }
+
     ?eMat cx:isMadeOf ?rMat;
         rdf:type cx:EngineeringMaterial;
         cx:engineeringMaterialName ?engineeringMaterialName;

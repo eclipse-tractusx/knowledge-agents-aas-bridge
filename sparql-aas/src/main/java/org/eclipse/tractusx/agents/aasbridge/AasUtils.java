@@ -25,14 +25,12 @@ import org.eclipse.digitaltwin.aas4j.mapping.MappingSpecificationParser;
 import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 import org.reflections.Configuration;
 import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +38,9 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * Helper logic to setup the configuration
+ */
 public class AasUtils {
 
     public static List<MappingConfiguration> loadConfigsFromResources() {
@@ -58,8 +59,7 @@ public class AasUtils {
                         String nameInclSelect = getAllPath.getFileName().toString();
                         String mappingFileFolder = "resources/mappingSpecifications/";
                         String mappingFileName = nameInclSelect.split("-")[0] + "-mapping.json";
-                        MappingSpecification spec =
-                                null;
+                        MappingSpecification spec;
                         try {
                             spec = new MappingSpecificationParser().loadMappingSpecification(mappingFileFolder + mappingFileName);
                         } catch (IOException e) {
@@ -74,8 +74,6 @@ public class AasUtils {
                         );
                     })
                     .collect(Collectors.toList());
-
-
     }
 
     public static AssetAdministrationShellEnvironment mergeAasEnvs(Set<AssetAdministrationShellEnvironment> aasEnvs) {

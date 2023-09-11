@@ -25,6 +25,9 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Configuration of the knowledge-backed persistence implementation.
+ */
 public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceInKnowledge> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersistenceInKnowledgeConfig.class);
@@ -34,7 +37,6 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
     private int threadPoolSize;
     private int timeoutSeconds;
 
-
     public List<MappingConfiguration> getMappings() {
         return mappings;
     }
@@ -42,7 +44,6 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
     public void setMappings(List<MappingConfiguration> mappings) {
         this.mappings = mappings;
     }
-
 
     public static Builder builder() {
         return new Builder();

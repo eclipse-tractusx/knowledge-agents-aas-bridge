@@ -23,7 +23,10 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?catenaXId ?site ?function (MIN(?roleValidFrom) AS ?roleValidFrom) (MAX(?roleValidTo) AS ?rolValidTo) WHERE {
 
-    BIND(%s AS ?catenaXId)
+    VALUES(?catenaXId) {
+        (%s)
+    }
+
     ?catenaXId cx:isProducedBy ?site.
     ?site cx:isMemberOf ?legal;
         cx:roleValidFrom ?roleValidFrom;

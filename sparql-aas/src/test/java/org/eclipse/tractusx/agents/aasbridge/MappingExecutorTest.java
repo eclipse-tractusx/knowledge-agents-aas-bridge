@@ -28,6 +28,7 @@ import org.eclipse.digitaltwin.aas4j.exceptions.TransformationException;
 import org.eclipse.digitaltwin.aas4j.mapping.MappingSpecificationParser;
 import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 import org.eclipse.digitaltwin.aas4j.transform.GenericDocumentTransformer;
+
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -49,6 +50,9 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * tests mapping logic
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MappingExecutorTest {
 
@@ -56,6 +60,7 @@ class MappingExecutorTest {
             "?OemProviderAgent=" +
             URLEncoder.encode("http://oem-provider-agent:8082/sparql", StandardCharsets.ISO_8859_1);
 
+    private final URI LOCAL_LANDSCAPE = new URI("http://localhost:8082/sparql");
     private final URI DEV_LANDSCAPE = new URI("https://knowledge.dev.demo.catena-x.net/oem-provider-agent3/sparql");
 
     MappingExecutorTest() throws URISyntaxException {
@@ -141,30 +146,35 @@ class MappingExecutorTest {
         assertEquals(result, getMockResponseBody(aspectName));
     }
 
+    /**
+     * test access to one shell
+     * @throws InterruptedException
+     */
     @Test
-    void queryAllShells() throws InterruptedException {
-
+    void queryOneShell() throws InterruptedException {
         MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
         List<AssetAdministrationShell> shells = ex.queryAllShells(
-                "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97", // TODO match with mapping specification. handler filters for this now.
+                "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97",
                 Arrays.asList(new SpecificAssetIdentification.Builder()
                         .key("ignoredAnyway")
                         .value("urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97")
                         .build()));
-        shells.forEach(s -> assertTrue(s.getSubmodels().size() > 0));
-
+        assertEquals(1,shells.size(),"Found the correct shell");
+        assertEquals(3,shells.get(0).getSubmodels().size() );
     }
 
     /**
-     * currently, we cannot get a list of all shells
+     * test access to all shells
      * @throws InterruptedException
      */
-    void queryTotallyAllShells() throws InterruptedException {
+    @Test
+    void queryAllShells() throws InterruptedException {
         MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
         List<AssetAdministrationShell> shells = ex.queryAllShells(
                 null,
                 null);
-        shells.forEach(s -> assertTrue(s.getSubmodels().size() > 0));
+        assertEquals(28,shells.size(),"Found all shells");
+        shells.forEach(s -> assertTrue(s.getSubmodels().size() > 0,String.format("Shell %s has at least one submodel",s.getIdShort())));
     }
 
     private static AssetAdministrationShellEnvironment getTransformedAasEnv(String submodelIdShort) throws IOException, TransformationException {
