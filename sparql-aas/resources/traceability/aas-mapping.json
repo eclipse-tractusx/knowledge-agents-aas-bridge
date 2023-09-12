@@ -17,6 +17,27 @@
         "@foreach": {
           "@xpath": "//sparql:result"
         },
+        "@bind": {
+          "idShort": {
+            "@xpath": "./sparql:binding[@name='id']/sparql:uri"
+          }
+        },
+        "identification": {
+            "@bind": {
+              "id": {
+                "@xpath": "./sparql:binding[@name='id']/sparql:uri"
+              }
+            },
+            "idType": "Iri"
+        },
+        "description": [{
+          "language": "en",
+          "@bind": {
+            "text": {
+              "@xpath": "./sparql:binding[@name='name']/sparql:literal"
+            }
+          }
+        }],
         "assetInformation": {
           "assetKind": "Instance",
           "globalAssetId": {
@@ -33,25 +54,10 @@
             ]
           }
         },
-        "@bind": {
-          "idShort": {
-            "@xpath": "./sparql:binding[@name='id']/sparql:uri"
-          }
-        },
-        "identification": {
-          "@bind": {
-            "id": {
-              "@generate_uuid": {
-                "@xpath": "./sparql:binding[@name='id']/sparql:uri"
-              }
-            }
-          },
-          "idType": "Iri"
-        },
         "submodels": [
           {
             "@foreach": {
-              "@xpath": "./sparql:binding[@name!='id']"
+              "@xpath": "./sparql:binding[@name != 'id'and @name != 'name']"
             },
             "keys": [
               {
@@ -59,7 +65,11 @@
                 "type": "Submodel",
                 "@bind": {
                   "value": {
-                    "@xpath": "./sparql:binding[@name='id']/sparql:uri"
+                    "@concatenate": [
+                      {"@xpath":  "./sparql:uri"},
+                      "/",
+                      {"@xpath":  "../sparql:binding[@name = 'id']/sparql:uri"}
+                    ]
                   }
                 }
               }

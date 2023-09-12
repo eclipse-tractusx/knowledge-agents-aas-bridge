@@ -18,8 +18,10 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.eclipse.tractusx.agents.aasbridge;
 
+import de.fraunhofer.iosb.ilt.faaast.service.model.api.modifier.QueryModifier;
 import de.fraunhofer.iosb.ilt.faaast.service.model.asset.SpecificAssetIdentification;
 import io.adminshell.aas.v3.model.*;
+import io.adminshell.aas.v3.model.impl.DefaultIdentifier;
 import io.adminshell.aas.v3.model.impl.DefaultProperty;
 import io.adminshell.aas.v3.model.impl.DefaultSubmodelElementCollection;
 import okhttp3.mockwebserver.MockResponse;
@@ -67,24 +69,6 @@ class MappingExecutorTest {
     }
 
     @Test
-    void executeMaterialForRecyclingTest() throws IOException, TransformationException {
-        AssetAdministrationShellEnvironment env = getTransformedAasEnv("materialForRecycling");
-        executeGenericTests(env);
-
-        assertEquals(12, env.getSubmodels().size());
-        assertEquals(12, env.getSubmodels().size());
-        env.getAssetAdministrationShells().forEach(aas ->
-                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:material")));
-        assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "materialName")).anyMatch(p -> p.equals("bla")));
-        assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "materialClass")).anyMatch(p -> p.equals("CeramicMaterial")));
-        assertEquals(13, env.getConceptDescriptions().size());
-
-        assertEquals(3, env.getSubmodels().stream()
-                .filter(sm -> getProperty(sm, "materialName").equals("bla"))
-                .map(sm -> getSmcValues(sm, "component")).findFirst().get().size());
-    }
-
-    @Test
     void executePartSiteInformationTest() throws TransformationException, IOException {
         AssetAdministrationShellEnvironment env = getTransformedAasEnv("partSiteInformation");
         executeGenericTests(env);
@@ -117,20 +101,20 @@ class MappingExecutorTest {
         executeGenericTests(env);
 
         assertEquals(12, env.getSubmodels().size());
-        assertEquals(12, env.getConceptDescriptions().size());
+        assertEquals(13, env.getConceptDescriptions().size());
         env.getAssetAdministrationShells().forEach(aas ->
                 assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
         assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97")));
         assertEquals(3, env.getSubmodels().stream()
                 .filter(sm -> getProperty(sm, "catenaXId").equals("urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b"))
-                .map(sm -> getSmcValues(sm, "childParts")).findFirst().get().size());
+                .map(sm -> getSmcValues(sm, "childItems")).findFirst().get().size());
         env.getSubmodels().forEach(sm -> {
             assertEquals(2, sm.getIdentification().getIdentifier().split("/").length);
         });
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"materialForRecycling", "partAsPlanned", "partSiteInformation", "singleLevelBomAsPlanned"})
+    @ValueSource(strings = {"partAsPlanned", "partSiteInformation", "singleLevelBomAsPlanned"})
     void executeQueryTest(String aspectName) throws IOException, URISyntaxException, ExecutionException, InterruptedException {
         MockWebServer mockWebServer = instantiateMockServer(aspectName);
         MappingExecutor executor = new MappingExecutor(
@@ -141,7 +125,7 @@ class MappingExecutorTest {
                 AasUtils.loadConfigsFromResources());
 
         InputStream inputStream = executor.executeQuery(
-                new String(new File("resources/selectQueries/" + aspectName + "-select.rq").toURL().openStream().readAllBytes())).get();
+                new String(new File("resources/traceability/" + aspectName + "-select-all.rq").toURL().openStream().readAllBytes())).get();
         String result = new String(inputStream.readAllBytes());
         assertEquals(result, getMockResponseBody(aspectName));
     }
@@ -152,15 +136,23 @@ class MappingExecutorTest {
      */
     @Test
     void queryOneShell() throws InterruptedException {
+        String sampleId="urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97";
         MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
         List<AssetAdministrationShell> shells = ex.queryAllShells(
-                "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97",
+                sampleId,
                 Arrays.asList(new SpecificAssetIdentification.Builder()
                         .key("ignoredAnyway")
-                        .value("urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97")
+                        .value(sampleId)
                         .build()));
         assertEquals(1,shells.size(),"Found the correct shell");
-        assertEquals(3,shells.get(0).getSubmodels().size() );
+        assertEquals(1,shells.get(0).getDescriptions().size(),"Shell has correct descriptions");
+        assertEquals("HV Modul",shells.get(0).getDescriptions().get(0).getValue(),"Shell has correct description");
+        assertEquals(sampleId,shells.get(0).getIdShort(),"Correct id short");
+        assertEquals(sampleId,shells.get(0).getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue(),"Correct global asset id");
+        assertEquals(3,shells.get(0).getSubmodels().size(),"Correct number of submodels");
+        shells.get(0).getSubmodels().forEach( submodel -> {
+                    assertTrue(submodel.getKeys().get(0).getValue().endsWith(shells.get(0).getIdShort()),"Submodel reference startswith twin id");
+        });
     }
 
     /**
@@ -174,11 +166,37 @@ class MappingExecutorTest {
                 null,
                 null);
         assertEquals(28,shells.size(),"Found all shells");
-        shells.forEach(s -> assertTrue(s.getSubmodels().size() > 0,String.format("Shell %s has at least one submodel",s.getIdShort())));
+        shells.forEach(shell -> {
+            assertEquals(1,shell.getDescriptions().size(),"Shell has correct descriptions");
+            assertEquals(shell.getIdShort(),shell.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue(),"Correct global asset id and idshort relation");
+            assertTrue(shell.getSubmodels().size() > 0,String.format("Shell %s has at least one submodel",shell.getIdShort()));
+            shell.getSubmodels().forEach( submodel -> {
+                   assertTrue(submodel.getKeys().get(0).getValue().endsWith(shell.getIdShort()),"Submodel reference starts with shell id");
+            });
+        });
+    }
+
+
+    /**
+     * test access to one shell
+     * @throws InterruptedException
+     */
+    @Test
+    void queryOneSubmodel() throws InterruptedException {
+        String sampleId="urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97";
+        String model="urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned";
+        MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
+        Identifier identifier=new DefaultIdentifier();
+        identifier.setIdentifier(model+"/"+sampleId);
+        Identifiable subModel = ex.queryIdentifiableById(identifier, Submodel.class);
+        assertNotNull(subModel, "Found the submodel");
+        assertTrue(subModel instanceof Submodel,"Its a real submodel");
+        Submodel realSubModel=(Submodel) subModel;
+        assertEquals(model,realSubModel.getSemanticId().getKeys().get(0).getValue());
     }
 
     private static AssetAdministrationShellEnvironment getTransformedAasEnv(String submodelIdShort) throws IOException, TransformationException {
-        MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("resources/mappingSpecifications/" + submodelIdShort + "-mapping.json");
+        MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("resources/traceability/" + submodelIdShort + "-mapping.json");
         GenericDocumentTransformer transformer = new GenericDocumentTransformer();
         InputStream instream = MappingExecutorTest.class.getResourceAsStream("/sparqlResponseXml/" + submodelIdShort + "-sparql-results.xml");
         String s = new String(instream.readAllBytes());

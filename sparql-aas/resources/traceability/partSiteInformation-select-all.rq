@@ -17,21 +17,22 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>
+PREFIX cx-common: <https://w3id.org/catenax/ontology/common#>
+PREFIX cx-core: <https://w3id.org/catenax/ontology/core#>
+PREFIX cx-vehicle: <https://w3id.org/catenax/ontology/vehicle#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?catenaXId ?validFrom ?validTo ?classification ?manufacturerPartId ?nameAtManufacturer
-WHERE {
+# Select the partsite informations of a all parts
 
-    VALUES(?catenaXId) {
-        (%s)
-    }
+SELECT ?catenaXId ?site ?function (MIN(?roleValidFrom) AS ?roleValidFrom) (MAX(?roleValidTo) AS ?roleValidTo) WHERE {
 
-    ?catenaXId rdf:type cx:Part;
-        cx:partSeries ?manufacturerPartId;
-        cx:partName ?nameAtManufacturer;
-        cx:partProductionDate ?validFrom;
-        cx:partProductionDate ?validTo.
+    ?catenaXId cx-vehicle:manufacturer ?site.
+    ?site cx-common:isSiteOf ?legal;
+          cx-common:validityPeriodStart ?roleValidFrom;
+          cx-common:validityPeriodEnd ?roleValidTo .
+
+    BIND("production" AS ?function)
 }
+GROUP BY ?catenaXId ?site ?function
 ORDER BY DESC(?catenaXId)

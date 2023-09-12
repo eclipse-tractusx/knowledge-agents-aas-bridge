@@ -27,6 +27,8 @@ import org.reflections.Configuration;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,36 +45,60 @@ import java.util.stream.Collectors;
  */
 public class AasUtils {
 
+    public static Logger logger= LoggerFactory.getLogger(AasUtils.class);
+
+    /**
+     * investigates the filesystems resources folder to find mappings
+     * @return a domain of mapping configurations
+     */
     public static List<MappingConfiguration> loadConfigsFromResources() {
+
+        logger.info("About to load mapping configurations.");
+
+        File searchPath=new File("resources");
 
         ConfigurationBuilder builder=new ConfigurationBuilder();
         try {
-            builder=builder.addUrls(new File("resources/selectQueries").toURL());
+            builder=builder.addUrls(searchPath.toURL());
         } catch(MalformedURLException e) {
         }
         Configuration config= builder.setScanners(Scanners.Resources);
         Reflections reflections = new Reflections(config);
-        Set<String> files = reflections.getResources(Pattern.compile(".*-select\\.rq"));
+        Set<String> files = reflections.getResources(Pattern.compile(".*-mapping\\.json"));
+
+        logger.info("Scanning for *-mapping.json in resources folder found {}",files);
+
         return files.stream()
-                .map(Path::of)
-                    .map(getAllPath -> {
-                        String nameInclSelect = getAllPath.getFileName().toString();
-                        String mappingFileFolder = "resources/mappingSpecifications/";
-                        String mappingFileName = nameInclSelect.split("-")[0] + "-mapping.json";
-                        MappingSpecification spec;
+                    .map(relativePath -> {
+                        String mappingPath= searchPath.getPath()+"/"+relativePath;
                         try {
-                            spec = new MappingSpecificationParser().loadMappingSpecification(mappingFileFolder + mappingFileName);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        String getOnePath = "resources/paramSelectQueries/"+nameInclSelect;
-                        return new MappingConfiguration(
+                            MappingSpecification spec = new MappingSpecificationParser().loadMappingSpecification(mappingPath);
+                            String semanticId=spec.getHeader().getNamespaces().get("semanticId");
+                            if(semanticId==null) {
+                                logger.warn("Mapping {} has no namespace called 'semanticId'. So it will not be accessible.",mappingPath);
+                            }
+                            File selectSomeFile = new File(mappingPath.split("-")[0] + "-select-some.rq");
+                            File selectAllFile = new File(mappingPath.split("-")[0] + "-select-all.rq");
+                            if(!selectSomeFile.exists() || !selectSomeFile.isFile()) {
+                                logger.warn("Bound select for mapping {} is not a valid file {}. Ignoring.",mappingPath,selectSomeFile);
+                                selectSomeFile=null;
+                            }
+                            if(!selectAllFile.exists() || !selectAllFile.isFile()) {
+                                logger.warn("Unbound select for mapping {} is not a valid file {}. Ignoring.",mappingPath,selectAllFile);
+                                selectAllFile=null;
+                            }
+                            return new MappingConfiguration(
                                 spec,
-                                new File(getOnePath),
-                                new File("resources/selectQueries/"+getAllPath),
-                                spec.getHeader().getNamespaces().get("semanticId")
-                        );
+                                selectSomeFile,
+                                selectAllFile,
+                                semanticId
+                            );
+                        } catch (IOException e) {
+                            logger.warn("Could not read mapping specification in {} because of {}. Ignoring.",mappingPath,e);
+                            return null;
+                        }
                     })
+                    .filter(conf->conf!=null)
                     .collect(Collectors.toList());
     }
 

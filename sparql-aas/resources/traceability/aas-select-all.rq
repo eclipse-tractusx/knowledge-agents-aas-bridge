@@ -18,6 +18,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 PREFIX cx-common: <https://w3id.org/catenax/ontology/common#>
+PREFIX cx-core: <https://w3id.org/catenax/ontology/core#>
 PREFIX cx-vehicle: <https://w3id.org/catenax/ontology/vehicle#>
 PREFIX cx-bom: <https://w3id.org/catenax/ontology/bill-of-material#>
 PREFIX cx-mat: <https://w3id.org/catenax/ontology/material#>
@@ -28,14 +29,15 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 # A request for obtaining all asset administration shells for serialized parts
 #
 
-SELECT DISTINCT ?id ?pasp ?psasp ?hasRecycling ?slbomap ?slusap ?mfr WHERE {
+SELECT DISTINCT ?id ?name ?pasp ?psasp ?hasRecycling ?slbomap ?slusap ?mfr WHERE {
 
     # all parts are twins
-    ?id rdf:type cx-vehicle:Part.
+    ?id rdf:type cx-vehicle:Part;
+        cx-core:name ?name.
 
     # Part
     OPTIONAL{
-        ?id cx-vehicle:id ?manufacturerPartId.
+        ?id cx-core:id ?manufacturerPartId.
         BIND(<urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned> as ?pasp).
     }
 
@@ -52,10 +54,5 @@ SELECT DISTINCT ?id ?pasp ?psasp ?hasRecycling ?slbomap ?slusap ?mfr WHERE {
         BIND(<urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned> as ?slusap).
     } #bomAsPlanned
 
-    # Material for Recycling
-    OPTIONAL {
-        ?id cx-mat:isMadeOf ?rMat.
-        BIND(<urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling> as ?mfr).
-    }
 }
 ORDER BY DESC(?id)

@@ -41,7 +41,6 @@ class AasUtilsTest {
 
     XmlDeserializer deser = new XmlDeserializer();
     Set<AssetAdministrationShellEnvironment> envs;
-
     AssetAdministrationShellEnvironment merged;
 
     @BeforeAll
@@ -49,8 +48,7 @@ class AasUtilsTest {
 
         envs = new HashSet<AssetAdministrationShellEnvironment>(Arrays.asList(deser.read(fromResource("partAsPlanned.xml")),
                 deser.read(fromResource("partSiteInformation.xml")),
-                deser.read(fromResource("singleLevelBomAsPlanned.xml")),
-                deser.read(fromResource("materialForRecycling.xml"))));
+                deser.read(fromResource("singleLevelBomAsPlanned.xml"))));
 
         merged = AasUtils.mergeAasEnvs(envs);
     }

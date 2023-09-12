@@ -3,11 +3,11 @@
     "version": "0.0.1",
     "aasVersion": "3.0RC01",
     "@variables": {
-      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+      "semanticId": "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
     },
     "@namespaces": {
       "sparql": "http://www.w3.org/2005/sparql-results#",
-      "semanticId": "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
+      "semanticId": "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
     },
     "@definitions": {
       "genSubmodelId": {
@@ -88,7 +88,7 @@
             {
               "idType": "Iri",
               "type": "ConceptDescription",
-              "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
+              "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
             }
           ]
         },
@@ -112,7 +112,7 @@
                 {
                   "idType": "Iri",
                   "type": "ConceptDescription",
-                  "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#catenaXId"
+                  "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#catenaXId"
                 }
               ]
             },
@@ -140,7 +140,7 @@
             "modelType": {
               "name": "SubmodelElementCollection"
             },
-            "idShort": "PartTypeInformationEntity",
+            "idShort": "partTypeInformation",
             "description": [
               {
                 "language": "en",
@@ -164,7 +164,7 @@
                     {
                       "idType": "Iri",
                       "type": "ConceptDescription",
-                      "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#manufacturerPartId"
+                      "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#manufacturerPartId"
                     }
                   ]
                 },
@@ -198,7 +198,7 @@
                     {
                       "idType": "Iri",
                       "type": "ConceptDescription",
-                      "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#nameAtManufacturer"
+                      "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#nameAtManufacturer"
                     }
                   ]
                 },
@@ -228,11 +228,11 @@
             "modelType": {
               "name": "SubmodelElementCollection"
             },
-            "idShort": "ValidityPeriodEntity",
+            "idShort": "validityPeriod",
             "displayName": [
               {
                 "language": "en",
-                "text": "ValidityPeriodEntity"
+                "text": "validityPeriod"
               }
             ],
             "value": [
@@ -246,7 +246,7 @@
                     {
                       "idType": "Iri",
                       "type": "ConceptDescription",
-                      "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#validFrom"
+                      "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#validFrom"
                     }
                   ]
                 },
@@ -280,7 +280,7 @@
                     {
                       "idType": "Iri",
                       "type": "ConceptDescription",
-                      "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#validTo"
+                      "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#validTo"
                     }
                   ]
                 },
@@ -352,7 +352,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
+          "id": "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
         },
         "category": "APPLICATION_CLASS",
         "idShort": "PartAsPlanned",
@@ -406,7 +406,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.part_as_planned:1.0.0#catenaXId"
+          "id": "urn:bamm:io.catenax.part_as_planned:1.0.1#catenaXId"
         },
         "idShort": "CatenaXIdTrait",
         "displayName": [
@@ -453,7 +453,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.part_as_planned:1.0.0#manufacturerPartId"
+          "id": "urn:bamm:io.catenax.part_as_planned:1.0.1#manufacturerPartId"
         },
         "idShort": "PartIdCharacteristic",
         "displayName": [
@@ -500,7 +500,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.part_as_planned:1.0.0#nameAtManufacturer"
+          "id": "urn:bamm:io.catenax.part_as_planned:1.0.1#nameAtManufacturer"
         },
         "idShort": "PartNameCharacteristic",
         "displayName": [
@@ -533,7 +533,7 @@
                         {
                           "idType": "Iri",
                           "type": "DataElement",
-                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=product, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=product, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
                         }
                       ]
                     }
@@ -545,7 +545,7 @@
                         {
                           "idType": "Iri",
                           "type": "DataElement",
-                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=raw material, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=raw material, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
                         }
                       ]
                     }
@@ -557,7 +557,7 @@
                         {
                           "idType": "Iri",
                           "type": "DataElement",
-                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=software, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=software, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
                         }
                       ]
                     }
@@ -569,7 +569,7 @@
                         {
                           "idType": "Iri",
                           "type": "DataElement",
-                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=assembly, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=assembly, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
                         }
                       ]
                     }
@@ -581,7 +581,7 @@
                         {
                           "idType": "Iri",
                           "type": "DataElement",
-                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=tool, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=tool, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
                         }
                       ]
                     }
@@ -593,7 +593,7 @@
                         {
                           "idType": "Iri",
                           "type": "DataElement",
-                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.0#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=component, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                          "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#ClassificationCharacteristic:DefaultScalaraas:value[aas:value=component, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
                         }
                       ]
                     }
@@ -623,7 +623,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.part_as_planned:1.0.0#classification"
+          "id": "urn:bamm:io.catenax.part_as_planned:1.0.1#classification"
         },
         "idShort": "ClassificationCharacteristic",
         "displayName": [
@@ -670,7 +670,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.part_as_planned:1.0.0#partTypeInformation"
+          "id": "urn:bamm:io.catenax.part_as_planned:1.0.1#partTypeInformation"
         },
         "idShort": "PartTypeInformationCharacteristic",
         "displayName": [
@@ -717,7 +717,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.part_as_planned:1.0.0#validFrom"
+          "id": "urn:bamm:io.catenax.part_as_planned:1.0.1#validFrom"
         },
         "idShort": "Timestamp"
       },
@@ -758,7 +758,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.part_as_planned:1.0.0#validTo"
+          "id": "urn:bamm:io.catenax.part_as_planned:1.0.1#validTo"
         },
         "idShort": "Timestamp"
       },
@@ -799,7 +799,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.part_as_planned:1.0.0#validityPeriod"
+          "id": "urn:bamm:io.catenax.part_as_planned:1.0.1#validityPeriod"
         },
         "idShort": "ValidityPeriodCharacteristic",
         "displayName": [

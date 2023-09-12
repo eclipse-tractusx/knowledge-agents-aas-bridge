@@ -65,9 +65,9 @@ USER "$APP_USER"
 WORKDIR /app
 
 COPY --from=otel /tmp/opentelemetry-javaagent.jar .
-COPY ${JAR} aas-bridge.jar
-COPY ${LIB} ./lib/
-COPY ${RESOURCES} ./resources/
+COPY target/aas-bridge.jar aas-bridge.jar
+COPY target/lib ./lib/
+COPY resources ./resources/
 
 EXPOSE 8080
 

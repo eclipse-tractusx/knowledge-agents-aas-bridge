@@ -17,25 +17,24 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>
+PREFIX cx-common: <https://w3id.org/catenax/ontology/common#>
+PREFIX cx-core: <https://w3id.org/catenax/ontology/core#>
+PREFIX cx-vehicle: <https://w3id.org/catenax/ontology/vehicle#>
+PREFIX cx-bom: <https://w3id.org/catenax/ontology/bill-of-material#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?eMat ?engineeringMaterialName ?engineeringMaterialClass ?rMat ?componentState ?componentMaterialClass ?componentRecycledContent ?componentMaterialAbbreviation
+# Select all bom information
+
+SELECT ?catenaXId ?businessPartner ?childCatenaXId ?childQuantity ?billOfMaterialUnit ?productionEndDate ?productionStartDate
 WHERE {
-
-    ?eMat cx:isMadeOf ?rMat;
-        rdf:type cx:EngineeringMaterial;
-        cx:engineeringMaterialName ?engineeringMaterialName;
-        cx:engineeringMaterialNumber ?engineeringMaterialClass.
-    ?rMat rdf:type cx:RawMaterial;
-        cx:engineeringMaterialNumber ?componentMaterialClass;
-        cx:hasMaterialProperty ?matProp;
-        cx:engineeringMaterialName ?componentMaterialName.
-    ?matProp #rdf:type cx:MaterialProperty;
-        cx:aggregateState ?componentState;
-        cx:recycledContent ?componentRecycledContent;
-        cx:materialCode ?componentMaterialAbbreviation.
-     }
-
-ORDER BY DESC(?eMat)
+    ?bom rdf:type cx-bom:BillOfMaterial;
+         cx-bom:assembly ?catenaXId;
+         cx-bom:component ?childCatenaXId;
+         cx-bom:supplier ?businessPartner;
+         cx-bom:quantityMeasure ?childQuantity;
+         cx-bom:quantityUnit ?billOfMaterialUnit;
+         cx-bom:validityPeriodStart ?productionStartDate;
+         cx-bom:validityPeriodEnd ?productionEndDate.
+}
+ORDER BY DESC(?catenaXId)

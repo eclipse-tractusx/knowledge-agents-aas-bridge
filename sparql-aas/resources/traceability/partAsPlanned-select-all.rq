@@ -17,16 +17,20 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>
+PREFIX cx-common: <https://w3id.org/catenax/ontology/common#>
+PREFIX cx-core: <https://w3id.org/catenax/ontology/core#>
+PREFIX cx-vehicle: <https://w3id.org/catenax/ontology/vehicle#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
+# Select all part information
+
 SELECT ?catenaXId ?validFrom ?validTo ?classification ?manufacturerPartId ?nameAtManufacturer
 WHERE {
-    ?catenaXId rdf:type cx:Part;
-        cx:partSeries ?manufacturerPartId;
-        cx:partName ?nameAtManufacturer;
-        cx:partProductionDate ?validFrom;
-        cx:partProductionDate ?validTo.
+    ?catenaXId rdf:type cx-vehicle:Part;
+        cx-core:id ?manufacturerPartId;
+        cx-core:name ?nameAtManufacturer;
+        cx-vehicle:productionPeriodStart ?validFrom;
+        cx-vehicle:productionPeriodEnd ?validTo.
 }
 ORDER BY DESC(?catenaXId)

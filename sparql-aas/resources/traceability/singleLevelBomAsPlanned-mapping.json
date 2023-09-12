@@ -3,11 +3,11 @@
     "version": "0.0.1",
     "aasVersion": "3.0RC01",
     "@variables": {
-      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
     },
     "@namespaces": {
       "sparql": "http://www.w3.org/2005/sparql-results#",
-      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
     },
     "@definitions": {
       "genSubmodelId": {
@@ -45,11 +45,6 @@
             ]
           }
         },
-        "@bind": {
-          "idShort": {
-            "@xpath": "."
-          }
-        },
         "identification": {
           "@bind": {
             "id": {
@@ -59,6 +54,11 @@
             }
           },
           "idType": "Iri"
+        },
+        "@bind": {
+          "idShort": {
+            "@def": "genSubmodelId"
+          }
         },
         "submodels": [
           {
@@ -88,7 +88,7 @@
             {
               "idType": "Iri",
               "type": "ConceptDescription",
-              "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+              "value": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
             }
           ]
         },
@@ -112,7 +112,7 @@
                 {
                   "idType": "Iri",
                   "type": "ConceptDescription",
-                  "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#catenaXId"
+                  "value": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#catenaXId"
                 }
               ]
             },
@@ -140,17 +140,17 @@
             "modelType": {
               "name": "SubmodelElementCollection"
             },
-            "idShort": "childParts",
+            "idShort": "childItems",
             "description": [
               {
                 "language": "en",
-                "text": "Set of child parts in As-Planned lifecycle phase, of which the given parent object is assembled by (one structural level down)."
+                "text": "Set of child items in As-Planned lifecycle phase, of which the given parent object is assembled by (one structural level down)."
               }
             ],
             "displayName": [
               {
                 "language": "en",
-                "text": "Child Parts"
+                "text": "Child Items"
               }
             ],
             "value": [
@@ -172,7 +172,7 @@
                 "@bind": {
                   "idShort": {
                     "@concatenate": [
-                      "ChildData",
+                      "ChildItem",
                       {
                         "@concatenate_and_hash": [
                           {
@@ -186,13 +186,13 @@
                 "description": [
                   {
                     "language": "en",
-                    "text": "Catena-X ID and meta data of the child part."
+                    "text": "Catena-X ID and meta data of the child item."
                   }
                 ],
                 "displayName": [
                   {
                     "language": "en",
-                    "text": "Child Data"
+                    "text": "Child Item"
                   }
                 ],
                 "value": [
@@ -206,7 +206,7 @@
                         {
                           "idType": "Iri",
                           "type": "ConceptDescription",
-                          "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#createdOn"
+                          "value": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#createdOn"
                         }
                       ]
                     },
@@ -220,7 +220,7 @@
                     "description": [
                       {
                         "language": "en",
-                        "text": "Timestamp when the relation between the parent part and the child part was created"
+                        "text": "Timestamp when the relation between the parent part and the child item was created"
                       }
                     ],
                     "displayName": [
@@ -258,7 +258,7 @@
                             {
                               "idType": "Iri",
                               "type": "ConceptDescription",
-                              "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#quantityNumber"
+                              "value": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#quantityNumber"
                             }
                           ]
                         },
@@ -292,7 +292,7 @@
                             {
                               "idType": "Iri",
                               "type": "ConceptDescription",
-                              "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#measurementUnit"
+                              "value": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#measurementUnit"
                             }
                           ]
                         },
@@ -328,7 +328,7 @@
                         {
                           "idType": "Iri",
                           "type": "ConceptDescription",
-                          "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#lastModifiedOn"
+                          "value": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#lastModifiedOn"
                         }
                       ]
                     },
@@ -362,7 +362,7 @@
                         {
                           "idType": "Iri",
                           "type": "ConceptDescription",
-                          "value": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#childCatenaXId"
+                          "value": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#childCatenaXId"
                         }
                       ]
                     },
@@ -372,7 +372,7 @@
                       }
                     },
                     "valueType": "http://www.w3.org/2001/XMLSchema#string",
-                    "idShort": "childCatenaXId",
+                    "idShort": "catenaXId",
                     "description": [
                       {
                         "language": "en",
@@ -436,7 +436,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
         },
         "category": "APPLICATION_CLASS",
         "idShort": "SingleLevelBomAsPlanned",
@@ -490,7 +490,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#catenaXId"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#catenaXId"
         },
         "idShort": "CatenaXIdTraitCharacteristic",
         "displayName": [
@@ -537,7 +537,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#createdOn"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#createdOn"
         },
         "idShort": "Timestamp",
         "displayName": [
@@ -584,7 +584,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#quantityNumber"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#quantityNumber"
         },
         "idShort": "NumberofObjects",
         "displayName": [
@@ -631,7 +631,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#measurementUnit"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#measurementUnit"
         },
         "idShort": "UnitReference",
         "displayName": [
@@ -678,7 +678,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#quantity"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#quantity"
         },
         "idShort": "QuantityCharacteristic",
         "displayName": [
@@ -725,7 +725,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#lastModifiedOn"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#lastModifiedOn"
         },
         "idShort": "Timestamp",
         "displayName": [
@@ -764,7 +764,7 @@
               "shortName": [
                 {
                   "language": "EN",
-                  "text": "childCatenaXId"
+                  "text": "catenaXId"
                 }
               ]
             }
@@ -772,7 +772,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#childCatenaXId"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#childCatenaXId"
         },
         "idShort": "CatenaXIdTraitCharacteristic",
         "displayName": [
@@ -819,7 +819,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#validFrom"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#validFrom"
         },
         "idShort": "Timestamp",
         "displayName": [
@@ -866,7 +866,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#validTo"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#validTo"
         },
         "idShort": "Timestamp",
         "displayName": [
@@ -913,7 +913,7 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#validityPeriod"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#validityPeriod"
         },
         "idShort": "ValidityPeriodCharacteristic",
         "displayName": [
@@ -940,19 +940,19 @@
               "definition": [
                 {
                   "language": "en",
-                  "text": "Set of child parts the parent object is assembled by (one structural level down)."
+                  "text": "Trait to ensure BPNL format"
                 }
               ],
               "preferredName": [
                 {
                   "language": "en",
-                  "text": "Child Parts"
+                  "text": "Catena-X Business Partner"
                 }
               ],
               "shortName": [
                 {
                   "language": "EN",
-                  "text": "childParts"
+                  "text": "businessPartner"
                 }
               ]
             }
@@ -960,13 +960,60 @@
         ],
         "identification": {
           "idType": "Iri",
-          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#childParts"
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#businessPartner"
         },
-        "idShort": "SetOfChildPartsCharacteristic",
+        "idShort": "BusinessPartnerCharacteristic",
         "displayName": [
           {
             "language": "en",
-            "text": "Set of Child Parts"
+            "text": "Catena-X Business Partner"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Set of child items the parent object is assembled by (one structural level down)."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Child Items"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "childItems"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#childItems"
+        },
+        "idShort": "SetOfChildItemsCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Set of Child Items"
           }
         ]
       }
