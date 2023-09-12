@@ -46,7 +46,7 @@ on:
 
 # the docker registry and namespace
 env:
-  IMAGE_NAMESPACE: "ghcr.io/catenax-ng/knowledge-agents-aas-bridge/"
+  IMAGE_NAMESPACE: "tractusx"
 
 # If build is triggered several times, e.g., through subsequent pushes
 # into the same PR, cancel the previous runs, see below
