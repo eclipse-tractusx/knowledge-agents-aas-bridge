@@ -56,12 +56,12 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: default
-              containerPort: {{ .Values.agent.endpoints.default.port }}
+              containerPort: {{ .Values.aas.endpoints.default.port }}
               protocol: TCP
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.agent.endpoints.default.path }}/match?asset=TestAsset
+              path: {{ .Values.aas.endpoints.default.path }}/match?asset=TestAsset
               port: default
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -70,7 +70,7 @@ spec:
           {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.agent.endpoints.default.path }}/match?asset=TestAsset
+              path: {{ .Values.aas.endpoints.default.path }}/match?asset=TestAsset
               port: default
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
@@ -79,7 +79,7 @@ spec:
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
             httpGet:
-              path: {{ .Values.agent.endpoints.default.path }}/match?asset=TestAsset
+              path: {{ .Values.aas.endpoints.default.path }}/match?asset=TestAsset
               port: default
             failureThreshold: {{ .Values.startupProbe.failureThreshold }}
             periodSeconds: {{ .Values.startupProbe.periodSeconds }}

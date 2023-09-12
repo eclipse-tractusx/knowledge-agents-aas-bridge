@@ -25,7 +25,7 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.agent.endpoints.default.port }}
+    - port: {{ .Values.aas.endpoints.default.port }}
       targetPort: default
       protocol: TCP
       name: default

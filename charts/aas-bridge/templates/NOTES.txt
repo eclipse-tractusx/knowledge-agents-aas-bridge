@@ -28,7 +28,7 @@ Logs can be accessed by running this command:
 {{- if .Values.ingresses }}
 
 Following ingress URLS are available:
-  {{- $endpoints := .Values.agent.endpoints }}
+  {{- $endpoints := .Values.aas.endpoints }}
   {{- range $ingress := .Values.ingresses }}
   {{- if .enabled }}
   {{- $ingressEndpoints := .endpoints }}
