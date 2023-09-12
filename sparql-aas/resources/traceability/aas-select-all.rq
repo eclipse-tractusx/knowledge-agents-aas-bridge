@@ -21,7 +21,6 @@ PREFIX cx-common: <https://w3id.org/catenax/ontology/common#>
 PREFIX cx-core: <https://w3id.org/catenax/ontology/core#>
 PREFIX cx-vehicle: <https://w3id.org/catenax/ontology/vehicle#>
 PREFIX cx-bom: <https://w3id.org/catenax/ontology/bill-of-material#>
-PREFIX cx-mat: <https://w3id.org/catenax/ontology/material#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 

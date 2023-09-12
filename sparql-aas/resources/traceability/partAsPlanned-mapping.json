@@ -221,6 +221,40 @@
                     "text": "Name at Manufacturer"
                   }
                 ]
+              },
+              {
+                "modelType": {
+                  "name": "Property"
+                },
+                "kind": "Instance",
+                "semanticId": {
+                  "keys": [
+                    {
+                      "idType": "Iri",
+                      "type": "ConceptDescription",
+                      "value": "urn:bamm:io.catenax.part_as_planned:1.0.1#classification"
+                    }
+                  ]
+                },
+                "@bind": {
+                  "value": {
+                    "@xpath": "./../../sparql:binding[@name='classification']/sparql:literal"
+                  }
+                },
+                "valueType": "http://www.w3.org/2001/XMLSchema#string",
+                "idShort": "classification",
+                "description": [
+                  {
+                    "language": "en",
+                    "text": "Classification of the part as assigned by the manufacturer"
+                  }
+                ],
+                "displayName": [
+                  {
+                    "language": "en",
+                    "text": "Product Classification"
+                  }
+                ]
               }
             ]
           },

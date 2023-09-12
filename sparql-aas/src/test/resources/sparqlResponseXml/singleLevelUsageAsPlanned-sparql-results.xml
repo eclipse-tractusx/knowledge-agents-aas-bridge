@@ -1,0 +1,839 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright (c) 2023 SAP SE 
+ * Copyright (c) 2023 T-Systems International GmbH 
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+-->
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+    <head>
+        <variable name='catenaXId'/>
+        <variable name='businessPartner'/>
+        <variable name='parentCatenaXId'/>
+        <variable name='parentQuantity'/>
+        <variable name='billOfMaterialUnit'/>
+        <variable name='productionEndDate'/>
+        <variable name='productionStartDate'/>
+    </head>
+    <results>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:f5efbf45-7d84-4442-b3b8-05cf1c5c5a0b</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003CSGV</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:b02700b1-c8a5-423c-83aa-0013fa0f8249</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL50096894aNXY</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL50096894aNXY</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:65e1554e-e5cd-4560-bac1-1352582122fb</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AYRE</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>6.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:e3e2a4d8-58bc-4ae9-afa2-e8946fda1f77</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B5MJ</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:65e1554e-e5cd-4560-bac1-1352582122fb</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:e1dbd194-ca84-4bb9-bcfc-0a9df065f118</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003CML1</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:5c082f9d-7f30-42ec-88f3-1ef97d01caa1</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:e099ab26-f5ef-466b-b9b9-0b14e5c3d8a4</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AZQP</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:e1dbd194-ca84-4bb9-bcfc-0a9df065f118</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a9</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AYRE</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>10.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B3NX</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B3NX</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:b0926d3c-6a8f-4fc7-81a4-88c50817358a</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL50096894aNXY</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:94d086c6-0124-4f2c-86b2-1d419e47499d</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:b02700b1-c8a5-423c-83aa-0013fa0f8249</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AZQP</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:8031a511-85d8-4568-97f3-9d155127430c</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AYRE</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:a732f36e-be5a-49f0-9b83-08d4b1c203c6</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AYRE</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:8031a511-85d8-4568-97f3-9d155127430c</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:a432a8a6-af8f-4b7f-bb8a-7f287d86441f</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AZQP</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:a420dfc5-af2d-4bbe-a31a-1a31ebe39b9f</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:a420dfc5-af2d-4bbe-a31a-1a31ebe39b9f</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003CNKC</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:b02700b1-c8a5-423c-83aa-0013fa0f8249</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:9aff47cb-882a-4470-a7bd-d87d87d51782</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AYRE</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:21e1384d-ed81-48cf-a51b-e0a27a48741c</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:94d086c6-0124-4f2c-86b2-1d419e47499d</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL50096894aNXY</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1580.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:gram</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:86f69643-3b90-4e34-90bf-789edcf40e7e</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B0Q0</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:72ec2897-4e20-475c-a28b-019cf5b42a18</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003CNKC</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:a732f36e-be5a-49f0-9b83-08d4b1c203c6</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:6704474a-4aa5-4f91-acd5-dd24997c0023</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003CNKC</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:21e1384d-ed81-48cf-a51b-e0a27a48741c</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:5c082f9d-7f30-42ec-88f3-1ef97d01caa1</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003CNKC</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:8031a511-85d8-4568-97f3-9d155127430c</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:4f7b1cf2-a598-4027-bc78-63f6d8e55699</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B0Q0</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a9</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:4518c080-14fb-4252-b8de-4362d615868d</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B0Q0</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:44805117-33b4-4293-a6f9-99316745e77d</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003CSGV</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:a420dfc5-af2d-4bbe-a31a-1a31ebe39b9f</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AXS3</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:e3e2a4d8-58bc-4ae9-afa2-e8946fda1f77</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AXS3</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>0.3301</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:kilogram</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:367348b3-7a6e-4708-8283-ed6ab132b79c</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B2OM</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:b02700b1-c8a5-423c-83aa-0013fa0f8249</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B2OM</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B2OM</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:21e1384d-ed81-48cf-a51b-e0a27a48741c</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003CML1</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:b02700b1-c8a5-423c-83aa-0013fa0f8249</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:1c689a06-7f9d-42ca-9457-9104a4107d26</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003CML1</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:a420dfc5-af2d-4bbe-a31a-1a31ebe39b9f</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:15d2fcc8-6439-4d1e-904b-e62b4d3bf323</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003AXS3</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>0.11</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:kilogram</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B5MJ</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name='catenaXId'>
+                <uri>urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b</uri>
+            </binding>
+            <binding name='businessPartner'>
+                <uri>urn:bpn:legal:BPNL00000003B5MJ</uri>
+            </binding>
+            <binding name='parentCatenaXId'>
+                <uri>urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b</uri>
+            </binding>
+            <binding name='parentQuantity'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</literal>
+            </binding>
+            <binding name='billOfMaterialUnit'>
+                <uri>urn:unit:litre</uri>
+            </binding>
+            <binding name='productionEndDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2024-07-01</literal>
+            </binding>
+            <binding name='productionStartDate'>
+                <literal datatype='http://www.w3.org/2001/XMLSchema#date'>2023-03-21</literal>
+            </binding>
+        </result>
+    </results>
+</sparql>

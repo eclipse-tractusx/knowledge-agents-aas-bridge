@@ -24,38 +24,17 @@ PREFIX cx-bom: <https://w3id.org/catenax/ontology/bill-of-material#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-#
-# A request for obtaining specific asset administration shells for serialized parts
-#
+# Select all bom information
 
-SELECT DISTINCT ?id ?name ?pasp ?psasp ?hasRecycling ?slbomap ?slusap ?mfr WHERE {
-
-    VALUES(?id) {
-        (%s)
-    }
-
-    # all parts are twins
-    ?id rdf:type cx-vehicle:Part;
-        cx-core:name ?name.
-
-    # Part
-    OPTIONAL{
-        ?id cx-core:id ?manufacturerPartId.
-        BIND(<urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned> as ?pasp).
-    }
-
-    # PartSiteInformation
-    OPTIONAL{
-      ?id cx-vehicle:manufacturer ?partSite.
-      BIND(<urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned> as ?psasp).
-    }
-
-    # Single Level Bom
-    OPTIONAL{
-        ?id cx-bom:hasBom ?bom.
-        BIND(<urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned> as ?slbomap).
-        BIND(<urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned> as ?slusap).
-    } #bomAsPlanned
-
+SELECT ?catenaXId ?businessPartner ?parentCatenaXId ?parentQuantity ?billOfMaterialUnit ?productionEndDate ?productionStartDate
+WHERE {
+    ?bom rdf:type cx-bom:BillOfMaterial;
+         cx-bom:assembly ?parentCatenaXId;
+         cx-bom:component ?catenaXId;
+         cx-bom:supplier ?businessPartner;
+         cx-bom:quantityMeasure ?parentQuantity;
+         cx-bom:quantityUnit ?billOfMaterialUnit;
+         cx-bom:validityPeriodStart ?productionStartDate;
+         cx-bom:validityPeriodEnd ?productionEndDate.
 }
-ORDER BY DESC(?id)
+ORDER BY DESC(?catenaXId)

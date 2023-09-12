@@ -18,7 +18,6 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.eclipse.tractusx.agents.aasbridge;
 
-import de.fraunhofer.iosb.ilt.faaast.service.model.api.modifier.QueryModifier;
 import de.fraunhofer.iosb.ilt.faaast.service.model.asset.SpecificAssetIdentification;
 import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.DefaultIdentifier;
@@ -88,7 +87,7 @@ class MappingExecutorTest {
         AssetAdministrationShellEnvironment env = getTransformedAasEnv("partAsPlanned");
         executeGenericTests(env);
 
-        assertEquals(18, env.getSubmodels().size());
+        assertEquals(28, env.getSubmodels().size());
         assertEquals(9, env.getConceptDescriptions().size());
         env.getAssetAdministrationShells().forEach(aas ->
                 assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
@@ -113,8 +112,26 @@ class MappingExecutorTest {
         });
     }
 
+    @Test
+    void executeSingleLevelUsageAsPlannedTest() throws TransformationException, IOException {
+        AssetAdministrationShellEnvironment env = getTransformedAasEnv("singleLevelUsageAsPlanned");
+        executeGenericTests(env);
+
+        assertEquals(30, env.getSubmodels().size());
+        assertEquals(13, env.getConceptDescriptions().size());
+        env.getAssetAdministrationShells().forEach(aas ->
+                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
+        assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:f5efbf45-7d84-4442-b3b8-05cf1c5c5a0b")));
+        assertEquals(2, env.getSubmodels().stream()
+                .filter(sm -> getProperty(sm, "catenaXId").equals("urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc"))
+                .map(sm -> getSmcValues(sm, "parentParts")).findFirst().get().size());
+        env.getSubmodels().forEach(sm -> {
+            assertEquals(2, sm.getIdentification().getIdentifier().split("/").length);
+        });
+    }
+
     @ParameterizedTest
-    @ValueSource(strings = {"partAsPlanned", "partSiteInformation", "singleLevelBomAsPlanned"})
+    @ValueSource(strings = {"partAsPlanned", "partSiteInformation", "singleLevelBomAsPlanned","singleLevelUsageAsPlanned"})
     void executeQueryTest(String aspectName) throws IOException, URISyntaxException, ExecutionException, InterruptedException {
         MockWebServer mockWebServer = instantiateMockServer(aspectName);
         MappingExecutor executor = new MappingExecutor(
@@ -149,7 +166,7 @@ class MappingExecutorTest {
         assertEquals("HV Modul",shells.get(0).getDescriptions().get(0).getValue(),"Shell has correct description");
         assertEquals(sampleId,shells.get(0).getIdShort(),"Correct id short");
         assertEquals(sampleId,shells.get(0).getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue(),"Correct global asset id");
-        assertEquals(3,shells.get(0).getSubmodels().size(),"Correct number of submodels");
+        assertEquals(4,shells.get(0).getSubmodels().size(),"Correct number of submodels");
         shells.get(0).getSubmodels().forEach( submodel -> {
                     assertTrue(submodel.getKeys().get(0).getValue().endsWith(shells.get(0).getIdShort()),"Submodel reference startswith twin id");
         });

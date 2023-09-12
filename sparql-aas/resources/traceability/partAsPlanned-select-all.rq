@@ -32,5 +32,6 @@ WHERE {
         cx-core:name ?nameAtManufacturer;
         cx-vehicle:productionPeriodStart ?validFrom;
         cx-vehicle:productionPeriodEnd ?validTo.
+    BIND('product' AS ?classification).
 }
 ORDER BY DESC(?catenaXId)
