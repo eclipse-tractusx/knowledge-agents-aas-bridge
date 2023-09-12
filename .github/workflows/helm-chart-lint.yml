@@ -102,6 +102,9 @@ jobs:
         run: |
           ./mvnw -s settings.xml deploy -Drepo=kind-registry:5000/tractusx/ -Dmaven.deploy.skip -DskipTests -Pwith-docker-image 
         if: github.event_name != 'pull_request' || env.CHART_CHANGED == 'true'
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # install the chart to the kind cluster and run helm test
       # define charts to test with the --charts parameter
