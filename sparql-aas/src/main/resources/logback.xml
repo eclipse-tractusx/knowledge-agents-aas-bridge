@@ -21,12 +21,18 @@
 <!-- Production logging configuration derived from https://github.com/FraunhoferIOSB/FAAAST-Service/blob/main/starter/src/main/resources/logback.xml -->
 <configuration scan="true">
     <variable name="PATTERN_STDOUT" value="%date{yyyy-MM-dd HH:mm:ss} [%level] %msg \(%logger\)%nopex%n"/>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${PATTERN_STDOUT}</pattern>
         </encoder>
     </appender>
-    <root level="TRACE">
+
+    <logger name="org.eclipse.tractusx" level="TRACE" />
+    <logger name="de.fraunhofer.iosb.ilt.faaast" level="DEBUG" />
+    <logger name="io.adminshell" level="DEBUG" />
+
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

@@ -44,10 +44,6 @@ on:
     branches:
       - '*'
 
-# the docker registry and namespace
-env:
-  IMAGE_NAMESPACE: "tractusx"
-
 # If build is triggered several times, e.g., through subsequent pushes
 # into the same PR, cancel the previous runs, see below
 concurrency:
@@ -65,6 +61,14 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      # Determine the right target docker repo
+      - name: Check github repository and set docker repo
+        id: set-docker-repo
+        run: |
+          if [ "${{ github.repository }}" == "eclipse-tractusx/knowledge-agents-aas-bridge" ]; then echo "REGISTRY=docker.io" >> $GITHUB_OUTPUT; else echo "REGISTRY=ghcr.io" >> $GITHUB_OUTPUT;  fi          
+          if [ "${{ github.repository }}" == "eclipse-tractusx/knowledge-agents-aas-bridge" ]; then echo "REPO=tractusx" >> $GITHUB_OUTPUT; else echo "REPO=ghcr.io/${{ github.repository }}" >> $GITHUB_OUTPUT;  fi
+          exit 0
+
       # Get the Code
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -74,36 +78,28 @@ jobs:
       # Setup build environment
       - uses: ./.github/actions/setup-java
 
-      # Enabled deployment access (if either running on main or a version tag on eclipse-tractusx) 
-      - name: Login to GitHub Container Registry
-        if: ${{ github.repository == 'eclipse-tractusx/knowledge-agents-aas-bridge' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) }}
+      # Enable deployment access (on main branch and version tags only)
+      - name: Login to Container Registry
+        if: ${{ ( github.ref == 'refs/heads/main' ||  startsWith(github.ref, 'refs/tags/v')) }}
         uses: docker/login-action@v2
         with:
+          registry: ${{ steps.set-docker-repo.outputs.REGISTRY }}
           # Use existing DockerHub credentials present as secrets
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      # Run Maven Deploy (if either running on main or a version tag on eclipse-tractusx) 
+          username: ${{ secrets.DOCKER_HUB_USER || github.actor }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN || secrets.GITHUB_TOKEN }}
+      
+      # Run Maven Deploy (if either running on main or a version tag)
       - name: Deploy Java via Maven
-        if: ${{ github.repository == 'eclipse-tractusx/knowledge-agents-aas-bridge'  && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) }}
+        if: ${{ ( github.ref == 'refs/heads/main' ||  startsWith(github.ref, 'refs/tags/v')) }}
         run: |
-          ./mvnw -s settings.xml deploy
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Run Maven Deploy (if either running on main or a version tag on eclipse-tractusx)
-      - name: Deploy Java & Docker via Maven
-        if: ${{ github.repository == 'catenax-ng/tx-knowledge-agents-aas-bridge'  && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) }}
-        run: |
-          ./mvnw -s settings.xml deploy -Drepo=ghcr.io/catenax-ng/tx-knowledge-agents-aas-bridge -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/catenax-ng/tx-knowledge-agents-aas-bridge
+          ./mvnw -s settings.xml deploy -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }}
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Run Maven Install (otherwise)
       - name: Build Java via Maven
-        if: ${{ (github.repository != 'eclipse-tractusx/knowledge-agents-aas-bridge' || github.repository != 'catenax-ng/tx-knowledge-agents-aas-bridge') || (github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/v')) }}
+        if: ${{ ( github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/v')) }}
         run: |
           ./mvnw -s settings.xml install
         env:
@@ -116,7 +112,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ env.IMAGE_NAMESPACE }}/aas-bridge
+            ${{ steps.set-docker-repo.outputs.REPO }}/aas-bridge
           # Automatically prepare image tags; See action docs for more examples. 
           # semver patter will generate tags like these for example :1 :1.2 :1.2.3
           tags: |
@@ -135,7 +131,7 @@ jobs:
           context: sparql-aas/.
           file: sparql-aas/src/main/docker/Dockerfile
           # Build image for verification purposes on every trigger event. Only push if event is not a PR
-          push: ${{ (github.repository == 'eclipse-tractusx/knowledge-agents-aas-bridge') && (github.ref == 'refs/heads/main' ||  startsWith(github.ref, 'refs/tags/v')) }}
+          push: ${{ (github.ref == 'refs/heads/main' ||  startsWith(github.ref, 'refs/tags/v')) }}
           tags: ${{ steps.meta-conf.outputs.tags }}
           labels: ${{ steps.meta-conf.outputs.labels }}
 
@@ -145,7 +141,7 @@ jobs:
         uses: peter-evans/dockerhub-description@v3
         with:
           readme-filepath: sparql-aas/README.md 
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-          repository: ${{ env.IMAGE_NAMESPACE }}/aas-bridge
+          username: ${{ secrets.DOCKER_HUB_USER || github.actor }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN || secrets.GITHUB_TOKEN }}
+          repository: ${{ steps.set-docker-repo.outputs.REPO }}/aas-bridge
 

@@ -64,7 +64,7 @@
         <snappy.version>1.1.10.2</snappy.version>
         <postgres.version>42.6.0</postgres.version>
         <!-- REPO -->
-        <repo>ghcr.io/catenax-ng/tx-knowledge-agents-aas-bridge/</repo>
+        <repo>tractusx/</repo>
         <platform>linux/amd64</platform>
     </properties>    
     <modules>

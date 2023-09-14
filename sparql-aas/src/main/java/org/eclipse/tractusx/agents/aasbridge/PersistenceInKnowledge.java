@@ -34,6 +34,8 @@ import de.fraunhofer.iosb.ilt.faaast.service.typing.TypeInfo;
 import de.fraunhofer.iosb.ilt.faaast.service.util.Ensure;
 import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
@@ -46,6 +48,8 @@ import java.util.Set;
 public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledgeConfig> {
 
     private static final String MSG_MODIFIER_NOT_NULL = "The message modifier cannot be null";
+
+    protected final Logger logger= LoggerFactory.getLogger(this.getClass());
     PersistenceInKnowledgeConfig persistenceConfig;
     CoreConfig coreConfig;
     ServiceContext serviceContext;
@@ -57,6 +61,7 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
 
     @Override
     public void init(CoreConfig coreConfig, PersistenceInKnowledgeConfig persistenceInKnowledgeConfig, ServiceContext serviceContext) throws ConfigurationInitializationException {
+        logger.info("Initializing AAS Bridge Persistence");
         Ensure.requireNonNull(coreConfig, "coreConfig must be non-null");
         Ensure.requireNonNull(persistenceInKnowledgeConfig, "config must be non-null");
         Ensure.requireNonNull(serviceContext, "context must be non-null");
@@ -142,6 +147,7 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
 
     @Override
     public AssetAdministrationShellEnvironment getEnvironment() {
+        logger.info("Environment requested");
         return model;
     }
 

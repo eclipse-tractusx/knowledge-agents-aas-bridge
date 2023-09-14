@@ -61,7 +61,7 @@ spec:
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.aas.endpoints.default.path }}/match?asset=TestAsset
+              path: {{ .Values.aas.endpoints.default.path }}/serialization?includeConceptDescriptions=true
               port: default
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -70,7 +70,7 @@ spec:
           {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.aas.endpoints.default.path }}/match?asset=TestAsset
+              path: {{ .Values.aas.endpoints.default.path }}/serialization?includeConceptDescriptions=true
               port: default
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
@@ -79,7 +79,7 @@ spec:
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
             httpGet:
-              path: {{ .Values.aas.endpoints.default.path }}/match?asset=TestAsset
+              path: {{ .Values.aas.endpoints.default.path }}/serialization?includeConceptDescriptions=true
               port: default
             failureThreshold: {{ .Values.startupProbe.failureThreshold }}
             periodSeconds: {{ .Values.startupProbe.periodSeconds }}
@@ -95,6 +95,22 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: "configuration"
+              mountPath: "/app/opentelemetry.properties"
+              subPath: "opentelemetry.properties"
+            - name: tmp
+              mountPath: /tmp
+              readOnly: false
+      volumes:
+        - name: "configuration"
+          configMap:
+            name: {{ include "agent.fullname" . }}-configmap
+            items:
+                - key: "opentelemetry.properties"
+                  path: "opentelemetry.properties"
+        - name: "tmp"
+          emptyDir: { }
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

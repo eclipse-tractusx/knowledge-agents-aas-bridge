@@ -23,4 +23,7 @@ metadata:
   labels:
     {{- include "agent.labels" . | nindent 4 }}
 data:
+  opentelemetry.properties: |-
+    {{- .Values.opentelemetry | nindent 4 }}
+
 

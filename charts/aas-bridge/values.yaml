@@ -133,7 +133,7 @@ startupProbe:
   # -- Whether to enable kubernetes startup-probes
   enabled: true
   # -- Minimum consecutive failures for the probe to be considered failed after having succeeded
-  failureThreshold: 18
+  failureThreshold: 4
   # -- Number of seconds after the container has started before liveness probes are initiated.
   initialDelaySeconds: 60
   # -- Number of seconds each period lasts.
@@ -191,14 +191,14 @@ ingresses:
       clusterIssuer: ""
 
 # -- [Resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) applied to the deployed pod
-# We recommend 20% of a cpu and 256MB per endpoint
+# We recommend 40% of a cpu and 512MB for a small size of twins
 resources:
   requests:
-    cpu: 200m
-    memory: 256Mi
+    cpu: 400m
+    memory: 512Mi
   limits:
-    cpu: 200m
-    memory: 256Mi
+    cpu: 400m
+    memory: 512Mi
 
 autoscaling:
   # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
@@ -229,3 +229,9 @@ env: {}
 
 # -- [Kubernetes Secret Resource](https://kubernetes.io/docs/concepts/configuration/secret/) name to load environment variables from
 envSecretName:
+
+# -- configuration of the [Open Telemetry Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/) to collect and expose metrics
+opentelemetry: |-
+ otel.javaagent.enabled=false
+ otel.javaagent.debug=false
+
