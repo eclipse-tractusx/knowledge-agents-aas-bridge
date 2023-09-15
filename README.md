@@ -27,7 +27,7 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/eclipse-tractusx/knowledge-agents-aas-bridge/total)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_knowledge-agents-aas-bridge&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_knowledge-agents-aas-bridge)
 
-Tractus-X Knowledge Agents AAS Bridges (KA-AAS is a product of the [Catena-X Knowledge Agents Kit (about to move to: Tractus-X Knowledge Agents Kit)](https://bit.ly/tractusx-agents). It implements bridging components between the [Catena-X Association's](http://catena-x.net) CX-0084 (Federated Queries in Dataspaces) and [Industrial Digitial Twin Association's](https://industrialdigitaltwin.org/) AAS Part 1 & 2 (Asset Administration Sheel) standards. 
+Tractus-X Knowledge Agents AAS Bridges (KA-AAS) is a product of the [Catena-X Knowledge Agents Kit (about to move to: Tractus-X Knowledge Agents Kit)](https://bit.ly/tractusx-agents). It implements bridging components between the [Catena-X Association's](http://catena-x.net) CX-0084 (Federated Queries in Dataspaces) and [Industrial Digitial Twin Association's](https://industrialdigitaltwin.org/) AAS Part 1 & 2 (Asset Administration Sheel) standards. 
 
 * See the [Authors](AUTHORS.md)
 * See the [Changelog](CHANGELOG.md)
@@ -50,7 +50,7 @@ Both Knowledge Agents as well as AAS components are expected to be compatible to
 
 Currently we provide the following bridge components: 
 
-- [Knowledge Agents AAS Bridge (KA-AAS-SPARQL-AAS)](sparql-aas) Implements an AAS server/AAS registry interface that is backed by a one or several agents. Using a templating approach, queries to the AAS API are translated into SPARQL queries. Changes in the (virtual) knowledge graph should be automatically reflected in changes to the resulting (virtual) AAS tree. 
+- [Knowledge Agents Sparql-To-AAS Bridge (KA-AAS-SPARQL-AAS)](sparql-aas) Implements an AAS server/AAS registry interface that is backed by a one or several agents. Using a templating approach, queries to the AAS API are translated into SPARQL queries. Changes in the (virtual) knowledge graph should be automatically reflected in changes to the resulting (virtual) AAS tree. 
 
 Included in this repository are ready-made [Helm charts](charts). 
 
@@ -80,9 +80,9 @@ Deployment can be done
 * via [Helm Charts (Stable Versions)](https://eclipse-tractusx.github.io/charts/stable) or [Helm Charts (Dev Versions)](https://eclipse-tractusx.github.io/charts/stable)
 
 See the individual bridge documentations for more detailed deployment information
-* [Knowledge Agents AAS Bridge](sparql-aas/README.md)
+* [Knowledge Agents Sparql-To-AAS Bridge](sparql-aas/README.md)
 
 ### Notice for Docker Images
 
-* [Notice for Knowledge Agents AAS Bridge](sparql-aas/README.md#notice-for-docker-images)
+* [Notice for Knowledge Agents Sparql-To-AAS Bridge](sparql-aas/README.md#notice-for-docker-images)
 
