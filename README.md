@@ -50,7 +50,7 @@ Both Knowledge Agents as well as AAS components are expected to be compatible to
 
 Currently we provide the following bridge components: 
 
-- [Knowledge Agents Sparql-To-AAS Bridge (KA-AAS-SPARQL-AAS)](sparql-aas) Implements an AAS server/AAS registry interface that is backed by a one or several agents. Using a templating approach, queries to the AAS API are translated into SPARQL queries. Changes in the (virtual) knowledge graph should be automatically reflected in changes to the resulting (virtual) AAS tree. 
+- [Knowledge Agents Sparql-To-AAS Bridge (KA-AAS-SPARQL)](sparql-aas) Implements an AAS server/AAS registry interface that is backed by a one or several agents. Using a templating approach, queries to the AAS API are translated into SPARQL queries. Changes in the (virtual) knowledge graph should be automatically reflected in changes to the resulting (virtual) AAS tree. 
 
 Included in this repository are ready-made [Helm charts](charts). 
 
@@ -80,9 +80,9 @@ Deployment can be done
 * via [Helm Charts (Stable Versions)](https://eclipse-tractusx.github.io/charts/stable) or [Helm Charts (Dev Versions)](https://eclipse-tractusx.github.io/charts/stable)
 
 See the individual bridge documentations for more detailed deployment information
-* [Knowledge Agents Sparql-To-AAS Bridge](sparql-aas/README.md)
+* [Knowledge Agents Sparql-To-AAS Bridge (KA-AAS-SPARQL)](sparql-aas/README.md)
 
 ### Notice for Docker Images
 
-* [Notice for Knowledge Agents Sparql-To-AAS Bridge](sparql-aas/README.md#notice-for-docker-images)
+* [Notice for Knowledge Agents Sparql-To-AAS Bridge (KA-AAS-SPARQL)](sparql-aas/README.md#notice-for-docker-images)
 

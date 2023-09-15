@@ -34,7 +34,7 @@
     <groupId>org.eclipse.tractusx.agents</groupId>
     <artifactId>aas-bridge</artifactId>
     
-    <name>Tractus-X Knowledge Agents AAS Bridge</name>
+    <name>Tractus-X Knowledge Agents Sparql-To-AAS Bridge</name>
     <description>Implements an AAS server and registry based on a (virtual) knowledge graph.</description>
     <url>http://catena-x.net/</url>
 
@@ -62,9 +62,18 @@
                 <directory>../../</directory>
                 <targetPath>META-INF</targetPath>
                 <includes>
-                    <include>NOTICE.md</include>
                     <include>LICENSE</include>
+                    <include>DEPENDENCIES</include>
+                    <include>SECURITY.md</include>
+                    <include>NOTICE.md</include>
                 </includes>
+            </resource>
+            <resource>
+                <directory>.</directory>
+                <includes>
+                    <include>README.md</include>
+                </includes>
+                <targetPath>META-INF</targetPath>
             </resource>
         </resources>
 
@@ -109,6 +118,14 @@
                      </systemPropertyVariables>
                  </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+            </plugin>
+            <!--<plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
+            </plugin>-->
         </plugins>
     </build>
 

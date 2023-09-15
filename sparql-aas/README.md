@@ -1,19 +1,31 @@
-## AAS-Bridge
+## Tractus-X Knowledge Agents Sparql-To-AAS Bridge (KA-AAS-SPARQL)
 
 The AAS-Bridge exposes information from the Knowledge Graph via the APIs of the Asset Administration Shell. It builds
 upon the FAAAST Framework and the AAS4J-Transformation-Library.
 
-Please note that this project is highly experimental, unstable and feature-incomplete.
-
 ### Configuration
 
-By default, the AAS-Bridge has four Mapping Configurations included - one for each submodel. A mapping configuration 
-must be provided by the User on startup as part of the PersistenceInKnowledge implementation of the FAAAST-Persistence
-API. It consists of three files:
-- A sparql-query that fetches all data from the graph adhering to the structure.
-- A sparql-query that only queries for all data relating to a particular identifier.
-- The MappingSpecification how to translate that query-response into AAS.
-- The semanticId of the Submodel built from the respective MappingSpecification.
+By default, the AAS-Bridge scans for "domain" folders (see e.g. the [traceability domain](resources/traceability)) in the "resources" directory 
+in which the AAS-Bridge [Java Application](src/main/java/org/eclipse/tractusx/agents/aasbridge/AasBridge.java) has been started. 
+
+#### Domain Folders in the Resource Directory
+
+Each domain describes a set of equally structured digital twins (in above example these are serialized parts along the Catena-X Ontology and its Traceability Semantic Models).
+All twins of a domain are hosted in the same graph and they share the same set of submodels.
+
+#### Mapping Configuration
+
+The structure (shell) of such a twin as well as the submodels are each described by a mapping configuration which is backed
+by a set of files which share a common prefix and end with a suffix which describes their role.
+
+A mapping configuration (for the sample the "partAsPlanned" submodel) consists of three files:
+- An [Unbound Query select-all.rq](resources/traceability/partAsPlanned-select-all.rq) is a non-parameterized SPARQL query that when executed against the graph will generated a dataset of part information for all parts appearing in the graph.
+- A [Bound Query select-some.rq](resources/traceability/partAsPlanned-select-some.rq) is a parameterized SPARQL query that will be given an argument ("%s") which will be formatted with the set of IRI literals coinciding to the IDs of the selected twins/parts.
+- A [Mapping Specification mapping.json](resources/traceability/partAsPlanned-mapping.json) that is an template (AAS4J Mapping Specification) which transforms the SPARQL result sets of above queries into an temporary AAS4J environment. This environment will be used to answer the respective endpoint query against the AAS server. After the query, the environment will be freed from memory, again.
+
+Each mapping configuration (mapping.json) will introduce the namespace "semanticId". 
+If the "semanticId" is "https://w3id.org/catenax/ontology/aas#", then the mapping configuration will be used to build AssetAdministationShells (the actual twin "headers").
+Otherwise, the "semanticId" will be used to identifiy the respective submodel (and will be referred to in the [Shell mapping.json](resources/traceability/aas-mapping.json), the [Shell select-all.rq](resources/traceability/aas-select-all.rq) and [Shell select-some.rq](resources/traceability/aas-select-some.rq))
 
 #### Mapping Specification
 
@@ -25,3 +37,64 @@ the asset. How this can be achieved via configuration is demonstrated in the exa
 under `genSubmodelId`.
 3. If not provided explicitly, the function `AasUtils.loadConfigsFromResources()` will search the AAS-Bridge's resources
 folder for a set of the necessary data. The folder- and naming-convention must be adhered to strictly.
+
+## Building
+
+You could invoke the following command to compile and test the Sparql-To-AAS bridge
+
+```console
+mvn -s ../../../settings.xml install
+```
+
+## Deployment & Usage
+
+### Containerizing 
+
+You could invoke the following command to build the Sparql-To-AAS bridge
+
+```console
+mvn -s ../../../settings.xml install -Pwith-docker-image
+```
+
+Alternatively, after a sucessful [build](#building) the docker image of the Sparql-To-AAS bridge is created using
+
+```console
+docker build -t tractusx/aas-bridge:0.10.2-SNAPSHOT -f src/main/docker/Dockerfile .
+```
+
+To run the docker image, you could invoke this command
+
+```console
+docker run -p 8080:8080 \
+  -v $(pwd)/resources:/app/resources \
+  tractusx/aas-bridge:0.10.2-SNAPSHOT
+````
+
+Afterwards, you should be able to access the [local AAS endpoint](http://localhost:8080/) via REST
+
+```console
+curl --request GET 'http://localhost:8080/serialization?includeConceptDescriptions=true'
+```
+
+### Notice for Docker Image
+
+DockerHub: https://hub.docker.com/r/tractusx/aas-bridge
+
+Eclipse Tractus-X product(s) installed within the image:
+GitHub: https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge/tree/main/sparql-aas
+Project home: https://projects.eclipse.org/projects/automotive.tractusx
+Dockerfile: https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge/blob/main/sparql-aas/src/main/docker/Dockerfile
+Project license: Apache License, Version 2.0
+
+
+**Used base image**
+
+- [eclipse-temurin:17-jre-alpine](https://github.com/adoptium/containers)
+- Official Eclipse Temurin DockerHub page: https://hub.docker.com/_/eclipse-temurin
+- Eclipse Temurin Project: https://projects.eclipse.org/projects/adoptium.temurin
+- Additional information about the Eclipse Temurin images: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
+
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
