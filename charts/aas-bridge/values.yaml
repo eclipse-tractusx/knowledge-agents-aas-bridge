@@ -75,7 +75,7 @@ automountServiceAccountToken: false
 # -- [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) added to deployed [pods](https://kubernetes.io/docs/concepts/workloads/pods/)
 podAnnotations: {}
 # Uncomment this and remove parenthesis if you want to enable apparmor
-# container.apparmor.security.beta.kubernetes.io/conforming-agent: runtime/default
+# container.apparmor.security.beta.kubernetes.io/aas-bridge: runtime/default
 
 # The [pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) defines privilege and access control settings for a Pod within the deployment
 podSecurityContext:
@@ -191,14 +191,14 @@ ingresses:
       clusterIssuer: ""
 
 # -- [Resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) applied to the deployed pod
-# We recommend 40% of a cpu and 512MB for a small size of twins
+# We recommend 40% of a cpu and unfortunately 1Gi to initialise the library
 resources:
   requests:
     cpu: 400m
-    memory: 512Mi
+    memory: 1Gi
   limits:
     cpu: 400m
-    memory: 512Mi
+    memory: 1Gi
 
 autoscaling:
   # -- Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
@@ -223,8 +223,7 @@ affinity: {}
 
 # -- Container environment variables e.g. for configuring [JAVA_TOOL_OPTIONS](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/envvars002.html)
 # Ex.:
-#   JAVA_TOOL_OPTIONS: >
-#     -Dhttp.proxyHost=proxy -Dhttp.proxyPort=80 -Dhttp.nonProxyHosts="localhost|127.*|[::1]" -Dhttps.proxyHost=proxy -Dhttps.proxyPort=443
+#       JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040"
 env: {}
 
 # -- [Kubernetes Secret Resource](https://kubernetes.io/docs/concepts/configuration/secret/) name to load environment variables from
