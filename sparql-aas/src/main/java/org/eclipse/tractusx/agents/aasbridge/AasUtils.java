@@ -51,7 +51,7 @@ public class AasUtils {
      * investigates the filesystems resources folder to find mappings
      * @return a domain of mapping configurations
      */
-    public static List<MappingConfiguration> loadConfigsFromResources() {
+    public static Map<String,List<MappingConfiguration>> loadConfigsFromResources() {
 
         logger.info("About to load mapping configurations.");
 
@@ -70,6 +70,7 @@ public class AasUtils {
 
         return files.stream()
                     .map(relativePath -> {
+                        String[] components=relativePath.split("/");
                         String mappingPath= searchPath.getPath()+"/"+relativePath;
                         try {
                             MappingSpecification spec = new MappingSpecificationParser().loadMappingSpecification(mappingPath);
@@ -88,6 +89,7 @@ public class AasUtils {
                                 selectAllFile=null;
                             }
                             return new MappingConfiguration(
+                                components[0],
                                 spec,
                                 selectSomeFile,
                                 selectAllFile,
@@ -99,7 +101,7 @@ public class AasUtils {
                         }
                     })
                     .filter(conf->conf!=null)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.groupingBy(MappingConfiguration::getDomain));
     }
 
     public static AssetAdministrationShellEnvironment mergeAasEnvs(Set<AssetAdministrationShellEnvironment> aasEnvs) {

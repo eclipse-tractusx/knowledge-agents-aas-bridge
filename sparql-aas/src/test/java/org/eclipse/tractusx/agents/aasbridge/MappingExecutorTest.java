@@ -74,7 +74,7 @@ class MappingExecutorTest {
 
         assertEquals(18, env.getSubmodels().size());
         env.getAssetAdministrationShells().forEach(aas ->
-                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
+                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().contains("urn:uuid")));
         assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c")));
         assertEquals(7, env.getConceptDescriptions().size());
         assertEquals(8, env.getSubmodels().stream()
@@ -90,7 +90,7 @@ class MappingExecutorTest {
         assertEquals(28, env.getSubmodels().size());
         assertEquals(9, env.getConceptDescriptions().size());
         env.getAssetAdministrationShells().forEach(aas ->
-                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
+                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().contains("urn:uuid")));
         assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:e3e2a4d8-58bc-4ae9-afa2-e8946fda1f77")));
     }
 
@@ -102,7 +102,7 @@ class MappingExecutorTest {
         assertEquals(12, env.getSubmodels().size());
         assertEquals(13, env.getConceptDescriptions().size());
         env.getAssetAdministrationShells().forEach(aas ->
-                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
+                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().contains("urn:uuid")));
         assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97")));
         assertEquals(3, env.getSubmodels().stream()
                 .filter(sm -> getProperty(sm, "catenaXId").equals("urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b"))
@@ -120,7 +120,7 @@ class MappingExecutorTest {
         assertEquals(30, env.getSubmodels().size());
         assertEquals(13, env.getConceptDescriptions().size());
         env.getAssetAdministrationShells().forEach(aas ->
-                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
+                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().contains("urn:uuid")));
         assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:f5efbf45-7d84-4442-b3b8-05cf1c5c5a0b")));
         assertEquals(2, env.getSubmodels().stream()
                 .filter(sm -> getProperty(sm, "catenaXId").equals("urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc"))
@@ -153,7 +153,7 @@ class MappingExecutorTest {
      */
     @Test
     void queryOneShell() throws InterruptedException {
-        String sampleId="urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97";
+        String sampleId="traceability/urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97";
         MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
         List<AssetAdministrationShell> shells = ex.queryAllShells(
                 sampleId,
@@ -168,7 +168,9 @@ class MappingExecutorTest {
         assertEquals(sampleId,shells.get(0).getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue(),"Correct global asset id");
         assertEquals(4,shells.get(0).getSubmodels().size(),"Correct number of submodels");
         shells.get(0).getSubmodels().forEach( submodel -> {
-                    assertTrue(submodel.getKeys().get(0).getValue().endsWith(shells.get(0).getIdShort()),"Submodel reference startswith twin id");
+            String[] components=shells.get(0).getIdShort().split("/");
+            assertTrue(submodel.getKeys().get(0).getValue().startsWith(components[0]),"Submodel reference starts with domain of twin id");
+            assertTrue(submodel.getKeys().get(0).getValue().endsWith(components[1]),"Submodel reference ends with unique part of twin id");
         });
     }
 
@@ -188,7 +190,9 @@ class MappingExecutorTest {
             assertEquals(shell.getIdShort(),shell.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue(),"Correct global asset id and idshort relation");
             assertTrue(shell.getSubmodels().size() > 0,String.format("Shell %s has at least one submodel",shell.getIdShort()));
             shell.getSubmodels().forEach( submodel -> {
-                   assertTrue(submodel.getKeys().get(0).getValue().endsWith(shell.getIdShort()),"Submodel reference starts with shell id");
+                String[] components=shell.getIdShort().split("/");
+                assertTrue(submodel.getKeys().get(0).getValue().startsWith(components[0]),String.format("Submodel reference %s starts with domain of twin id %s",submodel.getKeys().get(0).getValue(),components[0]));
+                assertTrue(submodel.getKeys().get(0).getValue().endsWith(components[1]),String.format("Submodel reference %s ends with unique part of twin id %s",submodel.getKeys().get(0).getValue(),components[1]));
             });
         });
     }
@@ -204,7 +208,7 @@ class MappingExecutorTest {
         String model="urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned";
         MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
         Identifier identifier=new DefaultIdentifier();
-        identifier.setIdentifier(model+"/"+sampleId);
+        identifier.setIdentifier("traceability/"+model+"/"+sampleId);
         Identifiable subModel = ex.queryIdentifiableById(identifier, Submodel.class);
         assertNotNull(subModel, "Found the submodel");
         assertTrue(subModel instanceof Submodel,"Its a real submodel");

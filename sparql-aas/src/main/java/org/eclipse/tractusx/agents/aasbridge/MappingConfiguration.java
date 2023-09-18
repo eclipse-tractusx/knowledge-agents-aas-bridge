@@ -22,17 +22,32 @@ import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 
 import java.io.File;
 
+/**
+ * a mapping configuration holds together a (submmodel/aas) template with its
+ * queries. It is always located in some domain
+ */
 public class MappingConfiguration {
-    private MappingSpecification mappingSpecification;
-    private File getOneQueryTemplate;
-    private File getAllQuery;
-    private String semanticId;
+    private final MappingSpecification mappingSpecification;
+    private final File getOneQueryTemplate;
+    private final File getAllQuery;
+    private final String semanticId;
+    private final String domain;
 
-    public MappingConfiguration(MappingSpecification mappingSpecification, File getOneQueryTemplate, File getAllQuery, String semanticId) {
+    /**
+     * Creates a new mapping configuration
+     * @param domain the domain identifier
+     * @param mappingSpecification the template
+     * @param getOneQueryTemplate the query to obtain one or several twins/submodels
+     * @param getAllQuery the query to get all twins/submodels, may be empty if that would be too expensive
+     * @param semanticId the semantic id associated to the aas/submodel template
+     */
+
+    public MappingConfiguration(String domain, MappingSpecification mappingSpecification, File getOneQueryTemplate, File getAllQuery, String semanticId) {
         this.mappingSpecification = mappingSpecification;
         this.getOneQueryTemplate = getOneQueryTemplate;
         this.getAllQuery = getAllQuery;
         this.semanticId = semanticId;
+        this.domain=domain;
     }
 
 
@@ -51,4 +66,6 @@ public class MappingConfiguration {
     public String getSemanticId() {
         return semanticId;
     }
+
+    public String getDomain() { return domain; }
 }

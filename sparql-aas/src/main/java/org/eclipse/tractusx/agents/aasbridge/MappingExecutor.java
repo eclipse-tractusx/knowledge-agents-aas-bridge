@@ -39,12 +39,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.time.Duration;
+import java.util.AbstractMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
@@ -61,9 +64,9 @@ public class MappingExecutor {
     private final int timeoutSeconds;
     private final HttpClient client;
 
-    final private List<MappingConfiguration> mappings;
+    final private Map<String,List<MappingConfiguration>> mappings;
 
-    public MappingExecutor(URI sparqlEndpoint, String credentials, int timeoutSeconds, int fixedThreadPoolSize, List<MappingConfiguration> mappings) {
+    public MappingExecutor(URI sparqlEndpoint, String credentials, int timeoutSeconds, int fixedThreadPoolSize, Map<String,List<MappingConfiguration>> mappings) {
         this.mappings = mappings;
         this.transformer = new GenericDocumentTransformer();
         this.sparqlEndpoint = URI.create(sparqlEndpoint.toString());
@@ -101,22 +104,6 @@ public class MappingExecutor {
         } catch (IOException e) {
             throw new RuntimeException("Couldn't parse the query result provided",e);
         }
-    }
-
-    /**
-     * @return the resulting AAS Environment contains multiple AAS with a single submodel each.
-     */
-    public AssetAdministrationShellEnvironment executeGetAllMappings() {
-        Set<AssetAdministrationShellEnvironment> envs = mappings.stream()
-                .map(m -> {
-                    try {
-                        return executeMapping(Files.readString(m.getGetAllQuery().toPath()), m.getMappingSpecification());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).collect(Collectors.toSet());
-
-        return AasUtils.mergeAasEnvs(envs);
     }
 
     public AssetAdministrationShellEnvironment executeMapping(String query, MappingSpecification specification) {
@@ -168,11 +155,13 @@ public class MappingExecutor {
      */
     public Identifiable queryIdentifiableById(Identifier identifier, Class<? extends Identifiable> type)  {
         if (type.isAssignableFrom(Submodel.class)) {
-            String submodelSemanticId = identifier.getIdentifier().split("/")[0];
-            MappingConfiguration mapping = mappings.stream()
-                    .filter(m -> m.getSemanticId().equals(submodelSemanticId))
+            String[] components=identifier.getIdentifier().split("/");
+            String domain=components[0];
+            String semanticId=components[1];
+            MappingConfiguration mapping = mappings.get(domain).stream()
+                    .filter(m -> m.getSemanticId().equals(semanticId))
                     .findFirst().orElseThrow();
-            String parametrized = parametrizeQuery(mapping.getGetOneQueryTemplate(), identifier.getIdentifier().split("/")[1]);
+            String parametrized = parametrizeQuery(mapping.getGetOneQueryTemplate(), components[2]);
             return executeMapping(parametrized, mapping.getMappingSpecification())
                     .getSubmodels()
                     .get(0); //should only be one
@@ -199,80 +188,106 @@ public class MappingExecutor {
 
     // may return an aas with assetId global even when queried as specific
     public List<AssetAdministrationShell> queryAllShells(String idShort, List<AssetIdentification> assetIds) {
-        var aasMappings=mappings.stream().filter(mapping-> mapping.getSemanticId().equals("https://w3id.org/catenax/ontology/aas#")).findFirst();
-        if(aasMappings.isEmpty()) {
-            return List.of();
-        } else {
-            MappingConfiguration config = aasMappings.get();
-            if (assetIds == null && idShort == null) {
-                File template = config.getGetAllQuery();
-                String query = parametrizeQuery(template);
-                try {
-                    InputStream in = executeQuery(query).get();
-                    String result = new String(in.readAllBytes());
-                    if (queryResultEmpty(result)) {
-                        return null;
-                    }
-                    AssetAdministrationShellEnvironment transformedEnv = transformer.execute(new ByteArrayInputStream(result.getBytes()),
-                            config.getMappingSpecification());
-                    return transformedEnv.getAssetAdministrationShells();
-                } catch (URISyntaxException | IOException | ExecutionException | InterruptedException |
-                         TransformationException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                if(assetIds==null)
-                    assetIds=List.of(new SpecificAssetIdentification.Builder().value(idShort).build());
-                var candidates = assetIds.stream().map(id -> {
-                    if (id.getClass().isAssignableFrom(GlobalAssetIdentification.class)) {
-                        GlobalAssetIdentification gaid = (GlobalAssetIdentification) id;
-                        return gaid.getReference().getKeys().get(0).getValue();
-                    } else if (id.getClass().isAssignableFrom(SpecificAssetIdentification.class)) {
-                        SpecificAssetIdentification said = (SpecificAssetIdentification) id;
-                        return said.getValue();
-                    } else {
-                        return String.valueOf(id);
-                    }
-                }).collect(Collectors.toList());
+        if (assetIds == null && idShort == null) {
+            return mappings.values().stream().
+                    flatMap( mappings -> mappings.stream().flatMap(mapping-> {
+                        if(mapping.getSemanticId().equals("https://w3id.org/catenax/ontology/aas#")) {
+                            File template = mapping.getGetAllQuery();
+                            String query = parametrizeQuery(template);
+                            try {
+                                InputStream in = executeQuery(query).get();
+                                String result = new String(in.readAllBytes());
+                                if (queryResultEmpty(result)) {
+                                    return null;
+                                }
+                                AssetAdministrationShellEnvironment transformedEnv = transformer.execute(new ByteArrayInputStream(result.getBytes()),
+                                        mapping.getMappingSpecification());
+                                return transformedEnv.getAssetAdministrationShells().stream();
+                            } catch (URISyntaxException | IOException | ExecutionException | InterruptedException |
+                                     TransformationException e) {
+                                throw new RuntimeException(e);
+                            }
 
-                File template = config.getGetOneQueryTemplate();
-                String query = parametrizeQuery(template, candidates);
-                try {
-                    InputStream in = executeQuery(query).get();
-                    String result = new String(in.readAllBytes());
-                    if (queryResultEmpty(result)) {
-                        return null;
-                    }
-                    AssetAdministrationShellEnvironment transformedEnv = transformer.execute(new ByteArrayInputStream(result.getBytes()),
-                            config.getMappingSpecification());
-                    return transformedEnv.getAssetAdministrationShells();
-                } catch (URISyntaxException | IOException | ExecutionException | InterruptedException |
-                         TransformationException e) {
-                    throw new RuntimeException(e);
+                        } else {
+                            return Stream.of();
+                        }
+                    })).collect(Collectors.toList());
+        } else {
+            if(assetIds==null)
+                assetIds=List.of(new SpecificAssetIdentification.Builder().value(idShort).build());
+            Map<String,List<Map.Entry<String,String>>> domainIds=assetIds.stream().map( id -> {
+                String idString;
+                String domain;
+                if (id.getClass().isAssignableFrom(GlobalAssetIdentification.class)) {
+                    GlobalAssetIdentification gaid = (GlobalAssetIdentification) id;
+                    idString=gaid.getReference().getKeys().get(0).getValue();
+                } else if (id.getClass().isAssignableFrom(SpecificAssetIdentification.class)) {
+                    SpecificAssetIdentification said = (SpecificAssetIdentification) id;
+                    idString=said.getValue();
+                } else {
+                    idString=String.valueOf(id);
                 }
-            }
+                String[] components=idString.split("/");
+                return new AbstractMap.SimpleEntry(components[0],components[1]);
+            }).collect(Collectors.groupingBy(Map.Entry<String,String>::getKey));
+
+            return domainIds.entrySet().stream().flatMap(
+                    idsPerDomain -> {
+                        return mappings.get(idsPerDomain.getKey()).stream().filter( mapping -> mapping.getSemanticId().equals("https://w3id.org/catenax/ontology/aas#")).flatMap(
+                              aasMapping -> {
+                                  List<String> candidates=idsPerDomain.getValue().stream().map(Map.Entry<String,String>::getValue).collect(Collectors.toList());
+                                  File template = aasMapping.getGetOneQueryTemplate();
+                                  String query = parametrizeQuery(template, candidates);
+                                  try {
+                                      InputStream in = executeQuery(query).get();
+                                      String result = new String(in.readAllBytes());
+                                      if (queryResultEmpty(result)) {
+                                          return null;
+                                      }
+                                      AssetAdministrationShellEnvironment transformedEnv = transformer.execute(new ByteArrayInputStream(result.getBytes()),
+                                              aasMapping.getMappingSpecification());
+                                      return transformedEnv.getAssetAdministrationShells().stream();
+                                  } catch (URISyntaxException | IOException | ExecutionException | InterruptedException |
+                                           TransformationException e) {
+                                      throw new RuntimeException(e);
+                                  }
+                              }
+                        );
+                    }
+            ).collect(Collectors.toList());
         }
     }
 
 
     public List<Submodel> queryAllSubmodels(String idShort, Reference semanticId) {
         if (semanticId == null) {
-            return executeGetAllMappings().getSubmodels();
+            return mappings.values().stream().flatMap( domainMappings -> domainMappings.stream().flatMap(
+                    mapping -> {
+                        if (!mapping.getSemanticId().equals("https://w3id.org/catenax/ontology/aas#")) {
+                            try {
+                                String query = Files.readString(mapping.getGetAllQuery().toPath());
+                                return executeMapping(query, mapping.getMappingSpecification()).getSubmodels().stream();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else {
+                            return Stream.of();
+                        }
+                    })).collect(Collectors.toList());
         } else {
-
-            MappingConfiguration mappingConfiguration = mappings.stream()
-                    .filter(m -> m.getSemanticId().equals(semanticId.getKeys().get(0).getValue()))
-                    .findFirst().orElseThrow();
-            try {
-                String query = Files.readString(mappingConfiguration.getGetAllQuery().toPath());
-                return executeMapping(query, mappingConfiguration.getMappingSpecification())
-                        .getSubmodels();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            // maybe remove the conceptdescriptions and aas-part from mappings
-
+            return mappings.values().stream().flatMap( domainMappings -> domainMappings.stream().flatMap(
+                 mapping -> {
+                     if (mapping.getSemanticId().equals(semanticId.getKeys().get(0).getValue())) {
+                         try {
+                             String query = Files.readString(mapping.getGetAllQuery().toPath());
+                             return executeMapping(query, mapping.getMappingSpecification()).getSubmodels().stream();
+                         } catch (IOException e) {
+                             throw new RuntimeException(e);
+                         }
+                     } else {
+                         return Stream.of();
+                     }
+                 })).collect(Collectors.toList());
         }
     }
 

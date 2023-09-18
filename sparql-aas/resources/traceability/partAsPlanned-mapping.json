@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "aasVersion": "3.0RC01",
     "@variables": {
+      "domain": "traceability",
       "semanticId": "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
     },
     "@namespaces": {
@@ -13,6 +14,10 @@
       "genSubmodelId": {
         "@concatenate": [
           {
+            "@var": "domain"
+          },
+          "/",
+          {
             "@var": "semanticId"
           },
           "/",
@@ -20,7 +25,19 @@
             "@xpath": "."
           }
         ]
+      },
+      "genAssetId": {
+        "@concatenate": [
+          {
+            "@var": "domain"
+          },
+          "/",
+          {
+            "@xpath": "."
+          }
+        ]
       }
+
     }
   },
   "aasEnvironmentMapping": {
@@ -36,7 +53,7 @@
               {
                 "@bind": {
                   "value": {
-                    "@xpath": "."
+                    "@def": "genAssetId"
                   }
                 },
                 "idType": "Iri",
@@ -47,15 +64,13 @@
         },
         "@bind": {
           "idShort": {
-            "@xpath": "."
+            "@def": "genAssetId"
           }
         },
         "identification": {
           "@bind": {
             "id": {
-              "@generate_uuid": {
-                "@xpath": "."
-              }
+              "@def": "genAssetId"
             }
           },
           "idType": "Iri"

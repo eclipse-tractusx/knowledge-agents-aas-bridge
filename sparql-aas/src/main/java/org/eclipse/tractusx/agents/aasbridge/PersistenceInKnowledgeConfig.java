@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Configuration of the knowledge-backed persistence implementation.
@@ -31,17 +32,17 @@ import java.util.List;
 public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceInKnowledge> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersistenceInKnowledgeConfig.class);
-    private List<MappingConfiguration> mappings; // query to mappingspecification
+    private Map<String,List<MappingConfiguration>> mappings; // query to mappingspecification
     private URI providerSparqlEndpoint;
     private String credentials;
     private int threadPoolSize;
     private int timeoutSeconds;
 
-    public List<MappingConfiguration> getMappings() {
+    public Map<String,List<MappingConfiguration>> getMappings() {
         return mappings;
     }
 
-    public void setMappings(List<MappingConfiguration> mappings) {
+    public void setMappings(Map<String,List<MappingConfiguration>> mappings) {
         this.mappings = mappings;
     }
 
@@ -82,7 +83,7 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
     }
 
     private abstract static class AbstractBuilder<T extends PersistenceInKnowledgeConfig, B extends AbstractBuilder<T, B>> extends PersistenceConfig.AbstractBuilder<PersistenceInKnowledge, T, B> {
-        public B mappings(List<MappingConfiguration> value) {
+        public B mappings(Map<String,List<MappingConfiguration>> value) {
             getBuildingInstance().setMappings(value);
             return getSelf();
         }

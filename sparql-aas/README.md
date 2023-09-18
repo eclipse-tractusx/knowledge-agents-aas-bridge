@@ -11,7 +11,9 @@ in which the AAS-Bridge [Java Application](src/main/java/org/eclipse/tractusx/ag
 #### Domain Folders in the Resource Directory
 
 Each domain describes a set of equally structured digital twins (in above example these are serialized parts along the Catena-X Ontology and its Traceability Semantic Models).
-All twins of a domain are hosted in the same graph and they share the same set of submodels.
+All twins of a domain are hosted in the same graph and they share the same set of submodels. We require that the domain id (folder name) coincides to the 
+first part of all asset and submodel ids (separated via "/").
+
 
 #### Mapping Configuration
 
@@ -32,11 +34,17 @@ Otherwise, the "semanticId" will be used to identifiy the respective submodel (a
 The AAS-Bridge makes a couple of assumptions about the content of the MappingSpecification:
 1. The @namespaces- AND the @variables-section of the @header both hold the semanticId of the Submodel that is to
 be transformed
-2. IDs of submodel-instances must always start with the semanticId of the submodel followed by "/" and the identifier of
-the asset. How this can be achieved via configuration is demonstrated in the examples' @header-@definitions-section
+2. IDs of submodel-instances must always start with the domain id and the semanticId of the submodel and the identifier of
+the asset (separated by "/"). How this can be achieved via configuration is demonstrated in the examples' @header-@definitions-section
 under `genSubmodelId`.
 3. If not provided explicitly, the function `AasUtils.loadConfigsFromResources()` will search the AAS-Bridge's resources
 folder for a set of the necessary data. The folder- and naming-convention must be adhered to strictly.
+
+#### Connection to the Knowledge Graph
+
+Currently, AAS-Bridge only supports a single endpoint which is configured by environment variables
+- PROVIDER_SPARQL_ENDPOINT - URL pointing to the SPARQL endpoint
+- PROVIDER_CREDENTIAL_BASIC - the value that will be set into the "Authorization" header of outgoing SPARQL requests.
 
 ## Building
 
@@ -62,11 +70,13 @@ Alternatively, after a sucessful [build](#building) the docker image of the Spar
 docker build -t tractusx/aas-bridge:0.10.2-SNAPSHOT -f src/main/docker/Dockerfile .
 ```
 
-To run the docker image, you could invoke this command
+To run the docker image against a local knowledge graph, you could invoke this command
 
 ```console
 docker run -p 8080:8080 \
   -v $(pwd)/resources:/app/resources \
+  -e "PROVIDER_SPARQL_ENDPOINT=http://oem-provider-agent:8082/sparql" \
+  -e "PROVIDER_CREDENTIAL_BASIC=Basic Zm9vOg==" \
   tractusx/aas-bridge:0.10.2-SNAPSHOT
 ````
 
