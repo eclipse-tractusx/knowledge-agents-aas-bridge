@@ -26,8 +26,8 @@
 -->
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.eclipse.tractusx</groupId>
-    <artifactId>agents</artifactId>
+    <groupId>org.eclipse.tractusx.agents</groupId>
+    <artifactId>aas</artifactId>
     <version>0.10.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Tractus-X Knowledge Agents AAS Bridges</name>
