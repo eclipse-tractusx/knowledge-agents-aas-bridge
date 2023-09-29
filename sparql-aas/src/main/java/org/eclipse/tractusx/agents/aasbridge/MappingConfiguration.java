@@ -35,11 +35,12 @@ public class MappingConfiguration {
 
     /**
      * Creates a new mapping configuration
-     * @param domain the domain identifier
+     *
+     * @param domain               the domain identifier
      * @param mappingSpecification the template
-     * @param getOneQueryTemplate the query to obtain one or several twins/submodels
-     * @param getAllQuery the query to get all twins/submodels, may be empty if that would be too expensive
-     * @param semanticId the semantic id associated to the aas/submodel template
+     * @param getOneQueryTemplate  the query to obtain one or several twins/submodels
+     * @param getAllQuery          the query to get all twins/submodels, may be empty if that would be too expensive
+     * @param semanticId           the semantic id associated to the aas/submodel template
      */
 
     public MappingConfiguration(String domain, MappingSpecification mappingSpecification, File getOneQueryTemplate, File getAllQuery, String semanticId) {
@@ -47,7 +48,7 @@ public class MappingConfiguration {
         this.getOneQueryTemplate = getOneQueryTemplate;
         this.getAllQuery = getAllQuery;
         this.semanticId = semanticId;
-        this.domain=domain;
+        this.domain = domain;
     }
 
 
@@ -67,5 +68,7 @@ public class MappingConfiguration {
         return semanticId;
     }
 
-    public String getDomain() { return domain; }
+    public String getDomain() {
+        return domain;
+    }
 }

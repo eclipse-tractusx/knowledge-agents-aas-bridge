@@ -32,17 +32,17 @@ import java.util.Map;
 public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceInKnowledge> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersistenceInKnowledgeConfig.class);
-    private Map<String,List<MappingConfiguration>> mappings; // query to mappingspecification
+    private Map<String, List<MappingConfiguration>> mappings; // query to mappingspecification
     private URI providerSparqlEndpoint;
     private String credentials;
     private int threadPoolSize;
     private int timeoutSeconds;
 
-    public Map<String,List<MappingConfiguration>> getMappings() {
+    public Map<String, List<MappingConfiguration>> getMappings() {
         return mappings;
     }
 
-    public void setMappings(Map<String,List<MappingConfiguration>> mappings) {
+    public void setMappings(Map<String, List<MappingConfiguration>> mappings) {
         this.mappings = mappings;
     }
 
@@ -83,7 +83,7 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
     }
 
     private abstract static class AbstractBuilder<T extends PersistenceInKnowledgeConfig, B extends AbstractBuilder<T, B>> extends PersistenceConfig.AbstractBuilder<PersistenceInKnowledge, T, B> {
-        public B mappings(Map<String,List<MappingConfiguration>> value) {
+        public B mappings(Map<String, List<MappingConfiguration>> value) {
             getBuildingInstance().setMappings(value);
             return getSelf();
         }

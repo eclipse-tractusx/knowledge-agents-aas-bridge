@@ -32,7 +32,15 @@ import de.fraunhofer.iosb.ilt.faaast.service.persistence.Persistence;
 import de.fraunhofer.iosb.ilt.faaast.service.persistence.util.QueryModifierHelper;
 import de.fraunhofer.iosb.ilt.faaast.service.typing.TypeInfo;
 import de.fraunhofer.iosb.ilt.faaast.service.util.Ensure;
-import io.adminshell.aas.v3.model.*;
+import io.adminshell.aas.v3.model.AssetAdministrationShell;
+import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
+import io.adminshell.aas.v3.model.ConceptDescription;
+import io.adminshell.aas.v3.model.Identifiable;
+import io.adminshell.aas.v3.model.Identifier;
+import io.adminshell.aas.v3.model.OperationVariable;
+import io.adminshell.aas.v3.model.Reference;
+import io.adminshell.aas.v3.model.Submodel;
+import io.adminshell.aas.v3.model.SubmodelElement;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +57,7 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
 
     private static final String MSG_MODIFIER_NOT_NULL = "The message modifier cannot be null";
 
-    protected final Logger logger= LoggerFactory.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     PersistenceInKnowledgeConfig persistenceConfig;
     CoreConfig coreConfig;
     ServiceContext serviceContext;
@@ -79,11 +87,12 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
 
     /**
      * gets a particular entity (assetadministrationshell, asset, submodel, conceptdescription)
-     * @param id identifier for the entity
+     *
+     * @param id       identifier for the entity
      * @param modifier the modifier for the response
-     * @param type the class that should be returned
+     * @param type     the class that should be returned
+     * @param <T>      return type
      * @return instance of the entity (rendered along modifier)
-     * @param <T> return type
      * @throws ResourceNotFoundException in case the resource cannot be found
      */
     @Override
@@ -113,7 +122,8 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
 
     /**
      * query all shells (optionally with a short identified or a set of identifiers)
-     * @param idShort optional id
+     *
+     * @param idShort  optional id
      * @param assetIds optional id
      * @param modifier the representation that is expected
      * @return list of shells
@@ -217,5 +227,5 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
     public PersistenceInKnowledgeConfig asConfig() {
         return persistenceConfig;
     }
-    
+
 }

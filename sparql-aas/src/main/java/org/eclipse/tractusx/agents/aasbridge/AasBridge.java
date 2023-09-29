@@ -28,34 +28,34 @@ import de.fraunhofer.iosb.ilt.faaast.service.exception.EndpointException;
 import de.fraunhofer.iosb.ilt.faaast.service.exception.MessageBusException;
 import de.fraunhofer.iosb.ilt.faaast.service.messagebus.internal.MessageBusInternalConfig;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
-
-import java.net.URI;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.URI;
 
 public class AasBridge {
 
     /**
      * Main entry into the aas bridge
+     *
      * @param args command line arguments
-     * @throws ConfigurationException if faaast cannot be configured
+     * @throws ConfigurationException   if faaast cannot be configured
      * @throws AssetConnectionException if faaast cannot connect to an asset
-     * @throws MessageBusException if faaast message bus cannot be initialitzed
-     * @throws EndpointException if faaast endpoint cannot be published
-     * @throws NumberFormatException if faaast cannot parse a number
+     * @throws MessageBusException      if faaast message bus cannot be initialitzed
+     * @throws EndpointException        if faaast endpoint cannot be published
+     * @throws NumberFormatException    if faaast cannot parse a number
      */
     public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException, NumberFormatException {
 
-        Logger mainLogger=LoggerFactory.getLogger(AasBridge.class);
+        Logger mainLogger = LoggerFactory.getLogger(AasBridge.class);
 
         mainLogger.info("Building AAS Bridge");
 
-        CoreConfig coreConfig=CoreConfig.builder()
+        CoreConfig coreConfig = CoreConfig.builder()
                 .requestHandlerThreadPoolSize(5)
                 .build();
 
-        mainLogger.debug("Built coreConfig {}",coreConfig);
+        mainLogger.debug("Built coreConfig {}", coreConfig);
 
         PersistenceInKnowledgeConfig persistenceConfig = PersistenceInKnowledgeConfig.builder()
                 .initialModel(new DefaultAssetAdministrationShellEnvironment.Builder().build())
@@ -66,15 +66,15 @@ public class AasBridge {
                 .credentials(System.getProperty("PROVIDER_CREDENTIAL_BASIC", System.getenv("PROVIDER_CREDENTIAL_BASIC")))
                 .build();
 
-        mainLogger.debug("Built persistenceConfig {}",persistenceConfig);
+        mainLogger.debug("Built persistenceConfig {}", persistenceConfig);
 
         HttpEndpointConfig httpConfig = HttpEndpointConfig.builder().cors(true).build();
 
-        mainLogger.debug("Built httpConfig {}",httpConfig);
+        mainLogger.debug("Built httpConfig {}", httpConfig);
 
         MessageBusInternalConfig busConfig = MessageBusInternalConfig.builder().build();
 
-        mainLogger.debug("Built busConfig {}",busConfig);
+        mainLogger.debug("Built busConfig {}", busConfig);
 
         ServiceConfig serviceConfig = ServiceConfig.builder()
                 .core(coreConfig)
@@ -83,11 +83,11 @@ public class AasBridge {
                 .messageBus(busConfig)
                 .build();
 
-        mainLogger.debug("Built serviceConfig {}",serviceConfig);
+        mainLogger.debug("Built serviceConfig {}", serviceConfig);
 
         Service faaast = new Service(serviceConfig);
 
-        mainLogger.info("Starting AAS Bridge {}",faaast);
+        mainLogger.info("Starting AAS Bridge {}", faaast);
 
         faaast.start();
     }

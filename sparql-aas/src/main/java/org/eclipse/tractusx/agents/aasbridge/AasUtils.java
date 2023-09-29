@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,63 +44,65 @@ import java.util.stream.Collectors;
  */
 public class AasUtils {
 
-    public static Logger logger= LoggerFactory.getLogger(AasUtils.class);
+    public static Logger logger = LoggerFactory.getLogger(AasUtils.class);
 
     /**
      * investigates the filesystems resources folder to find mappings
+     *
      * @return a domain of mapping configurations
      */
-    public static Map<String,List<MappingConfiguration>> loadConfigsFromResources() {
+    public static Map<String, List<MappingConfiguration>> loadConfigsFromResources() {
 
         logger.info("About to load mapping configurations.");
 
-        File searchPath=new File("resources");
+        File searchPath = new File("resources");
 
-        ConfigurationBuilder builder=new ConfigurationBuilder();
+        ConfigurationBuilder builder = new ConfigurationBuilder();
         try {
-            builder=builder.addUrls(searchPath.toURL());
-        } catch(MalformedURLException e) {
+            builder = builder.addUrls(searchPath.toURL());
+        } catch (MalformedURLException e) {
+            logger.warn("Could not build url.", e);
         }
-        Configuration config= builder.setScanners(Scanners.Resources);
+        Configuration config = builder.setScanners(Scanners.Resources);
         Reflections reflections = new Reflections(config);
         Set<String> files = reflections.getResources(Pattern.compile(".*-mapping\\.json"));
 
-        logger.info("Scanning for *-mapping.json in resources folder found {}",files);
+        logger.info("Scanning for *-mapping.json in resources folder found {}", files);
 
         return files.stream()
-                    .map(relativePath -> {
-                        String[] components=relativePath.split("/");
-                        String mappingPath= searchPath.getPath()+"/"+relativePath;
-                        try {
-                            MappingSpecification spec = new MappingSpecificationParser().loadMappingSpecification(mappingPath);
-                            String semanticId=spec.getHeader().getNamespaces().get("semanticId");
-                            if(semanticId==null) {
-                                logger.warn("Mapping {} has no namespace called 'semanticId'. So it will not be accessible.",mappingPath);
-                            }
-                            File selectSomeFile = new File(mappingPath.split("-")[0] + "-select-some.rq");
-                            File selectAllFile = new File(mappingPath.split("-")[0] + "-select-all.rq");
-                            if(!selectSomeFile.exists() || !selectSomeFile.isFile()) {
-                                logger.warn("Bound select for mapping {} is not a valid file {}. Ignoring.",mappingPath,selectSomeFile);
-                                selectSomeFile=null;
-                            }
-                            if(!selectAllFile.exists() || !selectAllFile.isFile()) {
-                                logger.warn("Unbound select for mapping {} is not a valid file {}. Ignoring.",mappingPath,selectAllFile);
-                                selectAllFile=null;
-                            }
-                            return new MappingConfiguration(
+                .map(relativePath -> {
+                    String[] components = relativePath.split("/");
+                    String mappingPath = searchPath.getPath() + "/" + relativePath;
+                    try {
+                        MappingSpecification spec = new MappingSpecificationParser().loadMappingSpecification(mappingPath);
+                        String semanticId = spec.getHeader().getNamespaces().get("semanticId");
+                        if (semanticId == null) {
+                            logger.warn("Mapping {} has no namespace called 'semanticId'. So it will not be accessible.", mappingPath);
+                        }
+                        File selectSomeFile = new File(mappingPath.split("-")[0] + "-select-some.rq");
+                        File selectAllFile = new File(mappingPath.split("-")[0] + "-select-all.rq");
+                        if (!selectSomeFile.exists() || !selectSomeFile.isFile()) {
+                            logger.warn("Bound select for mapping {} is not a valid file {}. Ignoring.", mappingPath, selectSomeFile);
+                            selectSomeFile = null;
+                        }
+                        if (!selectAllFile.exists() || !selectAllFile.isFile()) {
+                            logger.warn("Unbound select for mapping {} is not a valid file {}. Ignoring.", mappingPath, selectAllFile);
+                            selectAllFile = null;
+                        }
+                        return new MappingConfiguration(
                                 components[0],
                                 spec,
                                 selectSomeFile,
                                 selectAllFile,
                                 semanticId
-                            );
-                        } catch (IOException e) {
-                            logger.warn("Could not read mapping specification in {} because of {}. Ignoring.",mappingPath,e);
-                            return null;
-                        }
-                    })
-                    .filter(conf->conf!=null)
-                    .collect(Collectors.groupingBy(MappingConfiguration::getDomain));
+                        );
+                    } catch (IOException e) {
+                        logger.warn("Could not read mapping specification in {} because of {}. Ignoring.", mappingPath, e);
+                        return null;
+                    }
+                })
+                .filter(conf -> conf != null)
+                .collect(Collectors.groupingBy(MappingConfiguration::getDomain));
     }
 
     public static AssetAdministrationShellEnvironment mergeAasEnvs(Set<AssetAdministrationShellEnvironment> aasEnvs) {
