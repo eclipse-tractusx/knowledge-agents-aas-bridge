@@ -86,6 +86,19 @@ spec:
             timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
             initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
           {{- end }}
+          env:
+            {{- if .Values.aas.persistence.sparql }}
+            - name: PROVIDER_SPARQL_ENDPOINT
+              value: {{ .Values.aas.persistence.sparql | quote }}
+            {{- end }}
+            {{- if .Values.aas.persistence.auth.key }}
+            - name: PROVIDER_CREDENTIAL_BASIC
+              value: {{ .Values.aas.persistence.auth.key | quote }}
+            {{- end }}
+            {{- if .Values.aas.persistence.log }}
+            - name: PROVIDER_LOG_RESULTS
+              value: {{ .Values.aas.persistence.log| quote }}
+            {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ include "agent.fullname" . }}-env

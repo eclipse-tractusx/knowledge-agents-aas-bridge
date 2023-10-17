@@ -1,0 +1,521 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sparql xmlns='http://www.w3.org/2005/sparql-results#'>
+	<head>
+		<variable name='id'/>
+		<variable name='name'/>
+		<variable name='pasp'/>
+		<variable name='psasp'/>
+		<variable name='hasRecycling'/>
+		<variable name='slbomap'/>
+		<variable name='slusap'/>
+		<variable name='mfr'/>
+	</head>
+	<results>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:f5efbf45-7d84-4442-b3b8-05cf1c5c5a0b</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Tier C Piston Rod</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Tire Model A</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97</uri>
+			</binding>
+			<binding name='name'>
+				<literal>HV Modul</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:e3e2a4d8-58bc-4ae9-afa2-e8946fda1f77</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Tier B ECU2</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:e1dbd194-ca84-4bb9-bcfc-0a9df065f118</uri>
+			</binding>
+			<binding name='name'>
+				<literal>TRACEX A Door-Key</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a9</uri>
+			</binding>
+			<binding name='name'>
+				<literal>ZB ZELLE</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Sub Tier A Sensor</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:b0926d3c-6a8f-4fc7-81a4-88c50817358a</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Natural Rubber</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:b02700b1-c8a5-423c-83aa-0013fa0f8249</uri>
+			</binding>
+			<binding name='name'>
+				<literal>OEM C Engine</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c</uri>
+			</binding>
+			<binding name='name'>
+				<literal>OEM A High Voltage Battery</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:a732f36e-be5a-49f0-9b83-08d4b1c203c6</uri>
+			</binding>
+			<binding name='name'>
+				<literal>OEM A Car Body</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:a420dfc5-af2d-4bbe-a31a-1a31ebe39b9f</uri>
+			</binding>
+			<binding name='name'>
+				<literal>TRACEX B Cylinder Head</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:94d086c6-0124-4f2c-86b2-1d419e47499d</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Natural Rubber Product(40KG blocks)</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:86f69643-3b90-4e34-90bf-789edcf40e7e</uri>
+			</binding>
+			<binding name='name'>
+				<literal>N Tier A NTier Product</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:8031a511-85d8-4568-97f3-9d155127430c</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Vehicle Model D</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:72ec2897-4e20-475c-a28b-019cf5b42a18</uri>
+			</binding>
+			<binding name='name'>
+				<literal>TRACEX B Doors</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Vehicle Model B</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:65e1554e-e5cd-4560-bac1-1352582122fb</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Vehicle Model C</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:5c082f9d-7f30-42ec-88f3-1ef97d01caa1</uri>
+			</binding>
+			<binding name='name'>
+				<literal>TraceX B Door Front Right</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:4f7b1cf2-a598-4027-bc78-63f6d8e55699</uri>
+			</binding>
+			<binding name='name'>
+				<literal>N Tier A CathodeMaterial</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:4518c080-14fb-4252-b8de-4362d615868d</uri>
+			</binding>
+			<binding name='name'>
+				<literal>N Tier A Plastics</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Sub Tier B Glue</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:367348b3-7a6e-4708-8283-ed6ab132b79c</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Tier A Plunger</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Tier A Gearbox</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:21e1384d-ed81-48cf-a51b-e0a27a48741c</uri>
+			</binding>
+			<binding name='name'>
+				<literal>TRACEX A Cylinder</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:15d2fcc8-6439-4d1e-904b-e62b4d3bf323</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Sub Tier B Sealant</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Tier B ECU1</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e</uri>
+			</binding>
+			<binding name='name'>
+				<literal>Vehicle Model A</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+	</results>
+</sparql>

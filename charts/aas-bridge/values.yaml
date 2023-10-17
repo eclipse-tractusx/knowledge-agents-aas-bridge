@@ -141,8 +141,17 @@ startupProbe:
   # -- number of seconds until a timeout is assumed
   timeoutSeconds: 5
 
-## Endpoints exposed by the remoting agent
+## Settings of the aas server
 aas:
+  ## Persistence settings
+  persistence:
+    # -- The default sparql server is embedded
+    sparql: http://sparql.local
+    auth:
+      # -- The key that should be used in the authorization header when talking to the sparql server
+      key: "Basic "
+    # -- whether the results of the queries should be logged
+    log: false
   endpoints:
     ## Default api exposing health checks etc
     default:

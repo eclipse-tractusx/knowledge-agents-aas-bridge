@@ -29,6 +29,7 @@ import io.adminshell.aas.v3.model.Identifiable;
 import io.adminshell.aas.v3.model.Identifier;
 import io.adminshell.aas.v3.model.Reference;
 import io.adminshell.aas.v3.model.Submodel;
+import org.apache.commons.io.IOUtils;
 import org.eclipse.digitaltwin.aas4j.exceptions.TransformationException;
 import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 import org.eclipse.digitaltwin.aas4j.transform.GenericDocumentTransformer;
@@ -37,6 +38,8 @@ import org.eclipse.rdf4j.query.resultio.sparqlxml.SPARQLResultsXMLParser;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -61,7 +64,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
  * Executes mappings which are combinations of statements and their transformation into aas objects.
  */
 public class MappingExecutor {
-    //Client config
+    public static final String DEFAULT_SPARQL_ENDPOINT = "http://sparql.local";
 
     private final GenericDocumentTransformer transformer;
     private final URI sparqlEndpoint;
@@ -69,16 +72,21 @@ public class MappingExecutor {
     private final String credentials;
     private final int timeoutSeconds;
     private final HttpClient client;
+    private final boolean logResults;
 
     private final Map<String, List<MappingConfiguration>> mappings;
 
-    public MappingExecutor(URI sparqlEndpoint, String credentials, int timeoutSeconds, int fixedThreadPoolSize, Map<String, List<MappingConfiguration>> mappings) {
+    public MappingExecutor(String sparqlEndpoint, String credentials, int timeoutSeconds, int fixedThreadPoolSize, Map<String, List<MappingConfiguration>> mappings, boolean logResults) {
         this.mappings = mappings;
         this.transformer = new GenericDocumentTransformer();
-        this.sparqlEndpoint = URI.create(sparqlEndpoint.toString());
+        if (sparqlEndpoint == null) {
+            sparqlEndpoint = DEFAULT_SPARQL_ENDPOINT;
+        }
+        this.sparqlEndpoint = URI.create(sparqlEndpoint);
         this.credentials = credentials;
         this.timeoutSeconds = timeoutSeconds;
         this.client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(fixedThreadPoolSize)).build();
+        this.logResults = logResults;
     }
 
     public static String parametrizeQuery(File queryTemplate, Object... parameters) {
@@ -131,28 +139,46 @@ public class MappingExecutor {
      * @throws IOException        if query target cannot be correctly interfaced
      */
     protected CompletableFuture<InputStream> executeQuery(String query) throws URISyntaxException, IOException {
-
-        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
-        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-                .uri(sparqlEndpoint)
-                .POST(bodyPublisher)
-                .header("Content-Type", "application/sparql-query")
-                .header("Accept", "application/xml")
-                .timeout(Duration.of(timeoutSeconds, SECONDS));
-
-        if (credentials != null && !credentials.isEmpty()) {
-            requestBuilder = requestBuilder.header("Authorization", credentials);
-        }
-
-        HttpRequest request = requestBuilder.build();
-
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(res -> {
-            if (res.statusCode() >= 200 && res.statusCode() < 300) {
-                return res.body();
+        final File searchPath = new File(String.format("resources/sparqlResponseXml/%d-sparql-results.xml", query.hashCode()));
+        if (DEFAULT_SPARQL_ENDPOINT.equals(sparqlEndpoint.toString())) {
+            if (searchPath.exists()) {
+                return CompletableFuture.completedFuture(new FileInputStream(searchPath));
             } else {
-                throw new RuntimeException("Sparql-Request failed with " + res.statusCode() + res.body());
+                throw new IOException(String.format("Could not find prepared result %s", searchPath.toString()));
             }
-        }).thenApply(body -> new ByteArrayInputStream(body.getBytes()));
+        } else {
+            HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
+            HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                    .uri(sparqlEndpoint)
+                    .POST(bodyPublisher)
+                    .header("Content-Type", "application/sparql-query")
+                    .header("Accept", "application/xml")
+                    .timeout(Duration.of(timeoutSeconds, SECONDS));
+
+            if (credentials != null && !credentials.isEmpty()) {
+                requestBuilder = requestBuilder.header("Authorization", credentials);
+            }
+
+            HttpRequest request = requestBuilder.build();
+
+
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(res -> {
+                if (res.statusCode() >= 200 && res.statusCode() < 300) {
+                    return res.body();
+                } else {
+                    throw new RuntimeException("Sparql-Request failed with " + res.statusCode() + res.body());
+                }
+            }).thenApply(body -> {
+                if (logResults) {
+                    try (var os = new FileOutputStream(searchPath)) {
+                        IOUtils.write(body.getBytes(), os);
+                    } catch (IOException e) {
+                        System.err.printf("Could not write result log %s\n", searchPath.toString());
+                    }
+                }
+                return new ByteArrayInputStream(body.getBytes());
+            });
+        }
     }
 
     /**

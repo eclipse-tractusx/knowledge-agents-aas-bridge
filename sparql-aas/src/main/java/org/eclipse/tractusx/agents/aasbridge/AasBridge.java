@@ -31,8 +31,6 @@ import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironmen
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
-
 public class AasBridge {
 
     /**
@@ -62,8 +60,9 @@ public class AasBridge {
                 .mappings(AasUtils.loadConfigsFromResources())
                 .threadPoolSize(5)
                 .timeoutSeconds(5)
-                .providerSparqlEndpoint(URI.create(System.getProperty("PROVIDER_SPARQL_ENDPOINT", System.getenv("PROVIDER_SPARQL_ENDPOINT"))))
+                .providerSparqlEndpoint(System.getProperty("PROVIDER_SPARQL_ENDPOINT", System.getenv("PROVIDER_SPARQL_ENDPOINT")))
                 .credentials(System.getProperty("PROVIDER_CREDENTIAL_BASIC", System.getenv("PROVIDER_CREDENTIAL_BASIC")))
+                .logResults(Boolean.parseBoolean(System.getProperty("PROVIDER_LOG_RESULTS", System.getenv().getOrDefault("PROVIDER_LOG_RESULTS", "false"))))
                 .build();
 
         mainLogger.debug("Built persistenceConfig {}", persistenceConfig);

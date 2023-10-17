@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sparql xmlns='http://www.w3.org/2005/sparql-results#'>
+	<head>
+		<variable name='id'/>
+		<variable name='name'/>
+		<variable name='pasp'/>
+		<variable name='psasp'/>
+		<variable name='hasRecycling'/>
+		<variable name='slbomap'/>
+		<variable name='slusap'/>
+		<variable name='mfr'/>
+	</head>
+	<results>
+		<result>
+			<binding name='id'>
+				<uri>urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97</uri>
+			</binding>
+			<binding name='name'>
+				<literal>HV Modul</literal>
+			</binding>
+			<binding name='pasp'>
+				<uri>urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned</uri>
+			</binding>
+			<binding name='psasp'>
+				<uri>urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</uri>
+			</binding>
+			<binding name='slbomap'>
+				<uri>urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned</uri>
+			</binding>
+			<binding name='slusap'>
+				<uri>urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned</uri>
+			</binding>
+		</result>
+	</results>
+</sparql>

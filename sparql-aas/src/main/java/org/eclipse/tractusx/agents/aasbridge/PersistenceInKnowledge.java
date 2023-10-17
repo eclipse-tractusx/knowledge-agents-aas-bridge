@@ -81,7 +81,8 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
                 persistenceConfig.getCredentials(),
                 persistenceConfig.getTimeoutSeconds(),
                 persistenceConfig.getThreadPoolSize(),
-                persistenceConfig.getMappings());
+                persistenceConfig.getMappings(),
+                persistenceConfig.isLogResults());
         this.model = new DefaultAssetAdministrationShellEnvironment.Builder().build();
     }
 

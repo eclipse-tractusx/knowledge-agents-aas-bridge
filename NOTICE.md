@@ -60,18 +60,6 @@ You may recreate an up-to-date DEPENDENCIES file by invoking
 ./mvnw org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCIES
 ```
 
-We provide Software-Bill-Of-Material (SBOM) documents for each KA-AAS module for each release:
-* [Knowledge Agents Sparql-To-AAS Bridge](sparql-aas/aas-bridge-0.10.2-SNAPSHOT-sbom.json)
-
-You may recreate up-to-date SBOMs by invoking
-
-```shell
-./mvnw org.cyclonedx:cyclonedx-maven-plugin:makeBom -DoutputName=\${project.artifactId}-\${project.version}-sbom
-```
-
-Afterwards, you find the current documents under:
-* [Knowledge Agents Sparql-To-AAS Bridge](sparql-aas/target/sparql-aas-0.10.2-SNAPSHOT-sbom.json)
-
 The KA-AAS build and runtime platform is relying on:
 * [Java Runtime Environment (JRE >=11 - license depends on chosen provider)](https://de.wikipedia.org/wiki/Java-Laufzeitumgebung)
 * [Java Development Kit (JDK >=11 - license depends on chosen provider)](https://de.wikipedia.org/wiki/Java_Development_Kit) 

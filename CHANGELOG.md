@@ -27,7 +27,7 @@ All notable changes to this product will be documented in this file.
 
 # Unreleased
 
-## [0.10.2] - 
+## [0.10.5] - 
 
 ### Added
 

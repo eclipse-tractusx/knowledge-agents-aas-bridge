@@ -22,7 +22,6 @@ import de.fraunhofer.iosb.ilt.faaast.service.persistence.PersistenceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -33,10 +32,13 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersistenceInKnowledgeConfig.class);
     private Map<String, List<MappingConfiguration>> mappings; // query to mappingspecification
-    private URI providerSparqlEndpoint;
+    private String providerSparqlEndpoint;
     private String credentials;
     private int threadPoolSize;
     private int timeoutSeconds;
+
+    private boolean logResults;
+
 
     public Map<String, List<MappingConfiguration>> getMappings() {
         return mappings;
@@ -50,7 +52,7 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
         return new Builder();
     }
 
-    public URI getProviderSparqlEndpoint() {
+    public String getProviderSparqlEndpoint() {
         return providerSparqlEndpoint;
     }
 
@@ -66,7 +68,7 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
         return timeoutSeconds;
     }
 
-    public void setProviderSparqlEndpoint(URI providerSparqlEndpoint) {
+    public void setProviderSparqlEndpoint(String providerSparqlEndpoint) {
         this.providerSparqlEndpoint = providerSparqlEndpoint;
     }
 
@@ -82,13 +84,21 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
         this.timeoutSeconds = timeoutSeconds;
     }
 
+    public boolean isLogResults() {
+        return logResults;
+    }
+
+    public void setLogResults(boolean logResults) {
+        this.logResults = logResults;
+    }
+
     private abstract static class AbstractBuilder<T extends PersistenceInKnowledgeConfig, B extends AbstractBuilder<T, B>> extends PersistenceConfig.AbstractBuilder<PersistenceInKnowledge, T, B> {
         public B mappings(Map<String, List<MappingConfiguration>> value) {
             getBuildingInstance().setMappings(value);
             return getSelf();
         }
 
-        public B providerSparqlEndpoint(URI value) {
+        public B providerSparqlEndpoint(String value) {
             getBuildingInstance().setProviderSparqlEndpoint(value);
             return getSelf();
         }
@@ -105,6 +115,11 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
 
         public B timeoutSeconds(int value) {
             getBuildingInstance().setTimeoutSeconds(value);
+            return getSelf();
+        }
+
+        public B logResults(boolean value) {
+            getBuildingInstance().setLogResults(value);
             return getSelf();
         }
     }

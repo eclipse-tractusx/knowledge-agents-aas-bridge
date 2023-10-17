@@ -30,7 +30,7 @@ home: https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge/
 sources:
   - https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge/tree/main/sparql-aas
 type: application
-appVersion: "0.10.2-SNAPSHOT"
-version: 0.10.2-SNAPSHOT
+appVersion: "0.10.5-SNAPSHOT"
+version: 0.10.5-SNAPSHOT
 maintainers:
   - name: 'Tractus-X Knowledge Agents Team'

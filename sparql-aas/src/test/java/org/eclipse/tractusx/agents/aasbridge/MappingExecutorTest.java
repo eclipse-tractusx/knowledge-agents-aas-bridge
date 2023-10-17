@@ -30,7 +30,6 @@ import org.eclipse.digitaltwin.aas4j.mapping.MappingSpecificationParser;
 import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 import org.eclipse.digitaltwin.aas4j.transform.GenericDocumentTransformer;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -38,6 +37,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -61,8 +61,11 @@ class MappingExecutorTest {
             "?OemProviderAgent=" +
             URLEncoder.encode("http://oem-provider-agent:8082/sparql", StandardCharsets.ISO_8859_1);
 
-    private final URI LOCAL_LANDSCAPE = new URI("http://localhost:8082/sparql");
-    private final URI DEV_LANDSCAPE = new URI("https://knowledge.dev.demo.catena-x.net/oem-provider-agent3/sparql");
+    private final String DUMMY_LANDSCAPE = MappingExecutor.DEFAULT_SPARQL_ENDPOINT;
+    private final String LOCAL_LANDSCAPE = "http://localhost:8082/sparql";
+    private final String DEV_LANDSCAPE = "https://knowledge.dev.demo.catena-x.net/oem-provider-agent3/sparql";
+    private final String LANDSCAPE = DUMMY_LANDSCAPE;
+    private final boolean LOG_RESULTS = false;
 
     MappingExecutorTest() throws URISyntaxException {
     }
@@ -135,11 +138,12 @@ class MappingExecutorTest {
     void executeQueryTest(String aspectName) throws IOException, URISyntaxException, ExecutionException, InterruptedException {
         MockWebServer mockWebServer = instantiateMockServer(aspectName);
         MappingExecutor executor = new MappingExecutor(
-                new URI(mockWebServer.url(MOCK_URL).toString()),
+                mockWebServer.url(MOCK_URL).toString(),
                 System.getProperty("PROVIDER_CREDENTIAL_BASIC"),
                 3,
                 5,
-                AasUtils.loadConfigsFromResources());
+                AasUtils.loadConfigsFromResources(),
+                LOG_RESULTS);
 
         InputStream inputStream = executor.executeQuery(
                 new String(new File("resources/traceability/" + aspectName + "-select-all.rq").toURL().openStream().readAllBytes())).get();
@@ -154,7 +158,7 @@ class MappingExecutorTest {
     @Test
     void queryOneShell() throws InterruptedException {
         String sampleId="traceability/urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97";
-        MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
+        MappingExecutor ex = new MappingExecutor(LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources(),LOG_RESULTS);
         List<AssetAdministrationShell> shells = ex.queryAllShells(
                 sampleId,
                 Arrays.asList(new SpecificAssetIdentification.Builder()
@@ -180,7 +184,7 @@ class MappingExecutorTest {
      */
     @Test
     void queryAllShells() throws InterruptedException {
-        MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
+        MappingExecutor ex = new MappingExecutor(LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources(),LOG_RESULTS);
         List<AssetAdministrationShell> shells = ex.queryAllShells(
                 null,
                 null);
@@ -206,7 +210,7 @@ class MappingExecutorTest {
     void queryOneSubmodel() throws InterruptedException {
         String sampleId="urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97";
         String model="urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned";
-        MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
+        MappingExecutor ex = new MappingExecutor(LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources(),LOG_RESULTS);
         Identifier identifier=new DefaultIdentifier();
         identifier.setIdentifier("traceability/"+model+"/"+sampleId);
         Identifiable subModel = ex.queryIdentifiableById(identifier, Submodel.class);
@@ -219,7 +223,7 @@ class MappingExecutorTest {
     private static AssetAdministrationShellEnvironment getTransformedAasEnv(String submodelIdShort) throws IOException, TransformationException {
         MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("resources/traceability/" + submodelIdShort + "-mapping.json");
         GenericDocumentTransformer transformer = new GenericDocumentTransformer();
-        InputStream instream = MappingExecutorTest.class.getResourceAsStream("/sparqlResponseXml/" + submodelIdShort + "-sparql-results.xml");
+        InputStream instream = new FileInputStream("./resources/sparqlResponseXml/" + submodelIdShort + "-sparql-results.xml");
         String s = new String(instream.readAllBytes());
         return transformer.execute(new ByteArrayInputStream(s.getBytes()), mapping);
     }
@@ -272,8 +276,7 @@ class MappingExecutorTest {
     }
 
     private String getMockResponseBody(String aspectName) throws IOException {
-        String mockResponseBody = new String(getClass().getClassLoader()
-                .getResourceAsStream("sparqlResponseXml/"+ aspectName +"-sparql-results.xml")
+        String mockResponseBody = new String(new FileInputStream("resources/sparqlResponseXml/" + aspectName +"-sparql-results.xml")
                 .readAllBytes());
         return mockResponseBody;
     }

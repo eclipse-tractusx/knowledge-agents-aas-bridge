@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sparql xmlns='http://www.w3.org/2005/sparql-results#'>
+	<head>
+		<variable name='catenaXId'/>
+		<variable name='site'/>
+		<variable name='function'/>
+		<variable name='roleValidFrom'/>
+		<variable name='roleValidTo'/>
+	</head>
+	<results>
+		<result>
+			<binding name='catenaXId'>
+				<uri>urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97</uri>
+			</binding>
+			<binding name='site'>
+				<uri>urn:bpn:site:BPNS000004711DMY</uri>
+			</binding>
+			<binding name='function'>
+				<literal>production</literal>
+			</binding>
+			<binding name='roleValidFrom'>
+				<literal datatype='http://www.w3.org/2001/XMLSchema#date'>2012-12-28</literal>
+			</binding>
+			<binding name='roleValidTo'>
+				<literal datatype='http://www.w3.org/2001/XMLSchema#date'>2031-11-21</literal>
+			</binding>
+		</result>
+	</results>
+</sparql>
