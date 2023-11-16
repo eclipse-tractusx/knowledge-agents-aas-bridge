@@ -18,5 +18,4 @@
 ###############################################################
 
 product: "Tractus-X Knowledge Agents AAS Bridges (KA-AAS)"
-leadingRepository: "https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge"
-repositories: []
+leadingRepository: "https://github.com/eclipse-tractusx/knowledge-agents"

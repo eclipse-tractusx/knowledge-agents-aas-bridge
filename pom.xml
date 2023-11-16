@@ -236,7 +236,7 @@
         <repository>
             <id>github</id>
             <name>Tractus-X Maven Repository on Github</name>
-            <url>https://maven.pkg.github.com/catenax-ng/tx-knowledge-agents-aas-bridge</url>
+            <url>https://maven.pkg.github.com/eclipse-tractusx/knowledge-agents-aas-bridge</url>
         </repository>
     </distributionManagement>
 </project>
