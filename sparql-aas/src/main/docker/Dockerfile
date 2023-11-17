@@ -25,7 +25,7 @@ HEALTHCHECK NONE
 
 RUN wget ${OTEL_AGENT_LOCATION} -O /tmp/opentelemetry-javaagent.jar
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 ARG JAR
 ARG LIB
