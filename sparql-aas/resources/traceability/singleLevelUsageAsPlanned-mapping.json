@@ -1,0 +1,1032 @@
+{
+  "@header": {
+    "version": "0.0.1",
+    "aasVersion": "3.0RC01",
+    "@variables": {
+      "domain": "traceability",
+      "semanticId": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
+    },
+    "@namespaces": {
+      "sparql": "http://www.w3.org/2005/sparql-results#",
+      "semanticId": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
+    },
+    "@definitions": {
+      "genSubmodelId": {
+        "@concatenate": [
+          {
+            "@var": "semanticId"
+          },
+          "/",
+          {
+            "@xpath": "."
+          }
+        ]
+      },
+      "genAssetId": {
+        "@concatenate": [
+          {
+            "@var": "domain"
+          },
+          "/",
+          {
+            "@xpath": "."
+          }
+        ]
+      }
+    }
+  },
+  "aasEnvironmentMapping": {
+    "assetAdministrationShells": [
+      {
+        "@foreach": {
+          "@xpath": "//sparql:result/sparql:binding[@name='catenaXId']/sparql:uri[not(.=../../ following::sparql:result/sparql:binding[@name='catenaXId']/sparql:uri)]"
+        },
+        "assetInformation": {
+          "assetKind": "Instance",
+          "globalAssetId": {
+            "keys": [
+              {
+                "@bind": {
+                  "value": {
+                    "@def": "genAssetId"
+                  }
+                },
+                "idType": "Iri",
+                "type": "AssetAdministrationShell"
+              }
+            ]
+          }
+        },
+        "identification": {
+          "@bind": {
+            "id": {
+              "@def": "genAssetId"
+            }
+          },
+          "idType": "Iri"
+        },
+        "@bind": {
+          "idShort": {
+            "@def": "genAssetId"
+          }
+        },
+        "submodels": [
+          {
+            "keys": [
+              {
+                "idType": "Iri",
+                "type": "Submodel",
+                "@bind": {
+                  "value": {
+                    "@def": "genSubmodelId"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "submodels": [
+      {
+        "@foreach": {
+          "@xpath": "//sparql:result/sparql:binding[@name='catenaXId']/sparql:uri[not(.=../../ following::sparql:result/sparql:binding[@name='catenaXId']/sparql:uri)]"
+        },
+        "kind": "Instance",
+        "semanticId": {
+          "keys": [
+            {
+              "idType": "Iri",
+              "type": "ConceptDescription",
+              "value": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
+            }
+          ]
+        },
+        "identification": {
+          "idType": "Iri",
+          "@bind": {
+            "id": {
+              "@def": "genSubmodelId"
+            }
+          }
+        },
+        "idShort": "SingleLevelBomAsPlanned",
+        "submodelElements": [
+          {
+            "modelType": {
+              "name": "Property"
+            },
+            "kind": "Instance",
+            "semanticId": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "ConceptDescription",
+                  "value": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#catenaXId"
+                }
+              ]
+            },
+            "@bind": {
+              "value": {
+                "@xpath": "."
+              }
+            },
+            "valueType": "http://www.w3.org/2001/XMLSchema#string",
+            "idShort": "catenaXId",
+            "description": [
+              {
+                "language": "en",
+                "text": "The Catena-X ID of the given part (e.g. the component), valid for the Catena-X dataspace."
+              }
+            ],
+            "displayName": [
+              {
+                "language": "en",
+                "text": "Catena-X Identifier"
+              }
+            ]
+          },
+          {
+            "modelType": {
+              "name": "SubmodelElementCollection"
+            },
+            "idShort": "parentParts",
+            "description": [
+              {
+                "language": "en",
+                "text": "Set of parent parts in As-Planned lifecycle phase, into which the given child object is assembled into (one structural level up)."
+              }
+            ],
+            "displayName": [
+              {
+                "language": "en",
+                "text": "Parent Parts"
+              }
+            ],
+            "value": [
+              {
+                "@foreach": {
+                  "@xpath": {
+                    "@concatenate": [
+                      "//sparql:results/sparql:result[sparql:binding[@name='catenaXId'][sparql:uri='",
+                      {
+                        "@xpath": "."
+                      },
+                      "']]"
+                    ]
+                  }
+                },
+                "modelType": {
+                  "name": "SubmodelElementCollection"
+                },
+                "@bind": {
+                  "idShort": {
+                    "@concatenate": [
+                      "ParentPart",
+                      {
+                        "@concatenate_and_hash": [
+                          {
+                            "@xpath": "."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "description": [
+                  {
+                    "language": "en",
+                    "text": "Catena-X ID and meta data of the parent item."
+                  }
+                ],
+                "displayName": [
+                  {
+                    "language": "en",
+                    "text": "Parent Item"
+                  }
+                ],
+                "value": [
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Iri",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#createdOn"
+                        }
+                      ]
+                    },
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='productionStartDate']/sparql:literal"
+                      }
+                    },
+                    "valueType": "http://www.w3.org/2001/XMLSchema#dateTime",
+                    "idShort": "createdOn",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "Timestamp when the relation between the parent part and the child item was created"
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "Created on"
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "SubmodelElementCollection"
+                    },
+                    "idShort": "Quantity",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "Comprises the number of objects and the unit of measurement for the respective child objects within the parent part"
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "Quantity"
+                      }
+                    ],
+                    "value": [
+                      {
+                        "modelType": {
+                          "name": "Property"
+                        },
+                        "kind": "Instance",
+                        "semanticId": {
+                          "keys": [
+                            {
+                              "idType": "Iri",
+                              "type": "ConceptDescription",
+                              "value": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#quantityNumber"
+                            }
+                          ]
+                        },
+                        "@bind": {
+                          "value": {
+                            "@xpath": "./sparql:binding[@name='parentQuantity']/sparql:literal"
+                          }
+                        },
+                        "valueType": "http://www.w3.org/2001/XMLSchema#double",
+                        "idShort": "quantityNumber",
+                        "description": [
+                          {
+                            "language": "en",
+                            "text": "The number of objects related to the measurement unit"
+                          }
+                        ],
+                        "displayName": [
+                          {
+                            "language": "en",
+                            "text": "Quantity Number"
+                          }
+                        ]
+                      },
+                      {
+                        "modelType": {
+                          "name": "Property"
+                        },
+                        "kind": "Instance",
+                        "semanticId": {
+                          "keys": [
+                            {
+                              "idType": "Iri",
+                              "type": "ConceptDescription",
+                              "value": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#measurementUnit"
+                            }
+                          ]
+                        },
+                        "@bind": {
+                          "value": {
+                            "@xpath": "./sparql:binding[@name='billOfMaterialUnit']/sparql:uri"
+                          }
+                        },
+                        "valueType": "urn:bamm:io.openmanufacturing:meta-model:2.0.0#curie",
+                        "idShort": "measurementUnit",
+                        "description": [
+                          {
+                            "language": "en",
+                            "text": "Unit of measurement for the quantity of objects.\n                                                                    If possible, use units from the aspect meta model unit catalog, which is based on the UNECE Recommendation No. 20 \"Codes for Units of Measure used in International Trade\"."
+                          }
+                        ],
+                        "displayName": [
+                          {
+                            "language": "en",
+                            "text": "Measurement Unit"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Iri",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#lastModifiedOn"
+                        }
+                      ]
+                    },
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='productionStartDate']/sparql:literal"
+                      }
+                    },
+                    "valueType": "http://www.w3.org/2001/XMLSchema#dateTime",
+                    "idShort": "lastModifiedOn",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "Timestamp when the relationship between parent part and child part was last modified."
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "Last Modified on"
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Iri",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#parentCatenaXId"
+                        }
+                      ]
+                    },
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='parentCatenaXId']/sparql:uri"
+                      }
+                    },
+                    "valueType": "http://www.w3.org/2001/XMLSchema#string",
+                    "idShort": "parentCatenaXId",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "The Catena-X ID of the parent object into which the given child part is assembled into."
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "Catena-X Parent ID"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "description": [
+          {
+            "language": "en",
+            "text": "The single-level Bill of Material represents one level of assemblies and does not include any super-assemblies. In As-Planned lifecycle state all variants are covered (\"120% BoM\").\n                    If a child part is assembled into multiple versions of parent part, all versions of the parent part are included in the BoM.\n                    If there are multiple suppliers for the same child part, each supplier has an entry for their child part in the BoM."
+          }
+        ]
+      }
+    ],
+    "conceptDescriptions": [
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "The single-level Bill of Material represents one level of assemblies and does not include any super-assemblies. In As-Planned lifecycle state all variants are covered (\"120% BoM\")."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Single Level Usage as Planned"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "SingleLevelUsageAsPlanned"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
+        },
+        "category": "APPLICATION_CLASS",
+        "idShort": "SingleLevelUsageAsPlanned",
+        "description": [
+          {
+            "language": "en",
+            "text": "The single-level Bill of Material represents one level of assemblies and does not include any super-assemblies. In As-Planned lifecycle state all variants are covered (\"120% BoM\")."
+          }
+        ],
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Single Level Usage as Planned"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Trait to ensure UUID v4 data format"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Catena-X Identifier"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "catenaXId"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#catenaXId"
+        },
+        "idShort": "CatenaXIdTraitCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Catena-X ID Trait"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property which contains the date and time with an optional timezone."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Created on"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "createdOn"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#createdOn"
+        },
+        "idShort": "Timestamp",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Timestamp"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "RealMeasure",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Quantifiable number of objects in reference to the measurementUnit"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Quantity Number"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "quantityNumber"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#quantityNumber"
+        },
+        "idShort": "NumberofObjects",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Number of Objects"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property containing a reference to one of the units in the Unit Catalog."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Measurement Unit"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "measurementUnit"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#measurementUnit"
+        },
+        "idShort": "UnitReference",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Unit Reference"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes the quantity in which the child part is assembled in the given parent object by providing a quantity value and the measurement unit in which the quantity is measured."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Quantity"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "quantity"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#quantity"
+        },
+        "idShort": "QuantityCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Quantity Characteristic"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property which contains the date and time with an optional timezone."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Last Modified on"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "lastModifiedOn"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#lastModifiedOn"
+        },
+        "idShort": "Timestamp",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Timestamp"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Trait to ensure UUID v4 data format"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Catena-X Parent ID"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "parentCatenaXId"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#parentCatenaXId"
+        },
+        "idShort": "CatenaXIdTraitCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Catena-X ID Trait"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property which contains the date and time with an optional timezone."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Valid from"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "validFrom"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#validFrom"
+        },
+        "idShort": "Timestamp",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Timestamp"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property which contains the date and time with an optional timezone."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Valid to"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "validTo"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#validTo"
+        },
+        "idShort": "Timestamp",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Timestamp"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Characteristic for a validity period defined by an (optional) start and an (optional) end timestamp."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Validity Period"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "validityPeriod"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#validityPeriod"
+        },
+        "idShort": "ValidityPeriodCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Validity Period Characteristic"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Trait to ensure BPNL format"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Catena-X Business Partner"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "businessPartner"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#businessPartner"
+        },
+        "idShort": "BusinessPartnerCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Catena-X Business Partner"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Set of parent parts the child object is assembled into (one structural level up)."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Parent Parts"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "parentParts"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Iri",
+          "id": "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#parentParts"
+        },
+        "idShort": "SetOfParentPartsCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Set of Parent Parts"
+          }
+        ]
+      }
+    ]
+  }
+}

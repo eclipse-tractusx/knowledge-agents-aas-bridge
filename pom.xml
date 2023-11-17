@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * Copyright (c) 2023 SAP SE 
+ * Copyright (c) 2023 T-Systems International GmbH 
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+-->
+
+<!--
+  Pom for building aas bridges
+-->
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.eclipse.tractusx.agents</groupId>
+    <artifactId>aas</artifactId>
+    <version>0.10.5-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Tractus-X Knowledge Agents AAS Bridges</name>
+    <description>Provides Implementations for Bridging Knowledge Agents and AAS</description>
+    <dependencies>
+    </dependencies>
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <skipTests>false</skipTests>
+
+        <junit.version>5.9.0</junit.version>
+        <mockito.version>4.6.1</mockito.version>
+        <failsafe.version>3.2.4</failsafe.version>
+        <okhttp.version>4.9.3</okhttp.version>
+        <rdf4j.version>4.3.3</rdf4j.version>
+        <slf4j.version>2.0.7</slf4j.version>
+        <httpcomponents.version>4.5.14</httpcomponents.version>
+        <commons.logging.version>1.2</commons.logging.version>
+        <jackson.version>2.15.2</jackson.version>
+        <jackson.databind.version>2.15.2</jackson.databind.version>
+        <jaxb.version>2.3.0</jaxb.version>
+        <ontop.version>5.0.2</ontop.version>
+        <!-- Source characteristics -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <servlet.version>3.1.0</servlet.version>
+        <spring.version>5.3.28</spring.version>
+        <spring.boot.version>2.7.13</spring.boot.version>
+        <guava.version>32.0.1-jre</guava.version>
+        <tomcat.version>9.0.78</tomcat.version>
+        <netty.version>4.1.94.Final</netty.version>
+        <jetty.version>9.4.51.v20230217</jetty.version>
+        <org.yaml.snakeyaml.version>2.0</org.yaml.snakeyaml.version>
+        <snappy.version>1.1.10.2</snappy.version>
+        <postgres.version>42.6.0</postgres.version>
+        <!-- REPO -->
+        <repo>tractusx/</repo>
+        <platform>linux/amd64</platform>
+    </properties>    
+    <modules>
+        <module>sparql-aas</module>
+    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <!-- BOMs -->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-bom</artifactId>
+                <version>${mockito.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <!-- unfortunately you have to repeat that in all relevant sub-modules -->
+                    <configuration>
+                        <groups>!online</groups>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <!--
+                        NOTE: To build and tag docker images the `docker` executable needs to
+                                be on the PATH to be used by the exec-maven-plugin plugin
+                    -->
+                    <executions>
+                        <execution>
+                            <id>docker-build-${project.artifactId}:${project.version}</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <executable>docker</executable>
+                                <workingDirectory>${project.basedir}</workingDirectory>
+                                <arguments>
+                                    <argument>build</argument>
+                                    <argument>--platform</argument>
+                                    <argument>${platform}</argument>
+                                    <argument>-f</argument>
+                                    <argument>src/main/docker/Dockerfile</argument>
+                                    <argument>-t</argument>
+                                    <argument>${repo}${project.artifactId}:${project.version}</argument>
+                                    <argument>.</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>docker-tag-${project.artifactId}:latest</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <executable>docker</executable>
+                                <workingDirectory>${project.basedir}</workingDirectory>
+                                <arguments>
+                                    <argument>tag</argument>
+                                    <argument>${repo}${project.artifactId}:${project.version}</argument>
+                                    <argument>${repo}${project.artifactId}:latest</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>docker-push-${project.artifactId}:${project.version}</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <executable>docker</executable>
+                                <workingDirectory>${project.basedir}</workingDirectory>
+                                <arguments>
+                                    <argument>push</argument>
+                                    <argument>${repo}${project.artifactId}:${project.version}</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <configuration>
+                        <configLocation>${session.executionRootDirectory}/resources/tx-checkstyle-config.xml</configLocation>
+                        <propertyExpansion>
+                            config_loc=${session.executionRootDirectory}/resources
+                        </propertyExpansion>
+                        <consoleOutput>true</consoleOutput>
+                        <failsOnError>true</failsOnError>
+                        <linkXRef>false</linkXRef>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>validate</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.eclipse.dash</groupId>
+                    <artifactId>license-tool-plugin</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                    <configuration>
+                        <projectId>automotive.tractusx</projectId>
+                        <summary>DEPENDENCIES</summary>
+                        <includeScope>test</includeScope>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>license-check</id>
+                            <goals>
+                                <goal>license-check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+        <repository> <!-- To be able to use Eclipse aas4j -->
+            <id>aas4j</id>
+            <url>https://maven.pkg.github.com/arnoweiss/aas4j-transformation-library</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Tractus-X Maven Repository on Github</name>
+            <url>https://maven.pkg.github.com/eclipse-tractusx/knowledge-agents-aas-bridge</url>
+        </repository>
+    </distributionManagement>
+</project>

@@ -1,0 +1,96 @@
+{
+  "@header": {
+    "version": "0.0.1",
+    "aasVersion": "3.0RC01",
+    "@variables": {
+      "domain": "traceability"
+    },
+    "@namespaces": {
+      "sparql": "http://www.w3.org/2005/sparql-results#",
+      "semanticId": "https://w3id.org/catenax/ontology/aas#"
+    },
+    "@definitions": {
+      "genAssetId": {
+        "@concatenate": [
+          {
+            "@var": "domain"
+          },
+          "/",
+          {
+            "@xpath": "./sparql:binding[@name='id']/sparql:uri"
+          }
+        ]
+      }
+    }
+  },
+  "aasEnvironmentMapping": {
+    "assetAdministrationShells": [
+      {
+        "@foreach": {
+          "@xpath": "//sparql:result"
+        },
+        "@bind": {
+          "idShort": {
+            "@def": "genAssetId"
+          }
+        },
+        "identification": {
+            "@bind": {
+              "id": {
+                "@def": "genAssetId"
+              }
+            },
+            "idType": "Iri"
+        },
+        "description": [{
+          "language": "en",
+          "@bind": {
+            "text": {
+              "@xpath": "./sparql:binding[@name='name']/sparql:literal"
+            }
+          }
+        }],
+        "assetInformation": {
+          "assetKind": "Instance",
+          "globalAssetId": {
+            "keys": [
+              {
+                "@bind": {
+                  "value": {
+                    "@def": "genAssetId"
+                  }
+                },
+                "idType": "Iri",
+                "type": "AssetAdministrationShell"
+              }
+            ]
+          }
+        },
+        "submodels": [
+          {
+            "@foreach": {
+              "@xpath": "./sparql:binding[@name != 'id'and @name != 'name']"
+            },
+            "keys": [
+              {
+                "idType": "Iri",
+                "type": "Submodel",
+                "@bind": {
+                  "value": {
+                    "@concatenate": [
+                      {"@var":  "domain"},
+                      "/",
+                      {"@xpath":  "./sparql:uri"},
+                      "/",
+                      {"@xpath":  "../sparql:binding[@name = 'id']/sparql:uri"}
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
