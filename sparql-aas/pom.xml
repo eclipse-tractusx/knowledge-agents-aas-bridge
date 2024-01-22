@@ -131,7 +131,7 @@
         <dependency>
             <groupId>org.eclipse.rdf4j</groupId>
             <artifactId>rdf4j-queryresultio-sparqlxml</artifactId>
-            <version>4.1.0</version>
+            <version>4.3.9</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
