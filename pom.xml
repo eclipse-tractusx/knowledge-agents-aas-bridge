@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+ * Copyright (c) 2023,2024 T-Systems International GmbH 
  * Copyright (c) 2023 SAP SE 
- * Copyright (c) 2023 T-Systems International GmbH 
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -39,30 +39,29 @@
         <maven.compiler.target>11</maven.compiler.target>
         <skipTests>false</skipTests>
 
-        <junit.version>5.9.0</junit.version>
-        <mockito.version>4.6.1</mockito.version>
-        <failsafe.version>3.2.4</failsafe.version>
-        <okhttp.version>4.9.3</okhttp.version>
-        <rdf4j.version>4.3.3</rdf4j.version>
-        <slf4j.version>2.0.7</slf4j.version>
+        <junit.version>5.10.2</junit.version>
+        <mockito.version>5.2.0</mockito.version>
+        <failsafe.version>3.3.2</failsafe.version>
+        <okhttp.version>4.12.0</okhttp.version>
+        <rdf4j.version>4.3.8</rdf4j.version>
         <httpcomponents.version>4.5.14</httpcomponents.version>
         <commons.logging.version>1.2</commons.logging.version>
         <jackson.version>2.15.2</jackson.version>
         <jackson.databind.version>2.15.2</jackson.databind.version>
-        <jaxb.version>2.3.0</jaxb.version>
-        <ontop.version>5.0.2</ontop.version>
+        <jaxb.version>2.3.1</jaxb.version>        
+        <servlet.version>3.1.0</servlet.version>
+        <spring.version>5.3.31</spring.version>
+        <spring.boot.version>2.7.18</spring.boot.version>
+        <guava.version>32.1.2-jre</guava.version>
+        <tomcat.version>9.0.83</tomcat.version>
+        <netty.version>4.1.101.Final</netty.version>
+        <jetty.version>9.4.54.v20240208</jetty.version>
+        <org.yaml.snakeyaml.version>2.2</org.yaml.snakeyaml.version>
+        <snappy.version>1.1.10.5</snappy.version>
+        <postgres.version>42.7.2</postgres.version>
+
         <!-- Source characteristics -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <servlet.version>3.1.0</servlet.version>
-        <spring.version>5.3.28</spring.version>
-        <spring.boot.version>2.7.13</spring.boot.version>
-        <guava.version>32.0.1-jre</guava.version>
-        <tomcat.version>9.0.78</tomcat.version>
-        <netty.version>4.1.94.Final</netty.version>
-        <jetty.version>9.4.51.v20230217</jetty.version>
-        <org.yaml.snakeyaml.version>2.0</org.yaml.snakeyaml.version>
-        <snappy.version>1.1.10.2</snappy.version>
-        <postgres.version>42.6.0</postgres.version>
         <!-- REPO -->
         <repo>tractusx/</repo>
         <platform>linux/amd64</platform>
@@ -95,9 +94,27 @@
 
             <plugins>
                 <plugin>
+                    <groupId>org.eclipse.dash</groupId>
+                    <artifactId>license-tool-plugin</artifactId>
+                    <version>1.1.1-SNAPSHOT</version>
+                    <configuration>
+                        <projectId>automotive.tractusx</projectId>
+                        <summary>DEPENDENCIES</summary>
+                        <includeScope>test</includeScope>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>license-check</id>
+                            <goals>
+                                <goal>license-check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.5</version>
                     <!-- unfortunately you have to repeat that in all relevant sub-modules -->
                     <configuration>
                         <groups>!online</groups>
@@ -131,6 +148,10 @@
                                     <argument>${platform}</argument>
                                     <argument>-f</argument>
                                     <argument>src/main/docker/Dockerfile</argument>
+                                    <argument>--build-arg</argument>
+                                    <argument>JAR=target/${project.artifactId}.jar</argument>
+                                    <argument>--build-arg</argument>
+                                    <argument>LIB=target/lib</argument>
                                     <argument>-t</argument>
                                     <argument>${repo}${project.artifactId}:${project.version}</argument>
                                     <argument>.</argument>
@@ -176,13 +197,28 @@
                     <version>2.4</version>
                 </plugin>
                 <plugin>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <version>2.42.0</version>
+                    <executions>
+                        <execution>
+                            <id>format</id>
+                            <phase>process-sources</phase>
+                            <goals>
+                                <goal>check</goal>
+                                <goal>apply</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>3.3.0</version>
                     <configuration>
-                        <configLocation>${session.executionRootDirectory}/resources/tx-checkstyle-config.xml</configLocation>
+                        <configLocation>${project.basedir}/../resources/tx-checkstyle-config.xml</configLocation>
                         <propertyExpansion>
-                            config_loc=${session.executionRootDirectory}/resources
+                            config_loc=${project.basedir}/../resources
                         </propertyExpansion>
                         <consoleOutput>true</consoleOutput>
                         <failsOnError>true</failsOnError>
@@ -198,24 +234,6 @@
                         </execution>
                     </executions>
                 </plugin>
-                <plugin>
-                    <groupId>org.eclipse.dash</groupId>
-                    <artifactId>license-tool-plugin</artifactId>
-                    <version>0.0.1-SNAPSHOT</version>
-                    <configuration>
-                        <projectId>automotive.tractusx</projectId>
-                        <summary>DEPENDENCIES</summary>
-                        <includeScope>test</includeScope>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>license-check</id>
-                            <goals>
-                                <goal>license-check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -226,11 +244,17 @@
             <name>Maven Central</name>
             <url>https://repo1.maven.org/maven2</url>
         </repository>
-        <repository> <!-- To be able to use Eclipse aas4j -->
-            <id>aas4j</id>
-            <url>https://maven.pkg.github.com/arnoweiss/aas4j-transformation-library</url>
-        </repository>
     </repositories>
+
+    <pluginRepositories>
+	    <pluginRepository>
+		<id>dash-licenses-snapshots</id>
+		<url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+	    </pluginRepository>
+    </pluginRepositories>
 
     <distributionManagement>
         <repository>
