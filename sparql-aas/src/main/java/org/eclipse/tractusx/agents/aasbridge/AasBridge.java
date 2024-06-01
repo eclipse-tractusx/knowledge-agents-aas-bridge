@@ -27,7 +27,7 @@ import de.fraunhofer.iosb.ilt.faaast.service.exception.ConfigurationException;
 import de.fraunhofer.iosb.ilt.faaast.service.exception.EndpointException;
 import de.fraunhofer.iosb.ilt.faaast.service.exception.MessageBusException;
 import de.fraunhofer.iosb.ilt.faaast.service.messagebus.internal.MessageBusInternalConfig;
-import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
+import org.eclipse.digitaltwin.aas4j.v3.model.impl.DefaultEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +56,7 @@ public class AasBridge {
         mainLogger.debug("Built coreConfig {}", coreConfig);
 
         PersistenceInKnowledgeConfig persistenceConfig = PersistenceInKnowledgeConfig.builder()
-                .initialModel(new DefaultAssetAdministrationShellEnvironment.Builder().build())
+                .initialModel(new DefaultEnvironment.Builder().build())
                 .mappings(AasUtils.loadConfigsFromResources())
                 .threadPoolSize(5)
                 .timeoutSeconds(5)
