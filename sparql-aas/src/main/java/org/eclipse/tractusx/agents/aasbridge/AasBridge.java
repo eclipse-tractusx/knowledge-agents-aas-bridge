@@ -26,6 +26,8 @@ import de.fraunhofer.iosb.ilt.faaast.service.endpoint.http.HttpEndpointConfig;
 import de.fraunhofer.iosb.ilt.faaast.service.exception.ConfigurationException;
 import de.fraunhofer.iosb.ilt.faaast.service.exception.EndpointException;
 import de.fraunhofer.iosb.ilt.faaast.service.exception.MessageBusException;
+import de.fraunhofer.iosb.ilt.faaast.service.filestorage.FileStorageConfig;
+import de.fraunhofer.iosb.ilt.faaast.service.filestorage.memory.FileStorageInMemoryConfig;
 import de.fraunhofer.iosb.ilt.faaast.service.messagebus.internal.MessageBusInternalConfig;
 import org.eclipse.digitaltwin.aas4j.v3.model.impl.DefaultEnvironment;
 import org.slf4j.Logger;
@@ -67,7 +69,7 @@ public class AasBridge {
 
         mainLogger.debug("Built persistenceConfig {}", persistenceConfig);
 
-        HttpEndpointConfig httpConfig = HttpEndpointConfig.builder().cors(true).build();
+        HttpEndpointConfig httpConfig = HttpEndpointConfig.builder().cors(true).port(8080).build();
 
         mainLogger.debug("Built httpConfig {}", httpConfig);
 
@@ -75,9 +77,14 @@ public class AasBridge {
 
         mainLogger.debug("Built busConfig {}", busConfig);
 
+        FileStorageConfig fsConfig = FileStorageInMemoryConfig.builder().build();
+
+        mainLogger.debug("Built fsConfig {}", fsConfig);
+
         ServiceConfig serviceConfig = ServiceConfig.builder()
                 .core(coreConfig)
                 .persistence(persistenceConfig)
+                .fileStorage(fsConfig)
                 .endpoint(httpConfig)
                 .messageBus(busConfig)
                 .build();

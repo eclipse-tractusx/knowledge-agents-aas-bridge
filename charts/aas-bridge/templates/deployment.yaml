@@ -61,7 +61,8 @@ spec:
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
-              path: /serialization?includeConceptDescriptions=true
+              scheme: HTTPS
+              path: /api/v3.0/description
               port: default
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -70,7 +71,8 @@ spec:
           {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
-              path: /serialization?includeConceptDescriptions=true
+              scheme: HTTPS
+              path: /api/v3.0/description
               port: default
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
@@ -79,7 +81,8 @@ spec:
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
             httpGet:
-              path: /serialization?includeConceptDescriptions=true
+              scheme: HTTPS
+              path: /api/v3.0/description
               port: default
             failureThreshold: {{ .Values.startupProbe.failureThreshold }}
             periodSeconds: {{ .Values.startupProbe.periodSeconds }}
