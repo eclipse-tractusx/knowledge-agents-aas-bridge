@@ -1,6 +1,6 @@
+# Copyright (c) 2023,2024 T-Systems International GmbH
 # Copyright (c) 2023 SAP SE
-# Copyright (c) 2023 T-Systems International GmbH
-# Copyright (c) 2023 Contributors to the Eclipse Foundation
+# Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -17,19 +17,17 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM alpine:3.18.2 as otel
 
-ENV OTEL_AGENT_LOCATION "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.12.1/opentelemetry-javaagent.jar"
+FROM alpine:3.19.0 AS otel
+
+ENV OTEL_AGENT_LOCATION "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.27.0/opentelemetry-javaagent.jar"
 
 HEALTHCHECK NONE
 
-RUN wget ${OTEL_AGENT_LOCATION} -O /tmp/opentelemetry-javaagent.jar
+RUN apk update && apk add curl=8.5.0-r0 --no-cache
+RUN curl -L --proto "=https" -sSf ${OTEL_AGENT_LOCATION} --output /tmp/opentelemetry-javaagent.jar
 
-FROM eclipse-temurin:17-jre-alpine
-
-ARG JAR
-ARG LIB
-ARG RESOURCES resources
+FROM eclipse-temurin:22_36-jre-alpine
 
 ARG APP_USER=faaast
 ARG APP_UID=10100
@@ -69,7 +67,7 @@ COPY target/aas-bridge.jar aas-bridge.jar
 COPY target/lib ./lib/
 COPY resources ./resources/
 
-EXPOSE 8080
+EXPOSE 8443
 
 HEALTHCHECK NONE
 

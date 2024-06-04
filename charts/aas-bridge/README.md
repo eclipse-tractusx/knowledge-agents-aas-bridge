@@ -1,4 +1,6 @@
 <!--
+ * Copyright (c) 2023 SAP SE
+ * Copyright (c) 2023 T-Systems International GmbH
  * Copyright (c) 2022,2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -15,23 +17,22 @@
  * under the License.
  *
  * SPDX-License-Identifier: Apache-2.0
-
 -->
 
-# conforming-agent
+# aas-bridge
 
-![Version: 1.9.6-SNAPSHOT](https://img.shields.io/badge/Version-1.9.6--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.9.5-SNAPSHOT](https://img.shields.io/badge/AppVersion-1.9.5--SNAPSHOT-informational?style=flat-square)
+![Version: 0.13.6-SNAPSHOT](https://img.shields.io/badge/Version-0.13.6--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.13.6-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.13.6--SNAPSHOT-informational?style=flat-square)
 
-A Helm chart for the Tractus-X Conforming Agent which is a container to assess the conformity of all other parts of the Agent-Enabled Dataspace.
+A Helm chart for the Tractus-X Knowledge Agents AAS Bridge which is a container to provide an AAS server/registry on top of a knowledge graph/SPARQL landscape.
 
 This chart has no prerequisites.
 
-**Homepage:** <https://github.com/eclipse-tractusx/knowledge-agents/>
+**Homepage:** <https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge/>
 
 ## TL;DR
 ```shell
 $ helm repo add eclipse-tractusx https://eclipse-tractusx.github.io/charts/dev
-$ helm install my-release eclipse-tractusx/conforming-agent --version 1.9.6-SNAPSHOT
+$ helm install my-release eclipse-tractusx/aas-bridge --version 0.13.6-SNAPSHOT
 ```
 
 ## Maintainers
@@ -42,17 +43,20 @@ $ helm install my-release eclipse-tractusx/conforming-agent --version 1.9.6-SNAP
 
 ## Source Code
 
-* <https://github.com/eclipse-tractusx/knowledge-agents/tree/main/conforming>
+* <https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge/tree/main/sparql-aas>
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| aas.endpoints.default.auth | object | `{}` | An auth object for default security |
+| aas.endpoints.default.path | string | `""` | The path mapping the "default" api is going to be exposed by |
+| aas.endpoints.default.port | string | `"8443"` | The network port, which the "default" api is going to be exposed by the container, pod and service |
+| aas.endpoints.default.regex | string | `""` | An optional regex path match (whose match groups could be used in an nginx-annotation of the ingress) |
+| aas.persistence.auth.key | string | `"Basic "` | The key that should be used in the authorization header when talking to the sparql server |
+| aas.persistence.log | bool | `false` | whether the results of the queries should be logged |
+| aas.persistence.sparql | string | `"http://sparql.local"` | The default sparql server is embedded |
 | affinity | object | `{}` | [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) constrains which nodes the Pod can be scheduled on based on node labels. |
-| agent.endpoints.default.auth | object | `{}` | An auth object for default security |
-| agent.endpoints.default.path | string | `""` | The path mapping the "default" api is going to be exposed by |
-| agent.endpoints.default.port | string | `"8080"` | The network port, which the "default" api is going to be exposed by the container, pod and service |
-| agent.endpoints.default.regex | string | `"/(.*)"` | An optional regex path match (whose match groups could be used in an nginx-annotation of the ingress) |
 | automountServiceAccountToken | bool | `false` | Whether to [automount kubernetes API credentials](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#use-the-default-service-account-to-access-the-api-server) into the pod |
 | autoscaling.enabled | bool | `false` | Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
 | autoscaling.maxReplicas | int | `100` | Maximum replicas if resource consumption exceeds resource threshholds |
@@ -60,14 +64,14 @@ $ helm install my-release eclipse-tractusx/conforming-agent --version 1.9.6-SNAP
 | autoscaling.targetCPUUtilizationPercentage | int | `80` | targetAverageUtilization of cpu provided to a pod |
 | autoscaling.targetMemoryUtilizationPercentage | int | `80` | targetAverageUtilization of memory provided to a pod |
 | customLabels | object | `{}` | Additional custom Labels to add |
-| env | object | `{}` | Container environment variables e.g. for configuring [JAVA_TOOL_OPTIONS](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/envvars002.html) Ex.:   JAVA_TOOL_OPTIONS: >     -Dhttp.proxyHost=proxy -Dhttp.proxyPort=80 -Dhttp.nonProxyHosts="localhost|127.*|[::1]" -Dhttps.proxyHost=proxy -Dhttps.proxyPort=443 |
+| env | object | `{}` | Container environment variables e.g. for configuring [JAVA_TOOL_OPTIONS](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/envvars002.html) Ex.:       JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040" |
 | envSecretName | string | `nil` | [Kubernetes Secret Resource](https://kubernetes.io/docs/concepts/configuration/secret/) name to load environment variables from |
 | fullnameOverride | string | `""` | Overrides the releases full name |
-| image.digest | string | `""` | Overrides the image digest  |
+| image.digest | string | `""` | Overrides the image digest |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.pullSecrets | list | `[]` |  |
-| image.registry | string | `"docker.io"` | target regirtry |
-| image.repository | string | `"tractusx/conforming-agent"` | Which derivate of agent to use |
+| image.registry | string | `"docker.io/"` | target registry |
+| image.repository | string | `"tractusx/aas-bridge"` | Which derivate of agent to use |
 | image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion |
 | ingresses[0].annotations | string | `nil` | Additional ingress annotations to add, for example when implementing more complex routings you may set { nginx.ingress.kubernetes.io/rewrite-target: /$1, nginx.ingress.kubernetes.io/use-regex: "true" } |
 | ingresses[0].certManager.clusterIssuer | string | `""` | If preset enables certificate generation via cert-manager cluster-wide issuer |
@@ -75,17 +79,18 @@ $ helm install my-release eclipse-tractusx/conforming-agent --version 1.9.6-SNAP
 | ingresses[0].className | string | `""` | Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use |
 | ingresses[0].enabled | bool | `false` |  |
 | ingresses[0].endpoints | list | `["default"]` | Agent endpoints exposed by this ingress resource |
-| ingresses[0].hostname | string | `"conforming-agent.local"` | The hostname to be used to precisely map incoming traffic onto the underlying network service |
+| ingresses[0].hostname | string | `"aas-bridge.local"` | The hostname to be used to precisely map incoming traffic onto the underlying network service |
 | ingresses[0].prefix | string | `""` | Optional prefix that will be prepended to the paths of the endpoints |
 | ingresses[0].tls | object | `{"enabled":false,"secretName":""}` | TLS [tls class](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) applied to the ingress resource |
 | ingresses[0].tls.enabled | bool | `false` | Enables TLS on the ingress resource |
 | ingresses[0].tls.secretName | string | `""` | If present overwrites the default secret name |
 | livenessProbe.enabled | bool | `true` | Whether to enable kubernetes [liveness-probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
 | livenessProbe.failureThreshold | int | `3` | Minimum consecutive failures for the probe to be considered failed after having succeeded |
-| livenessProbe.periodSeconds | int | `60` | Number of seconds each period lasts.   |
+| livenessProbe.periodSeconds | int | `60` | Number of seconds each period lasts. |
 | livenessProbe.timeoutSeconds | int | `5` | number of seconds until a timeout is assumed |
 | nameOverride | string | `""` | Overrides the charts name |
 | nodeSelector | object | `{}` | [Node-Selector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) to constrain the Pod to nodes with specific labels. |
+| opentelemetry | string | `"otel.javaagent.enabled=false\notel.javaagent.debug=false"` | configuration of the [Open Telemetry Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/) to collect and expose metrics |
 | podAnnotations | object | `{}` | [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) added to deployed [pods](https://kubernetes.io/docs/concepts/workloads/pods/) |
 | podSecurityContext.fsGroup | int | `30000` | The owner for volumes and any files created within volumes will belong to this guid |
 | podSecurityContext.runAsGroup | int | `30000` | Processes within a pod will belong to this guid |
@@ -93,10 +98,10 @@ $ helm install my-release eclipse-tractusx/conforming-agent --version 1.9.6-SNAP
 | podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Restrict a Container's Syscalls with seccomp |
 | readinessProbe.enabled | bool | `true` | Whether to enable kubernetes readiness-probes |
 | readinessProbe.failureThreshold | int | `3` | Minimum consecutive failures for the probe to be considered failed after having succeeded |
-| readinessProbe.periodSeconds | int | `300` | Number of seconds each period lasts.   |
+| readinessProbe.periodSeconds | int | `300` | Number of seconds each period lasts. |
 | readinessProbe.timeoutSeconds | int | `5` | number of seconds until a timeout is assumed |
 | replicaCount | int | `1` | Specifies how many replicas of a deployed pod shall be created during the deployment Note: If horizontal pod autoscaling is enabled this setting has no effect |
-| resources | object | `{"limits":{"cpu":"400m","memory":"256Mi"},"requests":{"cpu":"200m","memory":"256Mi"}}` | [Resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) applied to the deployed pod We recommend 20% of a cpu and 256MB per endpoint  |
+| resources | object | `{"limits":{"cpu":"400m","memory":"1Gi"},"requests":{"cpu":"400m","memory":"1Gi"}}` | [Resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) applied to the deployed pod We recommend 40% of a cpu and unfortunately 1Gi to initialise the library |
 | securityContext.allowPrivilegeEscalation | bool | `false` | Controls [Privilege Escalation](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privilege-escalation) enabling setuid binaries changing the effective user ID |
 | securityContext.capabilities.add | list | `["NET_BIND_SERVICE"]` | Specifies which capabilities to add to issue specialized syscalls |
 | securityContext.capabilities.drop | list | `["ALL"]` | Specifies which capabilities to drop to reduce syscall attack surface |
@@ -109,11 +114,11 @@ $ helm install my-release eclipse-tractusx/conforming-agent --version 1.9.6-SNAP
 | serviceAccount.create | bool | `true` | Specifies whether a [service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) should be created per release |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the release's fullname template |
 | startupProbe.enabled | bool | `true` | Whether to enable kubernetes startup-probes |
-| startupProbe.failureThreshold | int | `18` | Minimum consecutive failures for the probe to be considered failed after having succeeded |
+| startupProbe.failureThreshold | int | `4` | Minimum consecutive failures for the probe to be considered failed after having succeeded |
 | startupProbe.initialDelaySeconds | int | `60` | Number of seconds after the container has started before liveness probes are initiated. |
-| startupProbe.periodSeconds | int | `30` | Number of seconds each period lasts.   |
+| startupProbe.periodSeconds | int | `30` | Number of seconds each period lasts. |
 | startupProbe.timeoutSeconds | int | `5` | number of seconds until a timeout is assumed |
 | tolerations | list | `[]` | [Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) are applied to Pods to schedule onto nodes with matching taints. |
 
 ----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.11.0](https://github.com/norwoodj/helm-docs/releases/v1.11.0)
+Autogenerated from chart metadata using [helm-docs v1.11.2](https://github.com/norwoodj/helm-docs/releases/v1.11.2)

@@ -72,7 +72,7 @@ public class AasBridge {
         HttpEndpointConfig httpConfig = HttpEndpointConfig
                 .builder()
                 .cors(true)
-                .port(8080)
+                .port(8443)
                 .sni(false)
                 .build();
 

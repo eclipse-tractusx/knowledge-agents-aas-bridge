@@ -35,7 +35,6 @@ Each domain describes a set of equally structured digital twins (in above exampl
 All twins of a domain are hosted in the same graph and they share the same set of submodels. We require that the domain id (folder name) coincides to the 
 first part of all asset and submodel ids (separated via "/").
 
-
 #### Mapping Configuration
 
 The structure (shell) of such a twin as well as the submodels are each described by a mapping configuration which is backed
@@ -44,21 +43,20 @@ by a set of files which share a common prefix and end with a suffix which descri
 A mapping configuration (for the sample the "partAsPlanned" submodel) consists of three files:
 - An [Unbound Query select-all.rq](resources/traceability/partAsPlanned-select-all.rq) is a non-parameterized SPARQL query that when executed against the graph will generated a dataset of part information for all parts appearing in the graph.
 - A [Bound Query select-some.rq](resources/traceability/partAsPlanned-select-some.rq) is a parameterized SPARQL query that will be given an argument ("%s") which will be formatted with the set of IRI literals coinciding to the IDs of the selected twins/parts.
-- A [Mapping Specification mapping.json](resources/traceability/partAsPlanned-mapping.json) that is an template (AAS4J Mapping Specification) which transforms the SPARQL result sets of above queries into an temporary AAS4J environment. This environment will be used to answer the respective endpoint query against the AAS server. After the query, the environment will be freed from memory, again.
+- A [Mapping Specification mapping.xslt](resources/traceability/partAsPlanned-mapping.xslt) that hosts a XML stylesheet template which transforms the SPARQL result sets of above queries into an temporary AAS4J environment following this [AAS XML Schema](https://github.com/eclipse-aas4j/aas4j/blob/main/dataformat-xml/src/main/resources/AAS.xsd). This environment will be used to answer the respective endpoint query against the AAS server. After the query, the environment will be freed from memory, again.
 
-Each mapping configuration (mapping.json) will introduce the namespace "semanticId". 
+Each mapping configuration (mapping.xslt) will introduce the namespace "semanticId". 
 If the "semanticId" is "https://w3id.org/catenax/ontology/aas#", then the mapping configuration will be used to build AssetAdministationShells (the actual twin "headers").
-Otherwise, the "semanticId" will be used to identifiy the respective submodel (and will be referred to in the [Shell mapping.json](resources/traceability/aas-mapping.json), the [Shell select-all.rq](resources/traceability/aas-select-all.rq) and [Shell select-some.rq](resources/traceability/aas-select-some.rq))
+Otherwise, the "semanticId" will be used to identifiy the respective submodel (and will be referred to in the [Shell mapping.xslt](resources/traceability/aas-mapping.xslt), the [Shell select-all.rq](resources/traceability/aas-select-all.rq) and [Shell select-some.rq](resources/traceability/aas-select-some.rq))
 
 #### Mapping Specification
 
 The AAS-Bridge makes a couple of assumptions about the content of the MappingSpecification:
-1. The @namespaces- AND the @variables-section of the @header both hold the semanticId of the Submodel that is to
+1. The xsl:stylesheet namespaces AND the xsl:variable section both hold the semanticId of the Submodel that is to
 be transformed
-2. IDs of submodel-instances must always start with the domain id and the semanticId of the submodel and the identifier of
-the asset (separated by "/"). How this can be achieved via configuration is demonstrated in the examples' @header-@definitions-section
-under `genSubmodelId`.
-3. If not provided explicitly, the function `AasUtils.loadConfigsFromResources()` will search the AAS-Bridge's resources
+2. IDs of submodel-instances must always start with the domain id (tracability/) followed by the semanticId of the submodel (/urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned) and the identifier of
+the asset ("/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e" - all separated by "/"). How this can be achieved via a template function is demonstrated in the examples' under `xsl:template name="genSubmodelId"`.
+3. The function `AasUtils.loadConfigsFromResources()` will search the AAS-Bridge's working directory "resources"
 folder for a set of the necessary data. The folder- and naming-convention must be adhered to strictly.
 
 #### Connection to the Knowledge Graph
@@ -94,17 +92,17 @@ docker build -t tractusx/aas-bridge:0.13.6-SNAPSHOT -f src/main/docker/Dockerfil
 To run the docker image against a local knowledge graph, you could invoke this command
 
 ```console
-docker run -p 8080:8080 \
+docker run -p 8443:8443 \
   -v $(pwd)/resources:/app/resources \
   -e "PROVIDER_SPARQL_ENDPOINT=http://oem-provider-agent:8082/sparql" \
   -e "PROVIDER_CREDENTIAL_BASIC=Basic Zm9vOg==" \
   tractusx/aas-bridge:0.13.6-SNAPSHOT
 ````
 
-Afterwards, you should be able to access the [local AAS endpoint](http://localhost:8080/) via REST
+Afterwards, you should be able to access the [local AAS endpoint](https://localhost:8443/) via REST
 
 ```console
-curl --request GET 'http://localhost:8080/serialization?includeConceptDescriptions=true'
+curl --request GET 'https://localhost:8443/api/v3.0/description'
 ```
 
 ### Notice for Docker Image
