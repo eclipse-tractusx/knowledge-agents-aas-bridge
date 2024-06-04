@@ -69,7 +69,12 @@ public class AasBridge {
 
         mainLogger.debug("Built persistenceConfig {}", persistenceConfig);
 
-        HttpEndpointConfig httpConfig = HttpEndpointConfig.builder().cors(true).port(8080).build();
+        HttpEndpointConfig httpConfig = HttpEndpointConfig
+                .builder()
+                .cors(true)
+                .port(8080)
+                .sni(false)
+                .build();
 
         mainLogger.debug("Built httpConfig {}", httpConfig);
 
