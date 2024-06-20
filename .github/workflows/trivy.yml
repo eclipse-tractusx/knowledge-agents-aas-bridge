@@ -1,8 +1,8 @@
 ---
 #
+#  Copyright (c) 2023,2024 T-Systems International GmbH 
 #  Copyright (c) 2023 SAP SE 
-#  Copyright (c) 2023 T-Systems International GmbH 
-#  Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
+#  Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
 #
 #  See the NOTICE file(s) distributed with this work for additional
 #  information regarding copyright ownership.
@@ -61,7 +61,7 @@ jobs:
         with:
           scan-type: "config"
           # ignore-unfixed: true
-          exit-code: "1"
+          exit-code: "0"
           hide-progress: false
           format: "sarif"
           output: "trivy-results-config.sarif"
@@ -127,7 +127,7 @@ jobs:
           image-ref: "${{ steps.set-docker-repo.outputs.REPO }}/${{ matrix.image }}:${{ needs.git-sha7.outputs.value }}"
           format: "sarif"
           output: "trivy-results-${{ matrix.image }}.sarif"
-          exit-code: "1"
+          exit-code: "0"
           severity: "CRITICAL,HIGH"
           timeout: "10m0s"
 

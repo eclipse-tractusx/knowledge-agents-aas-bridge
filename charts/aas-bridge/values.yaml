@@ -156,13 +156,13 @@ aas:
     ## Default api exposing health checks etc
     default:
       # -- The network port, which the "default" api is going to be exposed by the container, pod and service
-      port: "8080"
+      port: "8443"
       # -- An auth object for default security
       auth: {}
       # -- The path mapping the "default" api is going to be exposed by
       path: ""
       # -- An optional regex path match (whose match groups could be used in an nginx-annotation of the ingress)
-      regex: /(.*)
+      regex: ""
 
 service:
   # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
@@ -179,6 +179,7 @@ ingresses:
       # Example if you want more complex routings in interplay with the endpoints regex property
       # nginx.ingress.kubernetes.io/rewrite-target: /$1
       # nginx.ingress.kubernetes.io/use-regex: "true"
+      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     # -- Optional prefix that will be prepended to the paths of the endpoints
     prefix: ""
     # -- Agent endpoints exposed by this ingress resource

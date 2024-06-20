@@ -1,5 +1,6 @@
-# Copyright (c) 2022,2023 Contributors to the Eclipse Foundation
-#
+#!/bin/sh
+
+# Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
 #
@@ -14,28 +15,9 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
-#
-# Patterns to ignore when performing SCM actions.
-node_modules/
-dist/
-reports/
-*.tsbuildinfo
-bin/
-target/
-dependency-reduced-pom.xml
-.DS_Store
-logs/
-*.data
-*.iml
-.idea/
-*.versionsBackup
-.vscode
-.env
-__pycache__
-.classpath
-.project
-.settings/
-*cs-cleanup.xml
-*cs-formatter.xml
-.checkstyle
 
+OLD_VERSION=0.13.6-SNAPSHOT
+echo Upgrading from $OLD_VERSION to $1
+PATTERN=s/$OLD_VERSION/$1/g
+LC_ALL=C
+find ./ -type f \( -iname "*.xml" -o -iname "*.sh"  -o -iname "*.yml"  -o -iname "*.yaml"  -o -iname "*.md"  -o -iname "*.java" -o -iname "*.properties" \) -exec sed -i.bak $PATTERN {} \;

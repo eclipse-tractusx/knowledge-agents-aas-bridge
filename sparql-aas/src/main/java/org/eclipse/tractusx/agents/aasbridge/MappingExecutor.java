@@ -21,18 +21,15 @@ package org.eclipse.tractusx.agents.aasbridge;
 import de.fraunhofer.iosb.ilt.faaast.service.model.asset.AssetIdentification;
 import de.fraunhofer.iosb.ilt.faaast.service.model.asset.GlobalAssetIdentification;
 import de.fraunhofer.iosb.ilt.faaast.service.model.asset.SpecificAssetIdentification;
-import io.adminshell.aas.v3.model.Asset;
-import io.adminshell.aas.v3.model.AssetAdministrationShell;
-import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.ConceptDescription;
-import io.adminshell.aas.v3.model.Identifiable;
-import io.adminshell.aas.v3.model.Identifier;
-import io.adminshell.aas.v3.model.Reference;
-import io.adminshell.aas.v3.model.Submodel;
 import org.apache.commons.io.IOUtils;
-import org.eclipse.digitaltwin.aas4j.exceptions.TransformationException;
-import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
-import org.eclipse.digitaltwin.aas4j.transform.GenericDocumentTransformer;
+import org.eclipse.digitaltwin.aas4j.v3.dataformat.core.DeserializationException;
+import org.eclipse.digitaltwin.aas4j.v3.dataformat.xml.XmlDeserializer;
+import org.eclipse.digitaltwin.aas4j.v3.model.AssetAdministrationShell;
+import org.eclipse.digitaltwin.aas4j.v3.model.ConceptDescription;
+import org.eclipse.digitaltwin.aas4j.v3.model.Environment;
+import org.eclipse.digitaltwin.aas4j.v3.model.Identifiable;
+import org.eclipse.digitaltwin.aas4j.v3.model.Reference;
+import org.eclipse.digitaltwin.aas4j.v3.model.Submodel;
 import org.eclipse.rdf4j.query.resultio.helpers.QueryResultCollector;
 import org.eclipse.rdf4j.query.resultio.sparqlxml.SPARQLResultsXMLParser;
 
@@ -42,6 +39,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -57,6 +55,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
@@ -66,7 +68,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 public class MappingExecutor {
     public static final String DEFAULT_SPARQL_ENDPOINT = "http://sparql.local";
 
-    private final GenericDocumentTransformer transformer;
+    private final XmlDeserializer transformer;
     private final URI sparqlEndpoint;
 
     private final String credentials;
@@ -78,7 +80,7 @@ public class MappingExecutor {
 
     public MappingExecutor(String sparqlEndpoint, String credentials, int timeoutSeconds, int fixedThreadPoolSize, Map<String, List<MappingConfiguration>> mappings, boolean logResults) {
         this.mappings = mappings;
-        this.transformer = new GenericDocumentTransformer();
+        this.transformer = new XmlDeserializer();
         if (sparqlEndpoint == null) {
             sparqlEndpoint = DEFAULT_SPARQL_ENDPOINT;
         }
@@ -95,10 +97,10 @@ public class MappingExecutor {
             if (parameters[count] instanceof Iterable) {
                 render[count] = "";
                 for (var parameter : ((Iterable<Object>) parameters[count])) {
-                    render[count] += "<" + String.valueOf(parameter) + "> ";
+                    render[count] += "<" + parameter + "> ";
                 }
             } else {
-                render[count] = "<" + String.valueOf(parameters[count]) + ">";
+                render[count] = "<" + parameters[count] + ">";
             }
         }
         try {
@@ -120,12 +122,15 @@ public class MappingExecutor {
         }
     }
 
-    public AssetAdministrationShellEnvironment executeMapping(String query, MappingSpecification specification) {
+    public Environment executeMapping(String query, Transformer specification) {
         try {
-            InputStream queryResult = executeQuery(query).get();
-            return transformer.execute(queryResult, specification);
-        } catch (URISyntaxException | InterruptedException | ExecutionException | IOException |
-                 TransformationException ex) {
+            StreamSource querySource = new StreamSource(executeQuery(query).get());
+            StringWriter writer = new StringWriter();
+            StreamResult queryResult = new StreamResult(writer);
+            specification.transform(querySource, queryResult);
+            return transformer.read(writer.toString());
+        } catch (TransformerException | URISyntaxException | IOException | DeserializationException |
+                 InterruptedException | ExecutionException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -144,7 +149,7 @@ public class MappingExecutor {
             if (searchPath.exists()) {
                 return CompletableFuture.completedFuture(new FileInputStream(searchPath));
             } else {
-                throw new IOException(String.format("Could not find prepared result %s", searchPath.toString()));
+                throw new IOException(String.format("Could not find prepared result %s", searchPath));
             }
         } else {
             HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
@@ -173,7 +178,7 @@ public class MappingExecutor {
                     try (var os = new FileOutputStream(searchPath)) {
                         IOUtils.write(body.getBytes(), os);
                     } catch (IOException e) {
-                        System.err.printf("Could not write result log %s\n", searchPath.toString());
+                        System.err.printf("Could not write result log %s\n", searchPath);
                     }
                 }
                 return new ByteArrayInputStream(body.getBytes());
@@ -188,10 +193,10 @@ public class MappingExecutor {
      * @param type       class of the instance that should be returned
      * @return the found entity, should be null if not found
      */
-    public Identifiable queryIdentifiableById(Identifier identifier, Class<? extends Identifiable> type) {
+    public Identifiable queryIdentifiableById(String identifier, Class<? extends Identifiable> type) {
         if (type.isAssignableFrom(Submodel.class)) {
             // maybe separate by cd, sm, aas later
-            String[] components = identifier.getIdentifier().split("/");
+            String[] components = identifier.split("/");
             String domain = components[0];
             String semanticId = components[1];
             MappingConfiguration mapping = mappings.get(domain).stream()
@@ -202,19 +207,17 @@ public class MappingExecutor {
                     .getSubmodels()
                     .get(0); //should only be one
         } else if (type.isAssignableFrom(AssetAdministrationShell.class)) {
-            return queryAllShells(identifier.getIdentifier(), List.of(new SpecificAssetIdentification.Builder()
+            return queryAllShells(identifier, List.of(new SpecificAssetIdentification.Builder()
                     .key("ignoredAnyway")
-                    .value(identifier.getIdentifier())
+                    .value(identifier)
                     .build())).get(0);
             // check for existence of submodels
             // create new AAS maybe (maybe even here)
         } else if (type.isAssignableFrom(ConceptDescription.class)) {
             // execute all conceptDescriptionMappings on startup
             // keep in memory, never update, just query
-        } else if (type.isAssignableFrom(Asset.class)) {
-            // so what?
         } else {
-            throw new RuntimeException(String.format("Identifiable %s is neither AAS, Submodel or CD", identifier.getIdentifier()));
+            throw new RuntimeException(String.format("Identifiable %s is neither AAS, Submodel or CD", identifier));
         }
 
         return null;
@@ -229,20 +232,8 @@ public class MappingExecutor {
                         if (mapping.getSemanticId().equals("https://w3id.org/catenax/ontology/aas#")) {
                             File template = mapping.getGetAllQuery();
                             String query = parametrizeQuery(template);
-                            try {
-                                InputStream in = executeQuery(query).get();
-                                String result = new String(in.readAllBytes());
-                                if (queryResultEmpty(result)) {
-                                    return null;
-                                }
-                                AssetAdministrationShellEnvironment transformedEnv = transformer.execute(new ByteArrayInputStream(result.getBytes()),
-                                        mapping.getMappingSpecification());
-                                return transformedEnv.getAssetAdministrationShells().stream();
-                            } catch (URISyntaxException | IOException | ExecutionException | InterruptedException |
-                                     TransformationException e) {
-                                throw new RuntimeException(e);
-                            }
-
+                            Environment env = executeMapping(query, mapping.getMappingSpecification());
+                            return env.getAssetAdministrationShells().stream();
                         } else {
                             return Stream.of();
                         }
@@ -256,7 +247,7 @@ public class MappingExecutor {
                 String domain;
                 if (id.getClass().isAssignableFrom(GlobalAssetIdentification.class)) {
                     GlobalAssetIdentification gaid = (GlobalAssetIdentification) id;
-                    idString = gaid.getReference().getKeys().get(0).getValue();
+                    idString = gaid.getValue();
                 } else if (id.getClass().isAssignableFrom(SpecificAssetIdentification.class)) {
                     SpecificAssetIdentification said = (SpecificAssetIdentification) id;
                     idString = said.getValue();
@@ -264,37 +255,22 @@ public class MappingExecutor {
                     idString = String.valueOf(id);
                 }
                 String[] components = idString.split("/");
-                return new AbstractMap.SimpleEntry(components[0], components[1]);
+                return new AbstractMap.SimpleEntry<>(components[0], components[1]);
             }).collect(Collectors.groupingBy(Map.Entry<String, String>::getKey));
 
             return domainIds.entrySet().stream().flatMap(
-                    idsPerDomain -> {
-                        return mappings.get(idsPerDomain.getKey()).stream().filter(mapping -> mapping.getSemanticId().equals("https://w3id.org/catenax/ontology/aas#")).flatMap(
-                                aasMapping -> {
-                                    List<String> candidates = idsPerDomain.getValue().stream().map(Map.Entry<String, String>::getValue).collect(Collectors.toList());
-                                    File template = aasMapping.getGetOneQueryTemplate();
-                                    String query = parametrizeQuery(template, candidates);
-                                    try {
-                                        InputStream in = executeQuery(query).get();
-                                        String result = new String(in.readAllBytes());
-                                        if (queryResultEmpty(result)) {
-                                            return null;
-                                        }
-                                        AssetAdministrationShellEnvironment transformedEnv = transformer.execute(new ByteArrayInputStream(result.getBytes()),
-                                                aasMapping.getMappingSpecification());
-                                        return transformedEnv.getAssetAdministrationShells().stream();
-                                    } catch (URISyntaxException | IOException | ExecutionException |
-                                             InterruptedException |
-                                             TransformationException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }
-                        );
-                    }
+                    idsPerDomain -> mappings.get(idsPerDomain.getKey()).stream().filter(mapping -> mapping.getSemanticId().equals("https://w3id.org/catenax/ontology/aas#")).flatMap(
+                            aasMapping -> {
+                                List<String> candidates = idsPerDomain.getValue().stream().map(Map.Entry<String, String>::getValue).collect(Collectors.toList());
+                                File template = aasMapping.getGetOneQueryTemplate();
+                                String query = parametrizeQuery(template, candidates);
+                                Environment env = executeMapping(query, aasMapping.getMappingSpecification());
+                                return env.getAssetAdministrationShells().stream();
+                            }
+                    )
             ).collect(Collectors.toList());
         }
     }
-
 
     public List<Submodel> queryAllSubmodels(String idShort, Reference semanticId) {
         if (semanticId == null) {

@@ -18,16 +18,15 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.eclipse.tractusx.agents.aasbridge;
 
-import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
-
 import java.io.File;
+import javax.xml.transform.Transformer;
 
 /**
  * a mapping configuration holds together a (submmodel/aas) template with its
  * queries. It is always located in some domain
  */
 public class MappingConfiguration {
-    private final MappingSpecification mappingSpecification;
+    private final Transformer mappingSpecification;
     private final File getOneQueryTemplate;
     private final File getAllQuery;
     private final String semanticId;
@@ -43,7 +42,7 @@ public class MappingConfiguration {
      * @param semanticId           the semantic id associated to the aas/submodel template
      */
 
-    public MappingConfiguration(String domain, MappingSpecification mappingSpecification, File getOneQueryTemplate, File getAllQuery, String semanticId) {
+    public MappingConfiguration(String domain, Transformer mappingSpecification, File getOneQueryTemplate, File getAllQuery, String semanticId) {
         this.mappingSpecification = mappingSpecification;
         this.getOneQueryTemplate = getOneQueryTemplate;
         this.getAllQuery = getAllQuery;
@@ -52,7 +51,7 @@ public class MappingConfiguration {
     }
 
 
-    public MappingSpecification getMappingSpecification() {
+    public Transformer getMappingSpecification() {
         return mappingSpecification;
     }
 

@@ -18,15 +18,16 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.eclipse.tractusx.agents.aasbridge;
 
-import io.adminshell.aas.v3.dataformat.DeserializationException;
-import io.adminshell.aas.v3.dataformat.xml.XmlDeserializer;
-import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
+import org.eclipse.digitaltwin.aas4j.v3.dataformat.core.DeserializationException;
+import org.eclipse.digitaltwin.aas4j.v3.dataformat.xml.XmlDeserializer;
+import org.eclipse.digitaltwin.aas4j.v3.model.Environment;
+import org.eclipse.digitaltwin.aas4j.v3.model.Identifiable;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,30 +41,33 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AasUtilsTest {
 
     XmlDeserializer deser = new XmlDeserializer();
-    Set<AssetAdministrationShellEnvironment> envs;
-    AssetAdministrationShellEnvironment merged;
+    Set<Environment> envs;
+    Environment merged;
 
     @BeforeAll
     void instantiate() throws IOException, DeserializationException {
 
-        envs = new HashSet<AssetAdministrationShellEnvironment>(Arrays.asList(deser.read(fromResource("partAsPlanned.xml")),
+        envs = new HashSet<>(List.of(
+                deser.read(fromResource("materialForRecycling.xml")),
+                deser.read(fromResource("partAsPlanned.xml")),
                 deser.read(fromResource("partSiteInformation.xml")),
-                deser.read(fromResource("singleLevelBomAsPlanned.xml"))));
+                deser.read(fromResource("singleLevelBomAsPlanned.xml"))
+        ));
 
         merged = AasUtils.mergeAasEnvs(envs);
     }
 
     @Test
     void noDupeSubmodelIds(){
-        List<String> smIds = envs.stream().flatMap(env -> env.getSubmodels().stream().map(sm -> sm.getIdentification().getIdentifier())).collect(Collectors.toList());
+        List<String> smIds = envs.stream().flatMap(env -> env.getSubmodels().stream().map(Identifiable::getId)).collect(Collectors.toList());
         List<String> distinctSmIds = smIds.stream().distinct().collect(Collectors.toList());
         assertEquals(smIds, distinctSmIds);
     }
 
     @Test
     void mergePreservesSubmodelIds(){
-        Set<String> smIds = envs.stream().flatMap(env -> env.getSubmodels().stream().map(sm -> sm.getIdentification().getIdentifier())).collect(Collectors.toSet());
-        Set<String> mergedSmIds = merged.getSubmodels().stream().map(sm -> sm.getIdentification().getIdentifier()).collect(Collectors.toSet());
+        Set<String> smIds = envs.stream().flatMap(env -> env.getSubmodels().stream().map(Identifiable::getId)).collect(Collectors.toSet());
+        Set<String> mergedSmIds = merged.getSubmodels().stream().map(Identifiable::getId).collect(Collectors.toSet());
 
         assertEquals(smIds.size(),mergedSmIds.size());
         assertEquals(smIds,mergedSmIds);
@@ -71,7 +75,7 @@ class AasUtilsTest {
 
     @Test
     void mergePreservesSubmodelIdsInReferences(){
-        Set<String> smIds = envs.stream().flatMap(env -> env.getSubmodels().stream().map(sm -> sm.getIdentification().getIdentifier())).collect(Collectors.toSet());
+        Set<String> smIds = envs.stream().flatMap(env -> env.getSubmodels().stream().map(Identifiable::getId)).collect(Collectors.toSet());
         Set<String> referenceIds = merged.getAssetAdministrationShells().stream()
                 .flatMap(aas -> aas.getSubmodels().stream().map(sm -> sm.getKeys().get(0).getValue())).collect(Collectors.toSet());
 
@@ -82,7 +86,7 @@ class AasUtilsTest {
     void mergeDoesNotEqualizeSubmodelIds() {
 
         // All SubmodelReferences in an AAS hold different targets
-        merged.getAssetAdministrationShells().stream().forEach(aas->
+        merged.getAssetAdministrationShells().forEach(aas->
         {
             List<String> referredSubmodelIds = aas.getSubmodels().stream().map(sm ->
                     sm.getKeys().get(0).getValue()).collect(Collectors.toList());
@@ -93,13 +97,14 @@ class AasUtilsTest {
 
     @Test
     void mergeReducesAasNumber(){
-        merged.getAssetAdministrationShells().size();
         assertTrue(merged.getAssetAdministrationShells().size()<=envs.stream().mapToLong(env->env.getAssetAdministrationShells().size()).sum());
     }
 
     String fromResource(String name) throws IOException {
-        return new String(getClass().getClassLoader()
-                .getResourceAsStream("exampleAasEnvs/"+name)
-                .readAllBytes());
+        try(InputStream stream = getClass().getClassLoader()
+                .getResourceAsStream("exampleAasEnvs/"+name)) {
+            return new String(stream
+                    .readAllBytes());
+        }
     }
 }
