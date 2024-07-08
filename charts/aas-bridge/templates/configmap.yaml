@@ -25,5 +25,12 @@ metadata:
 data:
   opentelemetry.properties: |-
     {{- .Values.opentelemetry | nindent 4 }}
-
+{{ $scope := . }}
+{{- range $domainName, $domain := .Values.domains }}
+{{- range $categoryName, $category := $domain }}
+{{- range $fileName, $file := $category }}
+  {{ $domainName }}-{{ $categoryName }}-{{ $fileName }}: {{ $file | toYaml | indent 4 }}
+{{- end }}
+{{- end }}
+{{- end }}
 

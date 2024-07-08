@@ -70,9 +70,12 @@ public class AasUtils {
             builder.addUrls(searchPath.toURL());
             Configuration config = builder.setScanners(Scanners.Resources);
             Reflections reflections = new Reflections(config);
-            Set<String> files = reflections.getResources(Pattern.compile(".*-mapping\\.xslt"));
 
-            logger.info("Scanning for *-mapping.xslt in resources folder found {}", files);
+            Pattern filePattern = Pattern.compile("[a-zA-Z/0-9]*-mapping\\.xslt");
+
+            Set<String> files = reflections.getResources(filePattern).stream().filter(file -> filePattern.matcher(file).matches()).collect(Collectors.toSet());
+
+            logger.info("Scanning for {} in resources folder found {}", filePattern, files);
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             final DocumentBuilder documentBuilder = dbf.newDocumentBuilder();
