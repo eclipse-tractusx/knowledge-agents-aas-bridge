@@ -245,7 +245,7 @@ opentelemetry: |-
  otel.javaagent.debug=false
 
 # -- Define the mapping/domains. Each domain consists of a set of mapping files ()
-domains: 
+domains:
   traceability:
     aas:
       mapping.xslt: |-
