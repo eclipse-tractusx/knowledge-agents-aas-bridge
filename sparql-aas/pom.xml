@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.eclipse.tractusx.agents</groupId>
         <artifactId>aas</artifactId>
-        <version>0.10.5-SNAPSHOT</version>
+        <version>0.13.6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -126,27 +126,17 @@
         <dependency>
 	      <groupId>de.fraunhofer.iosb.ilt.faaast.service</groupId>
 	      <artifactId>starter</artifactId>
-          <version>0.5.0</version>
+          <version>${faaast.version}</version>
        </dependency>
         <dependency>
             <groupId>org.eclipse.rdf4j</groupId>
             <artifactId>rdf4j-queryresultio-sparqlxml</artifactId>
-            <version>4.1.0</version>
+            <version>${rdf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.admin-shell.aas</groupId>
-            <artifactId>model</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.digitaltwin.aas4j</groupId>
-            <artifactId>aas4j-transformation-library</artifactId>
-            <version>0.1.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.dom4j</groupId>
@@ -156,7 +146,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
-            <version>4.9.0</version>
+            <version>${okhttp.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

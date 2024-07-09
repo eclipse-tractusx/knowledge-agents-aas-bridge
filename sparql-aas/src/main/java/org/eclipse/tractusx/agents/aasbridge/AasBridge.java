@@ -26,8 +26,10 @@ import de.fraunhofer.iosb.ilt.faaast.service.endpoint.http.HttpEndpointConfig;
 import de.fraunhofer.iosb.ilt.faaast.service.exception.ConfigurationException;
 import de.fraunhofer.iosb.ilt.faaast.service.exception.EndpointException;
 import de.fraunhofer.iosb.ilt.faaast.service.exception.MessageBusException;
+import de.fraunhofer.iosb.ilt.faaast.service.filestorage.FileStorageConfig;
+import de.fraunhofer.iosb.ilt.faaast.service.filestorage.memory.FileStorageInMemoryConfig;
 import de.fraunhofer.iosb.ilt.faaast.service.messagebus.internal.MessageBusInternalConfig;
-import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
+import org.eclipse.digitaltwin.aas4j.v3.model.impl.DefaultEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +58,7 @@ public class AasBridge {
         mainLogger.debug("Built coreConfig {}", coreConfig);
 
         PersistenceInKnowledgeConfig persistenceConfig = PersistenceInKnowledgeConfig.builder()
-                .initialModel(new DefaultAssetAdministrationShellEnvironment.Builder().build())
+                .initialModel(new DefaultEnvironment.Builder().build())
                 .mappings(AasUtils.loadConfigsFromResources())
                 .threadPoolSize(5)
                 .timeoutSeconds(5)
@@ -67,7 +69,12 @@ public class AasBridge {
 
         mainLogger.debug("Built persistenceConfig {}", persistenceConfig);
 
-        HttpEndpointConfig httpConfig = HttpEndpointConfig.builder().cors(true).build();
+        HttpEndpointConfig httpConfig = HttpEndpointConfig
+                .builder()
+                .cors(true)
+                .port(8443)
+                .sni(false)
+                .build();
 
         mainLogger.debug("Built httpConfig {}", httpConfig);
 
@@ -75,9 +82,14 @@ public class AasBridge {
 
         mainLogger.debug("Built busConfig {}", busConfig);
 
+        FileStorageConfig fsConfig = FileStorageInMemoryConfig.builder().build();
+
+        mainLogger.debug("Built fsConfig {}", fsConfig);
+
         ServiceConfig serviceConfig = ServiceConfig.builder()
                 .core(coreConfig)
                 .persistence(persistenceConfig)
+                .fileStorage(fsConfig)
                 .endpoint(httpConfig)
                 .messageBus(busConfig)
                 .build();

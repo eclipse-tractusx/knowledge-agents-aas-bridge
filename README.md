@@ -1,7 +1,7 @@
 <!--
+ * Copyright (c) 2023,2024 T-Systems International GmbH 
  * Copyright (c) 2023 SAP SE 
- * Copyright (c) 2023 T-Systems International GmbH 
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -72,6 +72,12 @@ To publish the binary artifacts (environment variables GITHUB_ACTOR and GITHUB_T
 ./mvnw -s settings.xml publish
 ```
 
+To update the [DEPENDENCIES](./DEPENDENCIES) declarations
+
+```shell
+./mvnw org.eclipse.dash:license-tool-plugin:license-check 
+```
+
 ### Deployment
 
 Deployment can be done
@@ -81,6 +87,34 @@ Deployment can be done
 
 See the individual bridge documentations for more detailed deployment information
 * [Knowledge Agents Sparql-To-AAS Bridge (KA-AAS-SPARQL)](sparql-aas/README.md)
+
+#### Setup using Helm/Kind
+
+In order to run KA-RI applications via helm on your local machine, please make sure the following
+preconditions are met.
+
+- Have a local Kubernetes runtime ready. We've tested this setup with [KinD](https://kind.sigs.k8s.io/), but other
+  runtimes such
+  as [Minikube](https://minikube.sigs.k8s.io/docs/start/) may work as well, we just haven't tested them. All following
+  instructions will assume KinD.
+
+For the most bare-bones installation of the dataspace, execute the following commands in a shell:
+
+```shell
+kind create cluster -n ka --config kind.config.yaml
+# the next step is specific to KinD and will be different for other Kubernetes runtimes!
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+# wait until the ingress controller is ready
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=90s
+# transfer images
+kind load docker-image docker.io/tractusx/aas-bridge:0.13.6-SNAPSHOT --name ka
+# run container test
+ct install --charts charts/aas-bridge
+```
+
 
 ### Notice for Docker Images
 

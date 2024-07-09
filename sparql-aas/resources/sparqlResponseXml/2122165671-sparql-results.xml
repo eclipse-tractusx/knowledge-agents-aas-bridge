@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
  * Copyright (c) 2023 SAP SE 
  * Copyright (c) 2023 T-Systems International GmbH 
@@ -18,8 +19,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
 -->
-
-<?xml version='1.0' encoding='UTF-8'?>
 <sparql xmlns='http://www.w3.org/2005/sparql-results#'>
 	<head>
 		<variable name='catenaXId'/>

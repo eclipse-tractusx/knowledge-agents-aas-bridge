@@ -1,7 +1,7 @@
 <!--
+ * Copyright (c) 2023,2024 T-Systems International GmbH 
  * Copyright (c) 2023 SAP SE 
- * Copyright (c) 2023 T-Systems International GmbH 
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -76,7 +76,6 @@ The KA-AAS build and runtime platform is relying on:
 * [Java Development Kit (JDK >=11 - license depends on chosen provider)](https://de.wikipedia.org/wiki/Java_Development_Kit) 
 * [Apache Maven >=3.8 (Apache License 2.0)](https://maven.apache.org) 
 * [Eclipse Dash (Eclipse Public License 2.0)](https://github.com/eclipse/dash-licenses)
-* [CycloneDX 1.4 (Apache License 2.0)](https://github.com/CycloneDX)
 * [Docker Engine >= 20.10.17 (Apache License 2.0)]() 
 * [Helm (Apache License 2.0)](https://helm.sh/) 
 
