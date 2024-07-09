@@ -42,7 +42,7 @@
         <junit.version>5.10.2</junit.version>        
         <mockito.version>5.2.0</mockito.version>
         <okhttp.version>4.12.0</okhttp.version>
-        <rdf4j.version>4.3.8</rdf4j.version>
+        <rdf4j.version>5.0.0</rdf4j.version>
         <faaast.version>1.0.1</faaast.version>
 
         <!-- Source characteristics -->
