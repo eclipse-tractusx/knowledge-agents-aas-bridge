@@ -7,7 +7,7 @@
 {{- if and .enabled .endpoints }}
 {{- $ingressName := printf "%s-%s" $fullName .hostname }}
 ---
-# Copyright (c) 2022,2023 Contributors to the Eclipse Foundation
+# Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
