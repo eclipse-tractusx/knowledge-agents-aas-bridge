@@ -1,5 +1,5 @@
 ---
-# Copyright (c) 2022,2023 Contributors to the Eclipse Foundation
+# Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -25,5 +25,12 @@ metadata:
 data:
   opentelemetry.properties: |-
     {{- .Values.opentelemetry | nindent 4 }}
-
+{{ $scope := . }}
+{{- range $domainName, $domain := .Values.domains }}
+{{- range $categoryName, $category := $domain }}
+{{- range $fileName, $file := $category }}
+  {{ $domainName }}-{{ $categoryName }}-{{ $fileName }}: {{ $file | toYaml | indent 4 }}
+{{- end }}
+{{- end }}
+{{- end }}
 

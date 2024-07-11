@@ -79,7 +79,7 @@ jobs:
           cache: 'maven'
 
       # Set-Up Python
-      - uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4.7.1
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
         with:
           python-version: 3.9
 
@@ -100,7 +100,7 @@ jobs:
 
       # Preparing a kind cluster to install and test charts on
       - name: Create kind cluster
-        uses: container-tools/kind-action@0fc957b58d9a5bc9ca57a1b419324a2074c7653b # v2.0.3
+        uses: container-tools/kind-action@0ad70e2299366b0e1552c7240f4e4567148f723e # v2.0.4
         with:
           # upgrade version, default (v0.17.0) uses node image v1.21.1 and doesn't work with more recent node image versions
           version: v0.20.0

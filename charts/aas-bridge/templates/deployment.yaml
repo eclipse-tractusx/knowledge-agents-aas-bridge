@@ -1,5 +1,5 @@
 ---
-# Copyright (c) 2022,2023 Contributors to the Eclipse Foundation
+# Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -60,30 +60,42 @@ spec:
               protocol: TCP
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
-            httpGet:
-              scheme: HTTPS
-              path: /api/v3.0/description
-              port: default
+            exec:
+              command: 
+                - wget
+                - --no-check-certificate 
+                - --no-verbose 
+                - --tries=1 
+                - --spider 
+                - https://127.0.0.1:{{ .Values.aas.endpoints.default.port }}/api/v3.0/description
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
           {{- end }}
           {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
-            httpGet:
-              scheme: HTTPS
-              path: /api/v3.0/description
-              port: default
+            exec:
+              command: 
+                - wget
+                - --no-check-certificate 
+                - --no-verbose 
+                - --tries=1 
+                - --spider 
+                - https://127.0.0.1:{{ .Values.aas.endpoints.default.port }}/api/v3.0/description
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
           {{- end }}
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
-            httpGet:
-              scheme: HTTPS
-              path: /api/v3.0/description
-              port: default
+            exec:
+              command: 
+                - wget
+                - --no-check-certificate 
+                - --no-verbose 
+                - --tries=1 
+                - --spider 
+                - https://127.0.0.1:{{ .Values.aas.endpoints.default.port }}/api/v3.0/description
             failureThreshold: {{ .Values.startupProbe.failureThreshold }}
             periodSeconds: {{ .Values.startupProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
@@ -115,6 +127,10 @@ spec:
             - name: "configuration"
               mountPath: "/app/opentelemetry.properties"
               subPath: "opentelemetry.properties"
+{{- range $domainName, $domain := .Values.domains }}
+            - name: {{ $domainName }}-configuration
+              mountPath: /app/resources/{{ $domainName }}
+{{- end }}
             - name: tmp
               mountPath: /tmp
               readOnly: false
@@ -125,6 +141,19 @@ spec:
             items:
                 - key: "opentelemetry.properties"
                   path: "opentelemetry.properties"
+{{ $scope := . }}
+{{- range $domainName, $domain := .Values.domains }}
+        - name: {{ $domainName }}-configuration
+          configMap:
+            name: {{ include "agent.fullname" $scope }}-configmap
+            items:
+{{- range $categoryName, $category := $domain }}
+{{- range $fileName, $file := $category }}
+              - key: {{ $domainName }}-{{ $categoryName }}-{{ $fileName }}
+                path: {{ $categoryName }}-{{ $fileName }}
+{{- end }}
+{{- end }}
+{{- end }}
         - name: "tmp"
           emptyDir: { }
       {{- with .Values.nodeSelector }}

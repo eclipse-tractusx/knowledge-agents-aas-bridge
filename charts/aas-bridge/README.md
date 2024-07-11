@@ -1,7 +1,7 @@
 <!--
- * Copyright (c) 2023 SAP SE
- * Copyright (c) 2023 T-Systems International GmbH
- * Copyright (c) 2022,2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 T-Systems International GmbH
+ * Copyright (c) 2023,2024 SAP SE
+ * Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,7 +21,7 @@
 
 # aas-bridge
 
-![Version: 0.13.6-SNAPSHOT](https://img.shields.io/badge/Version-0.13.6--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.13.6-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.13.6--SNAPSHOT-informational?style=flat-square)
+![Version: 1.13.7-SNAPSHOT](https://img.shields.io/badge/Version-0.13.6--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.13.7-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.13.6--SNAPSHOT-informational?style=flat-square)
 
 A Helm chart for the Tractus-X Knowledge Agents AAS Bridge which is a container to provide an AAS server/registry on top of a knowledge graph/SPARQL landscape.
 
@@ -32,7 +32,7 @@ This chart has no prerequisites.
 ## TL;DR
 ```shell
 $ helm repo add eclipse-tractusx https://eclipse-tractusx.github.io/charts/dev
-$ helm install my-release eclipse-tractusx/aas-bridge --version 0.13.6-SNAPSHOT
+$ helm install my-release eclipse-tractusx/aas-bridge --version 1.13.7-SNAPSHOT
 ```
 
 ## Maintainers

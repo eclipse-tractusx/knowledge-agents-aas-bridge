@@ -27,7 +27,8 @@ upon the FAAAST Framework and the AAS4J-Transformation-Library.
 ### Configuration
 
 By default, the AAS-Bridge scans for "domain" folders (see e.g. the [traceability domain](resources/traceability)) in the "resources" directory 
-in which the AAS-Bridge [Java Application](src/main/java/org/eclipse/tractusx/agents/aasbridge/AasBridge.java) has been started. 
+in which the AAS-Bridge [Java Application](src/main/java/org/eclipse/tractusx/agents/aasbridge/AasBridge.java) has been started (which is "/app" in case of 
+the provided docker image  see below)
 
 #### Domain Folders in the Resource Directory
 
@@ -86,7 +87,7 @@ mvn -s ../../../settings.xml install -Pwith-docker-image
 Alternatively, after a sucessful [build](#building) the docker image of the Sparql-To-AAS bridge is created using
 
 ```console
-docker build -t tractusx/aas-bridge:0.13.6-SNAPSHOT -f src/main/docker/Dockerfile .
+docker build -t tractusx/aas-bridge:1.13.7-SNAPSHOT -f src/main/docker/Dockerfile .
 ```
 
 To run the docker image against a local knowledge graph, you could invoke this command
@@ -96,7 +97,7 @@ docker run -p 8443:8443 \
   -v $(pwd)/resources:/app/resources \
   -e "PROVIDER_SPARQL_ENDPOINT=http://oem-provider-agent:8082/sparql" \
   -e "PROVIDER_CREDENTIAL_BASIC=Basic Zm9vOg==" \
-  tractusx/aas-bridge:0.13.6-SNAPSHOT
+  tractusx/aas-bridge:1.13.7-SNAPSHOT
 ````
 
 Afterwards, you should be able to access the [local AAS endpoint](https://localhost:8443/) via REST
