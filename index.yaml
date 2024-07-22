@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  aas-bridge:
+  - apiVersion: v2
+    appVersion: 1.13.7-SNAPSHOT
+    created: "2024-07-22T12:10:06.832338287Z"
+    description: 'A Helm chart for the Tractus-X Knowledge Agents AAS Bridge which
+      is a container to provide an AAS server/registry on top of a knowledge graph/SPARQL
+      landscape.  This chart has no prerequisites. '
+    digest: 2480e55765e4b7f2782489ec5516b39f094765cf3dff8f0a6fa12099b2a3c345
+    home: https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge/
+    maintainers:
+    - name: Tractus-X Knowledge Agents Team
+    name: aas-bridge
+    sources:
+    - https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge/tree/main/sparql-aas
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/knowledge-agents-aas-bridge/releases/download/aas-bridge-1.13.7-SNAPSHOT/aas-bridge-1.13.7-SNAPSHOT.tgz
+    version: 1.13.7-SNAPSHOT
+generated: "2024-07-22T12:10:06.832347725Z"
