@@ -110,7 +110,7 @@ kubectl wait --namespace ingress-nginx \
   --selector=app.kubernetes.io/component=controller \
   --timeout=90s
 # transfer images
-kind load docker-image docker.io/tractusx/aas-bridge:1.14.23-SNAPSHOT --name ka
+kind load docker-image docker.io/tractusx/aas-bridge:1.14.24-SNAPSHOT --name ka
 # run container test
 ct install --charts charts/aas-bridge
 ```

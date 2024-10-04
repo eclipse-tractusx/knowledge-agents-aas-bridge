@@ -21,7 +21,7 @@
 
 # aas-bridge
 
-![Version: 1.14.23-SNAPSHOT](https://img.shields.io/badge/Version-0.13.6--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.14.23-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.13.6--SNAPSHOT-informational?style=flat-square)
+![Version: 1.14.24-SNAPSHOT](https://img.shields.io/badge/Version-0.13.6--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.14.24-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.13.6--SNAPSHOT-informational?style=flat-square)
 
 A Helm chart for the Tractus-X Knowledge Agents AAS Bridge which is a container to provide an AAS server/registry on top of a knowledge graph/SPARQL landscape.
 
@@ -32,7 +32,7 @@ This chart has no prerequisites.
 ## TL;DR
 ```shell
 $ helm repo add eclipse-tractusx https://eclipse-tractusx.github.io/charts/dev
-$ helm install my-release eclipse-tractusx/aas-bridge --version 1.14.23-SNAPSHOT
+$ helm install my-release eclipse-tractusx/aas-bridge --version 1.14.24-SNAPSHOT
 ```
 
 ## Maintainers
