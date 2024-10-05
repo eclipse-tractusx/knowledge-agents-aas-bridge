@@ -5,7 +5,7 @@ maven/mavencentral/com.digitalpetri.fsm/strict-machine/0.6, Apache-2.0, approved
 maven/mavencentral/com.digitalpetri.netty/netty-channel-fsm/0.8, Apache-2.0, approved, #6168
 maven/mavencentral/com.ethlo.time/itu/1.8.0, Apache-2.0, approved, #12927
 maven/mavencentral/com.fasterxml.jackson.core/jackson-annotations/2.17.0, Apache-2.0, approved, #13672
-maven/mavencentral/com.fasterxml.jackson.core/jackson-core/2.17.0, , approved, #13665
+maven/mavencentral/com.fasterxml.jackson.core/jackson-core/2.17.0, Apache-2.0 AND MIT, approved, #13665
 maven/mavencentral/com.fasterxml.jackson.core/jackson-databind/2.17.0, Apache-2.0, approved, #13671
 maven/mavencentral/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.16.1, Apache-2.0, approved, #12438
 maven/mavencentral/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.15.3, Apache-2.0, approved, #15207
@@ -27,7 +27,7 @@ maven/mavencentral/com.google.guava/failureaccess/1.0.2, Apache-2.0, approved, C
 maven/mavencentral/com.google.guava/guava/33.1.0-jre, Apache-2.0 AND CC0-1.0, approved, #13675
 maven/mavencentral/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava, Apache-2.0, approved, CQ22657
 maven/mavencentral/com.google.j2objc/j2objc-annotations/3.0.0, Apache-2.0, approved, #13676
-maven/mavencentral/com.google.protobuf/protobuf-java/4.26.1, BSD-3-Clause, approved, clearlydefined
+maven/mavencentral/com.google.protobuf/protobuf-java/3.25.5, BSD-3-Clause, approved, clearlydefined
 maven/mavencentral/com.jayway.jsonpath/json-path/2.9.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.networknt/json-schema-validator/1.3.3, Apache-2.0 AND Unicode-TOU, approved, #13037
 maven/mavencentral/com.squareup.okhttp3/mockwebserver/4.12.0, Apache-2.0, approved, clearlydefined
@@ -103,9 +103,9 @@ maven/mavencentral/org.apache.poi/poi/5.2.5, Apache-2.0 AND (Apache-2.0 AND BSD-
 maven/mavencentral/org.apache.thrift/libthrift/0.19.0, Apache-2.0, approved, #15687
 maven/mavencentral/org.apache.xmlbeans/xmlbeans/5.2.0, Apache-2.0, approved, #11782
 maven/mavencentral/org.apiguardian/apiguardian-api/1.1.2, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.bouncycastle/bcpkix-jdk18on/1.77, MIT, approved, #11593
-maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.77, MIT AND CC0-1.0, approved, #11595
-maven/mavencentral/org.bouncycastle/bcutil-jdk18on/1.77, MIT, approved, #11596
+maven/mavencentral/org.bouncycastle/bcpkix-jdk18on/1.78, MIT, approved, #14434
+maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.78, MIT AND CC0-1.0, approved, #14433
+maven/mavencentral/org.bouncycastle/bcutil-jdk18on/1.78, MIT, approved, #14435
 maven/mavencentral/org.checkerframework/checker-qual/3.42.0, MIT, approved, clearlydefined
 maven/mavencentral/org.codehaus.janino/commons-compiler/3.1.11, BSD-3-Clause, approved, #13293
 maven/mavencentral/org.codehaus.janino/janino/3.1.11, BSD-3-Clause, approved, #13292
@@ -133,24 +133,24 @@ maven/mavencentral/org.eclipse.milo/stack-core/0.6.12, EPL-2.0, approved, iot.mi
 maven/mavencentral/org.eclipse.milo/stack-server/0.6.12, EPL-2.0, approved, iot.milo
 maven/mavencentral/org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.5, EPL-1.0 OR BSD-3-Clause, approved, iot.paho
 maven/mavencentral/org.eclipse.parsson/parsson/1.1.5, EPL-2.0, approved, ee4j.parsson
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-collection-factory-api/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-annotation/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-exception/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-io/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-iterator/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-text/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-transaction/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-util/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-xml/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-model-api/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-model-vocabulary/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-model/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-query/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-queryalgebra-model/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-queryresultio-api/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-queryresultio-sparqlxml/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-rio-api/4.3.8, BSD-3-Clause, approved, technology.rdf4j
-maven/mavencentral/org.eclipse.rdf4j/rdf4j-sail-api/4.3.8, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-collection-factory-api/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-annotation/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-exception/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-io/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-iterator/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-text/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-transaction/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-util/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-common-xml/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-model-api/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-model-vocabulary/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-model/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-query/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-queryalgebra-model/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-queryresultio-api/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-queryresultio-sparqlxml/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-rio-api/4.3.14, BSD-3-Clause, approved, technology.rdf4j
+maven/mavencentral/org.eclipse.rdf4j/rdf4j-sail-api/4.3.14, BSD-3-Clause, approved, technology.rdf4j
 maven/mavencentral/org.glassfish.jaxb/jaxb-core/4.0.5, BSD-3-Clause, approved, ee4j.jaxb-impl
 maven/mavencentral/org.glassfish.jaxb/jaxb-runtime/4.0.5, BSD-3-Clause, approved, ee4j.jaxb-impl
 maven/mavencentral/org.glassfish.jaxb/txw2/4.0.5, BSD-3-Clause, approved, ee4j.jaxb-impl
@@ -162,11 +162,11 @@ maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.8.21, Apache-2.0, a
 maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.8.21, Apache-2.0, approved, #8919
 maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib/1.8.21, Apache-2.0, approved, #8865
 maven/mavencentral/org.jetbrains/annotations/13.0, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.10.2, EPL-2.0, approved, #9714
-maven/mavencentral/org.junit.jupiter/junit-jupiter-engine/5.10.2, EPL-2.0, approved, #9711
-maven/mavencentral/org.junit.jupiter/junit-jupiter-params/5.10.2, EPL-2.0, approved, #15250
-maven/mavencentral/org.junit.platform/junit-platform-commons/1.10.2, EPL-2.0, approved, #9715
-maven/mavencentral/org.junit.platform/junit-platform-engine/1.10.2, EPL-2.0, approved, #9709
+maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.10.3, EPL-2.0, approved, #9714
+maven/mavencentral/org.junit.jupiter/junit-jupiter-engine/5.10.3, EPL-2.0, approved, #9711
+maven/mavencentral/org.junit.jupiter/junit-jupiter-params/5.10.3, EPL-2.0, approved, #15250
+maven/mavencentral/org.junit.platform/junit-platform-commons/1.10.3, EPL-2.0, approved, #9715
+maven/mavencentral/org.junit.platform/junit-platform-engine/1.10.3, EPL-2.0, approved, #9709
 maven/mavencentral/org.opentest4j/opentest4j/1.3.0, Apache-2.0, approved, #9713
 maven/mavencentral/org.ow2.asm/asm/9.6, BSD-3-Clause, approved, #10776
 maven/mavencentral/org.reflections/reflections/0.10.2, Apache-2.0 AND WTFPL, approved, clearlydefined
