@@ -87,7 +87,7 @@ mvn -s ../../../settings.xml install -Pwith-docker-image
 Alternatively, after a sucessful [build](#building) the docker image of the Sparql-To-AAS bridge is created using
 
 ```console
-docker build -t tractusx/aas-bridge:1.14.23-SNAPSHOT -f src/main/docker/Dockerfile .
+docker build -t tractusx/aas-bridge:1.14.24-SNAPSHOT -f src/main/docker/Dockerfile .
 ```
 
 To run the docker image against a local knowledge graph, you could invoke this command
@@ -97,7 +97,7 @@ docker run -p 8443:8443 \
   -v $(pwd)/resources:/app/resources \
   -e "PROVIDER_SPARQL_ENDPOINT=http://oem-provider-agent:8082/sparql" \
   -e "PROVIDER_CREDENTIAL_BASIC=Basic Zm9vOg==" \
-  tractusx/aas-bridge:1.14.23-SNAPSHOT
+  tractusx/aas-bridge:1.14.24-SNAPSHOT
 ````
 
 Afterwards, you should be able to access the [local AAS endpoint](https://localhost:8443/) via REST
