@@ -25,6 +25,15 @@ All notable changes to this product will be documented in this file.
 
 # Released
 
+## [1.14.24] - 2024-11-25
+
+### Added
+
+### Changed
+
+- Update Base Images
+- Multi-Platform Support
+
 ## [1.13.7] - 2024-07-15
 
 ### Added
