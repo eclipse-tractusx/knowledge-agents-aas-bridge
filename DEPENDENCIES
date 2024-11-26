@@ -20,7 +20,7 @@ maven/mavencentral/com.github.java-json-tools/json-patch/1.13, Apache-2.0 OR LGP
 maven/mavencentral/com.github.java-json-tools/msg-simple/1.2, Apache-2.0 OR LGPL-3.0-or-later, approved, #15239
 maven/mavencentral/com.github.jsonld-java/jsonld-java/0.13.4, BSD-3-Clause, approved, CQ22136
 maven/mavencentral/com.github.virtuald/curvesapi/1.08, BSD-3-Clause, approved, clearlydefined
-maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, CC-BY-2.5, approved, #15220
+maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, Apache-2.0 and CC-BY-2.5, approved, #15220
 maven/mavencentral/com.google.code.gson/gson/2.10.1, Apache-2.0, approved, #6159
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.26.1, Apache-2.0, approved, #13657
 maven/mavencentral/com.google.guava/failureaccess/1.0.2, Apache-2.0, approved, CQ22654
