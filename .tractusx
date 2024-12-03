@@ -19,3 +19,6 @@
 
 product: "Tractus-X Knowledge Agents AAS Bridges (KA-AAS)"
 leadingRepository: "https://github.com/eclipse-tractusx/knowledge-agents"
+openApiSpecs: 
+  - "https://github.com/eclipse-tractusx/knowledge-agents/blob/main/docs/api/openAPI.yaml"
+  - "https://github.com/admin-shell-io/aas-specs-api/blob/main/Entire-API-Collection/V3.0.yaml"

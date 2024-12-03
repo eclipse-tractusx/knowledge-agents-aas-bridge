@@ -28,6 +28,8 @@ Both Knowledge Agents as well as AAS components are expected to be compatible to
 
 A Bridge is a component which adapts the interface of one technology/standard (such as AAS) into the interface of the other (Knowledge Agent/Semantic Web).
 
+See the [Knowledge Agents OpenAPI](https://github.com/eclipse-tractusx/knowledge-agents/blob/main/docs/api/openAPI.yaml) and the [Asset Administration Shell OpenAPI](https://github.com/admin-shell-io/aas-specs-api/blob/main/Entire-API-Collection/V3.0.yaml) for reference.
+
 ## How it works
 
 ### KA AAS Bridge

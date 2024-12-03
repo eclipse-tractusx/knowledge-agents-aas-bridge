@@ -31,6 +31,7 @@ Tractus-X Knowledge Agents AAS Bridges (KA-AAS) is a product of the [Tractus-X K
 
 * See the [User Documentation](docs/README.md)
 * See the [Architecture](docs/architecture/Arc42.md)
+* See the [Knowledge Agents OpenAPI](https://github.com/eclipse-tractusx/knowledge-agents/blob/main/docs/api/openAPI.yaml) and the [Asset Administration Shell OpenAPI](https://github.com/admin-shell-io/aas-specs-api/blob/main/Entire-API-Collection/V3.0.yaml)
 * See the [Authors](AUTHORS.md)
 * See the [Changelog](CHANGELOG.md)
 * See the [Code of Conduct](CODE_OF_CONDUCT.md)
