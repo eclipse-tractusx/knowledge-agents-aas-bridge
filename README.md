@@ -27,8 +27,12 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/eclipse-tractusx/knowledge-agents-aas-bridge/total)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_knowledge-agents-aas-bridge&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_knowledge-agents-aas-bridge)
 
-Tractus-X Knowledge Agents AAS Bridges (KA-AAS) is a product of the [Catena-X Knowledge Agents Kit (about to move to: Tractus-X Knowledge Agents Kit)](https://bit.ly/tractusx-agents). It implements bridging components between the [Catena-X Association's](http://catena-x.net) CX-0084 (Federated Queries in Dataspaces) and [Industrial Digitial Twin Association's](https://industrialdigitaltwin.org/) AAS Part 1 & 2 (Asset Administration Sheel) standards. 
+Tractus-X Knowledge Agents AAS Bridges (KA-AAS) is a product of the [Tractus-X Knowledge Agents Kit](https://eclipse-tractusx.github.io/docs-kits/kits/knowledge-agents/adoption-view/intro). It implements bridging components between the [Catena-X Association's](http://catena-x.net) CX-0084 (Federated Queries in Dataspaces) and [Industrial Digitial Twin Association's](https://industrialdigitaltwin.org/) AAS Part 1 & 2 (Asset Administration Sheel) standards. 
 
+* See the [User Documentation](docs/README.md)
+* See the [Architecture](docs/architecture/Arc42.md)
+* See the [Knowledge Agents OpenAPI](https://github.com/eclipse-tractusx/knowledge-agents/blob/main/docs/api/openAPI.yaml) and the [Asset Administration Shell OpenAPI](https://github.com/admin-shell-io/aas-specs-api/blob/main/Entire-API-Collection/V3.0.yaml)
+* See the [Administration Guide](docs/admin/README.md)
 * See the [Authors](AUTHORS.md)
 * See the [Changelog](CHANGELOG.md)
 * See the [Code of Conduct](CODE_OF_CONDUCT.md)
@@ -78,16 +82,6 @@ To update the [DEPENDENCIES](./DEPENDENCIES) declarations
 ./mvnw org.eclipse.dash:license-tool-plugin:license-check 
 ```
 
-### Deployment
-
-Deployment can be done
-* via [JAR libraries](https://github.com/orgs/eclipse-tractusx/packages?repo_name=knowledge-agents-aas-bridge&ecosystem=maven) copied into your Java runtime
-* via [Docker images](https://hub.docker.com/r/tractusx) 
-* via [Helm Charts (Stable Versions)](https://eclipse-tractusx.github.io/charts/stable) or [Helm Charts (Dev Versions)](https://eclipse-tractusx.github.io/charts/stable)
-
-See the individual bridge documentations for more detailed deployment information
-* [Knowledge Agents Sparql-To-AAS Bridge (KA-AAS-SPARQL)](sparql-aas/README.md)
-
 #### Setup using Helm/Kind
 
 In order to run KA-RI applications via helm on your local machine, please make sure the following
@@ -114,7 +108,6 @@ kind load docker-image docker.io/tractusx/aas-bridge:1.14.24-SNAPSHOT --name ka
 # run container test
 ct install --charts charts/aas-bridge
 ```
-
 
 ### Notice for Docker Images
 
