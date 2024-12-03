@@ -1,5 +1,5 @@
 <!--
- * Copyright (c) 2022,2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -37,6 +37,10 @@ See the [Knowledge Agents OpenAPI](https://github.com/eclipse-tractusx/knowledge
 ![KA_AAS_Bridge](aas_bridge.drawio.png)
 
 Currently we provide an AAS server/AAS registry interface that is backed by a one or several agents where the agents themselves could be Binding Agents or even Matchmaking Agents - see the [Knowledge Agent Architecture](architecture/Arc42.md) 
+
+## Deployment
+
+See the [Administration Guide](admin/README.md)
 
 ## NOTICE
 
