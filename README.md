@@ -27,8 +27,10 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/eclipse-tractusx/knowledge-agents-aas-bridge/total)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_knowledge-agents-aas-bridge&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_knowledge-agents-aas-bridge)
 
-Tractus-X Knowledge Agents AAS Bridges (KA-AAS) is a product of the [Catena-X Knowledge Agents Kit (about to move to: Tractus-X Knowledge Agents Kit)](https://bit.ly/tractusx-agents). It implements bridging components between the [Catena-X Association's](http://catena-x.net) CX-0084 (Federated Queries in Dataspaces) and [Industrial Digitial Twin Association's](https://industrialdigitaltwin.org/) AAS Part 1 & 2 (Asset Administration Sheel) standards. 
+Tractus-X Knowledge Agents AAS Bridges (KA-AAS) is a product of the [Tractus-X Knowledge Agents Kit](https://eclipse-tractusx.github.io/docs-kits/kits/knowledge-agents/adoption-view/intro). It implements bridging components between the [Catena-X Association's](http://catena-x.net) CX-0084 (Federated Queries in Dataspaces) and [Industrial Digitial Twin Association's](https://industrialdigitaltwin.org/) AAS Part 1 & 2 (Asset Administration Sheel) standards. 
 
+* See the [User Documentation](docs/README.md)
+* See the [Architecture](docs/architecture/Arc42.md)
 * See the [Authors](AUTHORS.md)
 * See the [Changelog](CHANGELOG.md)
 * See the [Code of Conduct](CODE_OF_CONDUCT.md)
