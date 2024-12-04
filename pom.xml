@@ -45,7 +45,7 @@
         <rdf4j.version>4.3.14</rdf4j.version>
         <faaast.version>1.0.1</faaast.version>
         <protobuf.version>3.25.5</protobuf.version>
-        <bouncycastle.version>1.78</bouncycastle.version>
+        <bouncycastle.version>1.78.1</bouncycastle.version>
 
         <!-- Source characteristics -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
