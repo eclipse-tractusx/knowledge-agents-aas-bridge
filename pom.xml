@@ -43,7 +43,7 @@
         <mockito.version>5.14.1</mockito.version>
         <okhttp.version>4.12.0</okhttp.version>
         <rdf4j.version>4.3.14</rdf4j.version>
-        <faaast.version>1.0.1</faaast.version>
+        <faaast.version>1.1.0</faaast.version>
         <protobuf.version>3.25.5</protobuf.version>
         <bouncycastle.version>1.78</bouncycastle.version>
 
